@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--<link rel="stylesheet" type="text/css" media="all"-->
+    <!--href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />-->
+</head>
+
+<body>
+
+<p>Welcome to our grocery store!</p>
+<a th:href="@{/products/create}">Add a Product</a>
+
+<div th:fragment="flash" th:if="${flash != null}" th:text="${flash.message}"></div>
+
+<ul th:each="product : ${products}">
+    <li>
+        <p th:text="${product.name}"></p>
+        <form th:action="@{|/products/${product.id}/delete|}" method="post">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+
+</body>
+
+</html>

@@ -2,7 +2,6 @@
 package com.dev.magazina;
 
 import com.dev.magazina.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -26,32 +25,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Date;
-import java.util.Map;
-
 @SpringBootApplication
 @Controller
 public class Application implements WebMvcConfigurer {
 
-	@GetMapping("/")
-	public String home(Map<String, Object> model) {
-		model.put("message", "Hello World");
-		model.put("title", "Hello Home");
-		model.put("date", new Date());
-		return "home";
-	}
-
-	@RequestMapping("/foo")
-	public String foo() {
-		throw new RuntimeException("Expected exception in controller");
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(Application.class).run(args);
 	}
 
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("login");
-	}
-
-	public static void main(String[] args) {
-		new SpringApplicationBuilder(Application.class).run(args);
 	}
 
 	@Configuration
@@ -62,7 +45,7 @@ public class Application implements WebMvcConfigurer {
 			http.authorizeRequests()
 					.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 					.anyRequest()
-					.fullyAuthenticated().and().formLogin()
+					.hasRole("USER").and().formLogin()
 					.loginPage("/login")
 					.successHandler(loginSuccessHandler())
 					.failureHandler(loginFailureHandler())
@@ -75,7 +58,7 @@ public class Application implements WebMvcConfigurer {
 
 		private AuthenticationFailureHandler loginFailureHandler() {
 			return ((request, response, exception) -> {
-				request.getSession().setAttribute("error", "Username ose password i gabuar!");
+				request.getSession().setAttribute("flash", "Username ose password i gabuar!");
 				response.sendRedirect("/login");
 			});
 		}

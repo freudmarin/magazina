@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--<link rel="stylesheet" type="text/css" media="all"-->
+    <!--href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />-->
+</head>
+
+<body>
+
+<h1>Home</h1>
+<h2 th:text="|Current warehouse: ${currentWarehouse.name}|"></h2>
+<a th:href="@{/warehouses/(warehouseId=${currentWarehouse.id})}">Warehouses</a>
+
+
+<div th:fragment="flash" th:if="${flash != null}" th:text="${flash.message}"></div>
+
+<ul th:each="warehouse : ${warehouses}">
+    <li>
+        <a th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
+           th:href="${urlBuilder.replaceQueryParam('warehouseId', warehouse.id).toUriString()}"
+           th:text="${warehouse.name}"></a>
+    </li>
+</ul>
+
+</body>
+
+</html>
