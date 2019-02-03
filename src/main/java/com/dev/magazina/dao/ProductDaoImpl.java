@@ -63,9 +63,9 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void save(Product product) {
         Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        session.beginTransaction();
         session.saveOrUpdate(product);
-        transaction.commit();
+        session.getTransaction().commit();
         session.close();
     }
 

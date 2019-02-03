@@ -22,8 +22,7 @@
             <!--<td>Select Category:</td>-->
             <td>
                 Category:
-                <select th:field="*{category}">
-                    <option value=""> --</option>
+                <select th:field="*{category.id}">
                     <option th:each="cat : ${categories}"
                             th:value="${cat.id}"
                             th:utext="${cat.name}"/>
@@ -43,11 +42,10 @@
             <!--<td>Select Category:</td>-->
             <td>
                 <label>Measuring Unit</label>
-                <select th:field="*{measuringUnit}">
-                    <option value="">--</option>
+                <select th:field="*{measuringUnit.id}">
                     <option th:each="mu : ${measuringUnits}"
                             th:value="${mu.id}"
-                            th:utext="${mu.symbol}"/>
+                            th:text="${mu.symbol}"/>
                 </select>
 
             </td>
