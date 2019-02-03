@@ -1,5 +1,7 @@
 package com.dev.magazina.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,7 +19,7 @@ public class Category {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
 
     public Category(String name) {

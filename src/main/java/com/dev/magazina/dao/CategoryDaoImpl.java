@@ -20,7 +20,6 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public List<Category> findAll() {
         Session session = sessionFactory.openSession();
-
         CriteriaQuery<Category> query = session.getCriteriaBuilder().createQuery(Category.class); //dao implementim i databazes
         query.select(query.from(Category.class));
         List<Category> categories = session.createQuery(query).getResultList();
@@ -33,7 +32,6 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public Category findById(int id) {
         Session session = sessionFactory.openSession();
-
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Category> query = builder.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
@@ -50,11 +48,10 @@ public class CategoryDaoImpl implements CategoryDao {
     public void save(Category category) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-
         session.saveOrUpdate(category);
-
         session.getTransaction().commit();
         session.close();
+        session.flush();
     }
 
     @Override

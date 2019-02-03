@@ -4,11 +4,13 @@ import com.dev.magazina.dao.CategoryDao;
 import com.dev.magazina.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 //serviset ndermjetese midis controllerave dhe databazes
 @Service
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryDao categoryDao;

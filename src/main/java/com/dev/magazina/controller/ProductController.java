@@ -2,6 +2,7 @@ package com.dev.magazina.controller;
 
 import com.dev.magazina.model.Product;
 import com.dev.magazina.service.CategoryService;
+import com.dev.magazina.service.MeasuringUnitService;
 import com.dev.magazina.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,34 +22,40 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private MeasuringUnitService measuringUnitService;
+
     @GetMapping("/products")
     public String index(Model model) {
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);//kalon listen e produkteve tek view-ja products
         return "product/index";
     }
+
     @GetMapping("/products/create")
     public String create(Model model) {
         if (!model.containsAttribute("product")) {
             model.addAttribute("product", new Product());
         }
-        model.addAttribute("categories",categoryService.findAll()); //i kalojme variablit produkt vlerat nga databaza
-        model.addAttribute("measuringUnit",productService.findAll());
+        model.addAttribute("categories", categoryService.findAll()); //i kalojme variablit produkt vlerat nga databaza
+        model.addAttribute("measuringUnits", measuringUnitService.findAll());
         return "product/form";
     }
+
     @PostMapping("/products/create")
     public String store(@Valid Product product, BindingResult result,
                         RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.category", result);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.product", result);
             redirectAttributes.addFlashAttribute("product", product);
-            return "redirect:/products/form";
+            return "redirect:/product/form";
         }
 
         redirectAttributes.addFlashAttribute("flash", "Product added successfully!");
         productService.save(product);
-        return "redirect:/products";
+        return "redirect:/index";
     }
+
     @PostMapping("/products/{productId}/delete")
     public String delete(@PathVariable int productId, RedirectAttributes redirectAttributes) {
         Product product = productService.findById(productId);
