@@ -10,21 +10,20 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Repository
-public class MeasuringUnitImpl implements  MeasuringUnitDao {
+public class MeasuringUnitDaoImpl implements MeasuringUnitDao {
     @Autowired
     private SessionFactory sessionFactory;
+
     @Override
     public List<MeasuringUnit> findAll() {
-         {
+        {
             Session session = sessionFactory.openSession();
 
             CriteriaQuery<MeasuringUnit> query = session.getCriteriaBuilder().createQuery(MeasuringUnit.class); //dao implementim i databazes
             query.select(query.from(MeasuringUnit.class));
-            List<MeasuringUnit> categories = session.createQuery(query).getResultList();
-
+            List<MeasuringUnit> mus = session.createQuery(query).getResultList();
             session.close();
-
-            return categories;
+            return mus;
         }
     }
 }

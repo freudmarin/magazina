@@ -17,12 +17,34 @@ public class MeasuringUnit {
     @OneToMany(mappedBy = "measuringUnit")
     private List<Product> products = new ArrayList<>();
 
+
     public MeasuringUnit(String name, String symbol) {
         this.name = name;
         this.symbol = symbol;
     }
 
+    public MeasuringUnit(String symbol) {
+        this.symbol = symbol;
+
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public MeasuringUnit() {
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public MeasuringUnit(MeasuringUnit.MeasuringUnitBuilder builder) {
+        this.name = builder.name;
     }
 
     public int getId() {
@@ -43,5 +65,22 @@ public class MeasuringUnit {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public static class MeasuringUnitBuilder {
+        private String name;
+
+        public MeasuringUnitBuilder(String name) {
+            this.name = name;
+        }
+
+        public MeasuringUnit.MeasuringUnitBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public MeasuringUnit build() {
+            return new MeasuringUnit(this);
+        }
     }
 }

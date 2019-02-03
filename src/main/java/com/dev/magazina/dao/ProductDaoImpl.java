@@ -4,6 +4,7 @@ import com.dev.magazina.model.Category;
 import com.dev.magazina.model.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +34,6 @@ public class ProductDaoImpl implements ProductDao {
     @SuppressWarnings("Duplicates")
     public List<Product> findAllByCategory(Category category) {
         Session session = sessionFactory.openSession();
-
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Product> query = builder.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -49,7 +49,6 @@ public class ProductDaoImpl implements ProductDao {
     @SuppressWarnings("Duplicates")
     public Product findById(int id) {
         Session session = sessionFactory.openSession();
-
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Product> query = builder.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -64,11 +63,9 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void save(Product product) {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
+        Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(product);
-
-        session.getTransaction().commit();
+        transaction.commit();
         session.close();
     }
 

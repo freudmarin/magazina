@@ -22,9 +22,11 @@ public class Product {
     private double amount;
 
     @ManyToOne
+    @JoinColumn(name = "measuringUnit_id")
     private MeasuringUnit measuringUnit;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     public Product() {
@@ -45,6 +47,15 @@ public class Product {
 
     public Product(String name, Category category) {
         this.name = name;
+        this.category = category;
+    }
+
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
         this.category = category;
     }
 
