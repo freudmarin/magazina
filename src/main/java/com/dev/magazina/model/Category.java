@@ -19,15 +19,11 @@ public class Category {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "category")
     private List<Product> products = new ArrayList<>();
 
     public Category(String name) {
         this.name = name;
-    }
-
-    public Category(CategoryBuilder builder) {
-        this.name = builder.name;
     }
 
     public Category() {
@@ -45,25 +41,11 @@ public class Category {
         return id;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    // Only for demonstrating purposes
-    public static class CategoryBuilder {
-        private String name;
-
-        public CategoryBuilder(String name) {
-            this.name = name;
-        }
-
-        public CategoryBuilder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Category build() {
-            return new Category(this);
-        }
+    public List<Product> getProducts() {
+        return products;
     }
 }

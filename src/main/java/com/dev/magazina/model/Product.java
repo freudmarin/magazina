@@ -22,11 +22,9 @@ public class Product {
     private double amount;
 
     @ManyToOne
-    @JoinColumn(name = "measuringUnit_id")
     private MeasuringUnit measuringUnit;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
     private Category category;
 
     public Product() {

@@ -1,5 +1,6 @@
 package com.dev.magazina.controller;
 
+import com.dev.magazina.model.Category;
 import com.dev.magazina.model.Product;
 import com.dev.magazina.service.CategoryService;
 import com.dev.magazina.service.MeasuringUnitService;
@@ -48,12 +49,13 @@ public class ProductController {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.product", result);
             redirectAttributes.addFlashAttribute("product", product);
-            return "redirect:/product/form";
+            return "redirect:/products/create";
         }
 
-        redirectAttributes.addFlashAttribute("flash", "Product added successfully!");
         productService.save(product);
-        return "redirect:/index";
+        redirectAttributes.addFlashAttribute("flash", "Product added successfully!");
+
+        return "redirect:/products";
     }
 
     @PostMapping("/products/{productId}/delete")
