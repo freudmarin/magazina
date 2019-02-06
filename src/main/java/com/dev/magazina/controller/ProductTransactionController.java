@@ -32,7 +32,7 @@ public class ProductTransactionController {
     public String index(Model model) {
         List<ProductTransaction> supply = supplyService.findAll();
         model.addAttribute("supplies", supply);
-        return "list";
+        return "supply/list";
     }
 
     @GetMapping("/supplies/create")

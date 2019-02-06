@@ -32,6 +32,7 @@ public class ProductTransaction {
     public ProductTransaction() {
     }
 
+
     public int getId() {
         return id;
     }
@@ -43,6 +44,7 @@ public class ProductTransaction {
     public void setProductTransactionUnits(List<ProductTransactionUnit> productTransactionUnits) {
         this.productTransactionUnits = productTransactionUnits;
     }
+
 
     public void setId(int id) {
         this.id = id;

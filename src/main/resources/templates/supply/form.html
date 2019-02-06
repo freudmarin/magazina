@@ -4,7 +4,7 @@
 <head>
     <title>Good Thymes Virtual Grocery</title>
     <script th:inline="javascript" type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-    <script th:inline="javascript" type="text/javascript" th:src="@{/js/supply/form.js}"></script>
+    <!--<script th:inline="javascript" type="text/javascript" th:src="@{/js/supply/form.js}"></script>-->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
@@ -15,36 +15,36 @@
         <tr>
             <th style="width:30%;border: 1px solid #666;">
                 <input type="date" th:field="*{date}">
-
-                <!--<button type="submit" name="addRow" th:text="'Add Row'">Add row</button>-->
             </th>
             <th style="width:30%;border: 1px solid #666">
                 <input type="number" th:field="*{invoiceNumber}">
 
-                <!--<button type="submit" name="addRow" th:text="'Add Row'">Add row</button>-->
             </th>
             <th style="width:40%;border: 1px solid #666">
-                <button id="addUnits" name="addRow" th:text="'Add Row'">Add row</button>
+                <input type="button" id="addUnits" name="addRow" value="Shto">
             </th>
         </tr>
         </thead>
         <!--<tbody>-->
         <tbody id="supplyUnitObject">
-        <tr th:each="ptu :*{productTransactionUnits}">
+        <tr th:each="ptu : *{productTransactionUnits}">
             <td>
-                <label>Category:</label>
+                lala
+                <!--<label>Produkti:</label>-->
                 <!--<select th:field="*{ptu.product.id}">-->
-                    <!--<option th:each="product : ${products}"-->
-                            <!--th:value="${product.id}"-->
-                            <!--th:utext="${product.name}"/>-->
+                <!--<option th:each="product : ${products}"-->
+                <!--th:value="${product.id}"-->
+                <!--th:utext="${product.name}"/>-->
                 <!--</select>-->
             </td>
-            <td>Price: <input type="number" th:field="*{ptu.price}"/></td>
-            <td> Amount: <input type="number" th:field="*{ptu.amount}"/></td>
+            <td>hh</td>
+            <td>hhi</td>
+            <!--<td>Price: <input type="number" th:field="*{productTransactionUnits[__${stat.index}__].price}"/></td>-->
+            <!--<td> Amount: <input type="number" th:field="*{ptu.amount}"/></td>-->
         </tr>
         </tbody>
     </table>
-    <input type="submit" name="submit" value="Add" class="btn btn-danger"/>
+    <!--<input type="submit" name="submit" value="Add" class="btn btn-danger"/>-->
 </form>
 
 

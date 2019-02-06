@@ -3,6 +3,7 @@ package com.dev.magazina.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -26,6 +27,15 @@ public class Product {
 
     @ManyToOne
     private Category category;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "warehouse_product",
+            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "warehouse_id", referencedColumnName = "id"))
+    List<Warehouse> warehouses;
+
+    @OneToMany(mappedBy = "product")
+    List<WarehouseProduct> warehouseProduct;
 
     public Product() {
     }
