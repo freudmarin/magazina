@@ -12,20 +12,17 @@
 <body>
 
 <p>Welcome to our grocery store!</p>
-<a th:href="@{/warehouses/create/(warehouseId=${currentWarehouse.id})}">Add a warehouse</a>
+<a th:href="@{/warehouses/create}">Add a warehouse</a>
 
-<div th:fragment="flash" th:if="${flash != null}" th:text="${flash.message}"></div>
+<div th:replace="~{layouts/bars :: flash}"></div>
 
 <ul th:each="warehouse : ${warehouses}">
     <li>
-        <a th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
-           th:href="${urlBuilder.replaceQueryParam('warehouseId', warehouse.id).toUriString()}"
-           th:text="${warehouse.name}"></a>
+        <a th:href="@{|/warehouses/checkout/${warehouse.id}|}" th:text="${warehouse.name}"></a>
 
-        <form th:action="@{/warehouses/{deleteWarehouseId}/delete/(warehouseId=${currentWarehouse.id}, deleteWarehouseId=${warehouse.id})}" method="post">
+        <form th:action="@{|/warehouses/${warehouse.id}/delete|}" method="post">
             <button type="submit">Delete</button>
         </form>
-
     </li>
 </ul>
 

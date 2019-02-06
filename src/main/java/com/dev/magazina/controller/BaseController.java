@@ -25,4 +25,15 @@ class BaseController {
 
         return warehouse;
     }
+
+    public void setWarehouse(Warehouse warehouse) {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true);
+
+        if (warehouse != null) {
+            session.setAttribute("currentWarehouse", warehouse);
+        } else {
+            session.setAttribute("currentWarehouse", warehouseService.findFirst());
+        }
+    }
 }

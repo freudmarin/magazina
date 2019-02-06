@@ -3,6 +3,7 @@ package com.dev.magazina.controller;
 import com.dev.magazina.model.Warehouse;
 import com.dev.magazina.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -33,8 +35,8 @@ public class WarehouseController extends BaseController {
     }
 
     @GetMapping("/warehouses/create")
-    public String create(@RequestParam(value = "warehouseId", required = false) Integer warehouseId, Model model) {
-        Warehouse currentWarehouse = warehouseService.findById(warehouseId);
+    public String create(Model model) {
+        Warehouse currentWarehouse = getWarehouse();
         model.addAttribute("currentWarehouse", currentWarehouse);
 
         if (!model.containsAttribute("warehouse")) {
@@ -44,38 +46,42 @@ public class WarehouseController extends BaseController {
     }
 
     @PostMapping("/warehouses/create")
-    public String store(@RequestParam(value = "warehouseId", required = false) Integer warehouseId,
-                        @Valid Warehouse warehouse, BindingResult result,
+    public String store(@Valid Warehouse warehouse, BindingResult result,
                         RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
+        Warehouse existingWarehouse = warehouseService.findByName(warehouse.getName());
+        if (result.hasErrors() || existingWarehouse != null) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.warehouse", result);
             redirectAttributes.addFlashAttribute("warehouse", warehouse);
-            return "redirect:/warehouses/create/?" + getWarehouseParam(warehouseId);
+            if (existingWarehouse != null) {
+                redirectAttributes.addFlashAttribute("flash", "Magazina ekziston!");
+            }
+            return "redirect:/warehouses/create";
         }
 
-        redirectAttributes.addFlashAttribute("flash", "Warehouse added successfully!");
         warehouseService.save(warehouse);
-        return "redirect:/warehouses/?" + getWarehouseParam(warehouseId);
+        redirectAttributes.addFlashAttribute("flash", "Magazina u shtua me sukses!");
+        return "redirect:/warehouses";
     }
 
     @PostMapping("/warehouses/{deleteWarehouseId}/delete")
-    public String delete(@RequestParam(value = "warehouseId", required = false) Integer currentWarehouseId,
-            @PathVariable int deleteWarehouseId, RedirectAttributes redirectAttributes) {
-        Warehouse currentWarehouse = warehouseService.findById(currentWarehouseId);
+    public String delete(@PathVariable int deleteWarehouseId, RedirectAttributes redirectAttributes) {
+        Warehouse currentWarehouse = getWarehouse();
         Warehouse warehouse = warehouseService.findById(deleteWarehouseId);
 
         if (currentWarehouse.getId() == deleteWarehouseId) {
-            redirectAttributes.addFlashAttribute("flash", "You cannot delete your current warehouse!");
-            return "redirect:/warehouses/?" + getWarehouseParam(currentWarehouseId);
+            redirectAttributes.addFlashAttribute("flash", "Nuk mund të fshini magazinën aktuale!");
+            return "redirect:/warehouses";
         }
 
         warehouseService.delete(warehouse);
-        redirectAttributes.addFlashAttribute("flash", "Warehouse deleted!");
-        return "redirect:/warehouses/?" + getWarehouseParam(currentWarehouseId);
+        redirectAttributes.addFlashAttribute("flash", "Magazina u fshi me sukses!");
+        return "redirect:/warehouses";
     }
 
-    private String getWarehouseParam(Integer warehouseId) {
-        return  warehouseId != null ? "warehouseId=" + warehouseId : "";
+    @GetMapping("/warehouses/checkout/{warehouseId}")
+    public String checkout(HttpServletRequest request, @PathVariable int warehouseId) {
+        setWarehouse(warehouseService.findById(warehouseId));
+        return "redirect:" + request.getHeader("referer");
     }
 }
 

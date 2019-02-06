@@ -16,14 +16,14 @@
         <div th:replace="~{layouts/bars :: navbar}"></div>
         <!-- End Navbar -->
 
-        <div th:fragment="flash" th:if="${flash != null}" th:text="${flash.message}"></div>
+        <div th:replace="~{layouts/bars :: flash}"></div>
 
         <div class="content">
             <div class="container-fluid">
                 <form name='f' th:action="@{/products/create}" th:object="${product}" method='POST'>
                     <div class="row align-content-center">
                     <div class="col-md-9">
-                        <div class="card">
+                            <div class="card">
                             <div class="card-header-warning">
                                 <h4 class="card-title">Shto nje produkt</h4>
                             </div>
@@ -46,7 +46,6 @@
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Kategori</label>
                                                 <select class="form-control" th:field="*{category.id}">
-                                                    <option value="" selected disabled> Zgjidh Kategorine </option>
                                                     <option th:each="cat : ${categories}"
                                                             th:value="${cat.id}"
                                                             th:text="${cat.name}">
@@ -66,11 +65,9 @@
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Njesi</label>
                                                 <select class="form-control" th:field="*{measuringUnit.id}">
-                                                    <option value="" selected disabled> Zgjidh Njesine </option>
                                                     <option th:each="mu : ${measuringUnits}"
                                                             th:value="${mu.id}"
                                                             th:text="${mu.symbol}">
-
                                                     </option>
                                                 </select>
                                             </div>
