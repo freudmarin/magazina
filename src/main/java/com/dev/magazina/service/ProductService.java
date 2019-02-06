@@ -9,6 +9,7 @@ public interface ProductService {
     List<Product> findAll();
     List<Product> findAllByCategory(Category category);
     Product findById(int id);
+    Product findByName(String name);
     void save(Product product);
     void delete(Product product);
 

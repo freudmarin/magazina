@@ -6,13 +6,17 @@
 </head>
 <body>
 <h1>Add Warehouse</h1>
-<form th:action="@{/warehouses/create/(warehouseId=${currentWarehouse.id})}" th:object="${warehouse}" method="post">
+
+<div th:replace="~{layouts/bars :: flash}"></div>
+
+<form th:action="@{/warehouses/create}" th:object="${warehouse}" method="post">
     <p>Name: <input type="text" th:field="*{name}" /></p>
     <p>City: <input type="text" th:field="*{city}" /></p>
     <p>Address: <input type="text" th:field="*{address}" /></p>
     <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <div class="error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
     <div class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+    <div class="error" th:if="${flash != null}" th:text="${flash}"></div>
     <p><input type="submit" value="Submit" />
         <input type="reset" value="Reset" /></p>
 </form>

@@ -53,11 +53,26 @@ public class ProductDaoImpl implements ProductDao {
         CriteriaQuery<Product> query = builder.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
         query.select(root).where(builder.equal(root.get("id"), id));
-        Product product = session.createQuery(query).getSingleResult();
+        List<Product> products = session.createQuery(query).getResultList();
 
         session.close();
 
-        return product;
+        return products.isEmpty() ? null : products.get(0);
+    }
+
+    @Override
+    @SuppressWarnings("Duplicates")
+    public Product findByName(String name) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Product> query = builder.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        query.select(root).where(builder.equal(root.get("name"), name));
+        List<Product> products = session.createQuery(query).getResultList();
+
+        session.close();
+
+        return products.isEmpty() ? null : products.get(0);
     }
 
     @Override

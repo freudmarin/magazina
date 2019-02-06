@@ -12,6 +12,8 @@ public interface ProductDao {
 
     Product findById(int id);
 
+    Product findByName(String name);
+
     void save(Product product);
 
     void delete(Product product);

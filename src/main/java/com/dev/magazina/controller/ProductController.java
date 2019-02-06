@@ -46,9 +46,13 @@ public class ProductController {
     @PostMapping("/products/create")
     public String store(@Valid Product product, BindingResult result,
                         RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
+        Product existingProduct = productService.findByName(product.getName());
+        if (result.hasErrors() || existingProduct != null) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.product", result);
             redirectAttributes.addFlashAttribute("product", product);
+            if (existingProduct != null) {
+                redirectAttributes.addFlashAttribute("flash", "Produkti ekziston!");
+            }
             return "redirect:/products/create";
         }
 

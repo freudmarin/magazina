@@ -14,7 +14,8 @@
 <p>Welcome to our grocery store!</p>
 <a th:href="@{/products/create}">Add a Product</a>
 
-<div th:fragment="flash" th:if="${flash != null}" th:text="${flash.message}"></div>
+<div th:replace="~{layouts/bars :: flash}"></div>
+
 <ul th:each="product : ${products}">
     <li>
         <p th:text="${product.name}"></p>
