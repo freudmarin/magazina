@@ -9,7 +9,7 @@
 </head>
 <body>
 <!--<h1>Add Supply</h1>-->
-<form method="post" action="#" th:action="@{/supplies/add}" th:object="${supply}">
+<form method="post" action="#" th:action="@{/supplies/create}" th:object="${supply}">
     <table style="border: 1px solid #666; width: 100%;height: 100%">
         <thead>
         <tr>
@@ -29,57 +29,19 @@
         </tr>
         </thead>
         <!--<tbody>-->
-        <tbody id="supplyUnitObject" th:object="${productTransactionUnits}">
-        <tr th:object="${supplyUnit}">
-            <td>Price: <input type="number" th:field="*{price}"/></td>
-            <td> Amount: <input type="number" th:field="*{amount}"/></td>
+        <tbody id="supplyUnitObject">
+        <tr th:each="ptu :*{productTransactionUnits}">
+            <td>
+                <label>Category:</label>
+                <!--<select th:field="*{ptu.product.id}">-->
+                    <!--<option th:each="product : ${products}"-->
+                            <!--th:value="${product.id}"-->
+                            <!--th:utext="${product.name}"/>-->
+                <!--</select>-->
+            </td>
+            <td>Price: <input type="number" th:field="*{ptu.price}"/></td>
+            <td> Amount: <input type="number" th:field="*{ptu.amount}"/></td>
         </tr>
-        <tr th:object="${supplyUnit}">
-            <td>Price: <input type="number" th:field="*{price}"/></td>
-            <td> Amount: <input type="number" th:field="*{amount}"/></td>
-        </tr>
-        <!--<td><input type="text"-->
-        <!--placeholder='a'-->
-        <!--th:field="*{ptu.amount}"/></td>-->
-        <!--<td><input type="text"-->
-        <!--placeholder='p'-->
-        <!--th:field="*{ptu.price}"/></td>-->
-
-
-        <!--<td>-->
-        <!--<button type="button" data-toggle="modal"-->
-        <!--th:attr="data-target='#myModal'+${rowStat.index}">Open modal-->
-        <!--</button>-->
-        <!-- The Modal -->
-        <!--<div th:id="'myModal'+${rowStat.index}">-->
-        <!--<div >-->
-        <!--<div >-->
-        <!--&lt;!&ndash; Modal Header &ndash;&gt;-->
-        <!--<div class="modal-header">-->
-        <!--<h4 class="modal-title">Modal Heading</h4>-->
-        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash; Modal body &ndash;&gt;-->
-        <!--<div class="modal-body">-->
-        <!--<input type="text"-->
-        <!--placeholder='a'-->
-        <!--th:field="*{productTransactionUnits[__${rowStat.index}__].amount}"/>-->
-        <!--<input type="text"-->
-        <!--placeholder='p'-->
-        <!--th:field="*{productTransactionUnits[__${rowStat.index}__].price}"/>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash; Modal footer &ndash;&gt;-->
-        <!--<div class="modal-footer">-->
-        <!--<button type="button"  data-dismiss="modal">Close</button>-->
-        <!--</div>-->
-
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</td>-->
-        <!--</tr>-->
         </tbody>
     </table>
     <input type="submit" name="submit" value="Add" class="btn btn-danger"/>
