@@ -2,6 +2,7 @@ package com.dev.magazina.dao;
 
 import com.dev.magazina.model.ProductTransaction;
 import com.dev.magazina.model.ProductTransactionUnit;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class ProductTransactionDaoImpl implements ProductTransactionDao {
         Root<ProductTransaction> root = query.from(ProductTransaction.class);
         query.select(root).where(builder.equal(root.get("id"), id));
         ProductTransaction productTransaction = session.createQuery(query).getSingleResult();
+        Hibernate.initialize(productTransaction.getProductTransactionUnits());
+
 
         session.close();
 
@@ -64,7 +67,7 @@ public class ProductTransactionDaoImpl implements ProductTransactionDao {
     }
 
 
-    public void setProductTransactionUnit(ProductTransactionUnit ptu){
+    public void setProductTransactionUnit(ProductTransactionUnit ptu) {
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<ProductTransactionUnit> query = builder.createQuery(ProductTransactionUnit.class);

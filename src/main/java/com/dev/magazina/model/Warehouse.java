@@ -3,6 +3,8 @@ package com.dev.magazina.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Warehouse {
@@ -22,6 +24,11 @@ public class Warehouse {
     @NotNull
     @Size(min = 3, max = 100)
     private String address;
+
+    @ManyToMany(mappedBy = "warehouses")
+    private List<Product> products = new ArrayList<Product>();
+    @OneToMany(mappedBy = "warehouse")
+    List<WarehouseProduct> warehouseProduct;
 
     public Warehouse() {
     }
