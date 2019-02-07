@@ -107,9 +107,9 @@
                         <i class="fas fa-warehouse"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Warehouse 1</a>
-                        <a class="dropdown-item" href="#">Warehouse 2</a>
-                        <a class="dropdown-item" href="#">Warehouse 3</a>
+                        <a th:each="warehouse : ${warehouses}"
+                           th:href="@{|/warehouses/checkout/${warehouse.id}|}"
+                           th:text="${warehouse.name}" class="dropdown-item active"></a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
