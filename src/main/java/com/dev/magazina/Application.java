@@ -45,8 +45,16 @@ public class Application implements WebMvcConfigurer {
 			http.authorizeRequests()
 					.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 					.anyRequest()
+					.access("hasRole('ADMIN') or hasRole('USER')")
+					.and().formLogin()
+					.loginPage("/login")
+					.successHandler(loginSuccessHandler())
+					.failureHandler(loginFailureHandler())
 					.permitAll().and()
-					.logout().permitAll().logoutSuccessUrl("/login")
+					.logout()
+					.permitAll()
+					.logoutUrl("/logout")
+					.logoutSuccessUrl("/login")
 					.and()
 					.csrf();
 		}
@@ -67,15 +75,15 @@ public class Application implements WebMvcConfigurer {
 		@Autowired
 		private UserService userService;
 
-//		@Autowired
-//		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//			auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-//		}
+		@Autowired
+		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+			auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+		}
 
-//		@Bean
-//		public PasswordEncoder passwordEncoder() {
-//			return new BCryptPasswordEncoder(10);
-//		}
+		@Bean
+		public PasswordEncoder passwordEncoder() {
+			return new BCryptPasswordEncoder(10);
+		}
 
 		@Bean
 		public EvaluationContextExtension securityExtension() {
