@@ -1,5 +1,6 @@
 package com.dev.magazina.controller;
 
+import com.dev.magazina.model.Product;
 import com.dev.magazina.model.ProductTransaction;
 import com.dev.magazina.model.ProductTransactionUnit;
 import com.dev.magazina.service.ProductService;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -37,10 +39,18 @@ public class ProductTransactionController {
 
     @GetMapping("/supplies/create")
     public String create(Model model) {
+
         if (!model.containsAttribute("supply")) {
-            model.addAttribute("supply", new ProductTransaction());
-            model.addAttribute("products", productService.findAll());
+            ProductTransaction pt = new ProductTransaction();
+            ProductTransactionUnit ptu = new ProductTransactionUnit(new Product(), 1, 1, pt);
+
+            pt.setProductTransactionUnits(Arrays.asList(ptu));
+
+            model.addAttribute("supply", pt);
         }
+
+        model.addAttribute("products", productService.findAll());
+
         return "supply/form";
     }
 

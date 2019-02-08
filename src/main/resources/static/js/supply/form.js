@@ -1,15 +1,22 @@
-console.log("aaa");
-$(function ($) {
-    var addUnitButton = $("#addUnits");
-    console.log(addUnitButton);
-    var nr = 0;
-    addUnitButton.on('click', function (e) {
-        nr++;
-        e.preventDefault();
-        $('#supplyUnitObject')
-            .append('<tr th:object="${supplyUnit}"><td>Price: <input type="number" th:value="" th:field="*{prod.price}"/></td>\n'+'Amount: <input type="number" th:value="" th:field="*{product.amount}"/></td></tr>') + '</br>';
+function addUnit() {
+    var $tr = $(".ptu:last");
+    var $clone = $tr.clone();
+    var newId = document.getElementsByClassName('ptu').length;
+    $clone.find(':text').val('');
+    $clone.find('input').val('');
+    $clone.find('.confirm').css('onclick', 'persistUnit(' + newId + ')');
+    $tr.after($clone);
+}
 
+function persistUnit(rowId) {
+    console.log(rowId);
+    $.post("/supplies/create/addPtu/" + rowId)
+        .done(function (data) {
+            alert("Data Loaded: " + data);
+        });
+}
 
-    })
-});
+function deleteUnit(rowId) {
+    console.log("Deleting " + rowId);
+}
 
