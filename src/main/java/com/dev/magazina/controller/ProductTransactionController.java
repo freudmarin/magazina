@@ -58,8 +58,6 @@ public class ProductTransactionController {
         return "kk";
     }
 
-    }
-
 //    @RequestMapping(value = "/supplies/add")
 //    public String addRow(final ProductTransaction pt, ProductTransactionUnit ptu, Model model) {
 ////        ProductTransactionUnit ptu = new ProductTransactionUnit();
