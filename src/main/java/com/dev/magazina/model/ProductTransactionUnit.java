@@ -8,13 +8,13 @@ public class ProductTransactionUnit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @OneToOne
     private Product product;
 
     private double amount;
     private double price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private ProductTransaction productTransaction;
 
 

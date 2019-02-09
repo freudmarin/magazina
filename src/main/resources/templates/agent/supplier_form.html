@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>Shto furnitor</h1>
+
+<form th:action="@{/supplier/create}" th:object="${supplier}" method="post">
+    <p>Emer: <input type="text" th:field="*{firstName}"/></p>
+    <p>Mbiemer: <input type="text" th:field="*{lastName}"/></p>
+    <p>Emer tregtar: <input type="text" th:field="*{businessName}"/></p>
+    <p>Email: <input type="text" th:field="*{email}"/></p>
+    <p>Adresa: <input type="text" th:field="*{address}"/></p>
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <p><input type="submit" value="Submit"/>
+        <input type="reset" value="Reset"/></p>
+</form>
+</body>
+</html>

@@ -4,9 +4,9 @@ import javax.persistence.*;
 
 @Entity
 class WarehouseProduct {
-
-    @EmbeddedId
-    WarehouseProductKey id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @ManyToOne
     @MapsId("warehouse_id")
@@ -23,11 +23,11 @@ class WarehouseProduct {
     public WarehouseProduct() {
     }
 
-    public WarehouseProductKey getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(WarehouseProductKey id) {
+    public void setId(int id) {
         this.id = id;
     }
 
