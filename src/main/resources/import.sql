@@ -17,3 +17,7 @@ insert into category (name) values ('Te Konservuara')
 insert into measuringunit (name,symbol) values ('Kilogram', 'kg')
 insert into measuringunit (name,symbol) values ('Liter', 'l')
 insert into measuringunit (name,symbol) values ('Cope', 'cope')
+
+insert into product (name, barcode, price, amount, measuringUnit_id, category_id) values ('Molle', '123465879111', 70, 50, 1, 1)
+insert into product (name, barcode, price, amount, measuringUnit_id, category_id) values ('Dardha', '123465879112', 80, 50, 1, 1)
+insert into product (name, barcode, price, amount, measuringUnit_id, category_id) values ('Karrota', '123465879113', 60, 20, 1, 2)
