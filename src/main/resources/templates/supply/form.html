@@ -10,22 +10,32 @@
 <body>
 <!--<h1>Add Supply</h1>-->
 <form method="post" action="#" th:action="@{/supplies/create}" th:object="${supply}">
+
+    <label>Data</label>
+    <input type="date" th:field="*{date}">
+
+    <label>Numri i Faturës</label>
+    <input type="number" th:field="*{invoiceNumber}">
+
+    <a href="#" onclick="addUnit()">Shto Njësi</a>
+
     <table style="border: 1px solid #666; width: 100%;height: 100%">
         <thead>
         <tr>
             <th style="width:30%;border: 1px solid #666;">
-                <input type="date" th:field="*{date}">
+                Produkti
             </th>
             <th style="width:30%;border: 1px solid #666">
-                <input type="number" th:field="*{invoiceNumber}">
-
+                Çmimi
             </th>
             <th style="width:40%;border: 1px solid #666">
-                <input type="button" id="addUnits" name="addRow" value="Shto">
+                Sasia
+            </th>
+            <th style="width:40%;border: 1px solid #666">
+                Konfirmo
             </th>
         </tr>
         </thead>
-        <!--<tbody>-->
         <tbody id="supplyUnitObject">
         <tr th:each="ptu : *{productTransactionUnits}">
             <td>
@@ -42,9 +52,10 @@
             <!--<td>Price: <input type="number" th:field="*{productTransactionUnits[__${stat.index}__].price}"/></td>-->
             <!--<td> Amount: <input type="number" th:field="*{ptu.amount}"/></td>-->
         </tr>
+
         </tbody>
     </table>
-    <!--<input type="submit" name="submit" value="Add" class="btn btn-danger"/>-->
+    <input type="submit" name="submit" value="Add" class="btn btn-danger"/>
 </form>
 
 
