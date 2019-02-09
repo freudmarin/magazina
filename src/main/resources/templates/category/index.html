@@ -16,7 +16,7 @@
         <div th:replace="~{layouts/bars :: navbar}"></div>
         <!-- End Navbar -->
 
-        <div th:fragment="flash" th:if="${flash != null}" th:text="${flash.message}"></div>
+        <div th:fragment="flash" th:if="${session.flash != null}" th:text="${session.flash}"></div>
 
         <div class="content">
             <div class="container-fluid">

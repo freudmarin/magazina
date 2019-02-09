@@ -45,13 +45,28 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
+    public Category findByName(String name) {
+        Session session = sessionFactory.openSession();
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Category> query = builder.createQuery(Category.class);
+        Root<Category> root = query.from(Category.class);
+        query.select(root).where(builder.equal(root.get("name"), name));
+        List<Category> categories = session.createQuery(query).getResultList();
+
+        session.close();
+
+        return categories.isEmpty() ? null : categories.get(0);
+    }
+
+    @Override
     public void save(Category category) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.saveOrUpdate(category);
         session.getTransaction().commit();
         session.close();
-        session.flush();
     }
 
     @Override

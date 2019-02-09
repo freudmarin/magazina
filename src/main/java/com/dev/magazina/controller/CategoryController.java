@@ -37,13 +37,18 @@ public class CategoryController {
     @PostMapping("/categories/create")
     public String store(@Valid Category category, BindingResult result,
                         RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
+        Category existingCategory = categoryService.findByName(category.getName());
+
+        if (result.hasErrors() || existingCategory != null) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.category", result);
             redirectAttributes.addFlashAttribute("category", category);
+            if (existingCategory != null) {
+                redirectAttributes.addFlashAttribute("flash", "Kategoria ekziston!");
+            }
             return "redirect:/categories/create";
         }
 
-        redirectAttributes.addFlashAttribute("flash", "Cat added successfully!");
+        redirectAttributes.addFlashAttribute("flash", "Kategoria u shtua me sukses!");
         categoryService.save(category);
         return "redirect:/categories";
     }
@@ -53,12 +58,12 @@ public class CategoryController {
         Category category = categoryService.findById(categoryId);
 
         if (category.getProducts().size() > 1) {
-            redirectAttributes.addFlashAttribute("flash", "Only empty categories can be deleted!");
+            redirectAttributes.addFlashAttribute("flash", "Vetem kategorite pa produkte mund te fshihen!");
             return "redirect:/categories"; //nqs ka nje produkt ose me shume nuk mund te fshihet dhe kthehet forma sic ishte
         }
 
         categoryService.delete(category); //ka 0 produkte
-        redirectAttributes.addFlashAttribute("flash", "Category deleted!");
+        redirectAttributes.addFlashAttribute("flash", "Kategoria u fshi!");
         return "redirect:/categories";
     }
 }

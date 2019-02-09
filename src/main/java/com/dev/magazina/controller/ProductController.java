@@ -57,7 +57,7 @@ public class ProductController {
         }
 
         productService.save(product);
-        redirectAttributes.addFlashAttribute("flash", "Product added successfully!");
+        redirectAttributes.addFlashAttribute("flash", "Produkti u shtua me sukses!");
 
         return "redirect:/products";
     }
@@ -65,14 +65,8 @@ public class ProductController {
     @PostMapping("/products/{productId}/delete")
     public String delete(@PathVariable int productId, RedirectAttributes redirectAttributes) {
         Product product = productService.findById(productId);
-
-        if (product.getAmount() > 1) {
-            redirectAttributes.addFlashAttribute("flash", "Only empty products can be deleted!");
-            return "redirect:/products";
-        }
-
         productService.delete(product);
-        redirectAttributes.addFlashAttribute("flash", "Product deleted!");
+        redirectAttributes.addFlashAttribute("flash", "Produkti u fshi me sukses!");
         return "redirect:/products";
     }
 //si tek category controller
