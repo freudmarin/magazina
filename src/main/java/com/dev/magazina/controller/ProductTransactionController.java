@@ -9,11 +9,9 @@ import com.dev.magazina.service.ProductTransactionUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -55,16 +53,10 @@ public class ProductTransactionController {
     }
 
 
-    @PostMapping("/supplies/create")
-    public String store(Model model, @Valid ProductTransaction supply, BindingResult result, RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productTransaction", result);
-            redirectAttributes.addFlashAttribute("supply", supply);
-            return "redirect:/supplies/create";
-        }
-        redirectAttributes.addFlashAttribute("flash", "Furnizimi u krijua me sukses!");
-        supplyService.save(supply);
-        return "redirect:/supplies";
+    @RequestMapping(value = "/supplies/add", method = RequestMethod.POST)
+    public String test() {
+        return "kk";
+    }
 
     }
 

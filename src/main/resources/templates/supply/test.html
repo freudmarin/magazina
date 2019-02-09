@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{layouts/head :: head}">
+</div>
+
+<body>
+<script th:inline="javascript" type="text/javascript" th:src="@{/js/supply/form_old.js}"></script>
+<!--<h1>Add Supply</h1>-->
+<form name="supply-form" th:action="@{/supplies/create}" th:object="${supply}" method="post">
+    <table style="border: 1px solid #666; width: 100%;height: 100%">
+        <thead>
+        <tr>
+            <th style="width:30%;border: 1px solid #666;">
+                <input type="date" th:field="*{date}">
+            </th>
+            <th style="width:30%;border: 1px solid #666">
+                <input type="number" th:field="*{invoiceNumber}">
+
+            </th>
+            <th style="width:40%;border: 1px solid #666">
+                <input type="button" id="addUnits" name="addItem" value="Shto">
+            </th>
+        </tr>
+        </thead>
+        <tbody id="supplyUnitObject" th:field="*{productTransactionUnits}">
+        <tr th:each="ptu : *{productTransactionUnits}">
+            <td>
+                <label>Produkti:</label>
+                <select>
+                    <option th:each="product : ${products}"
+                            th:value="${product.id}"
+                            th:text="${product.name}"/>
+                </select>
+            </td>
+            <td>Price: <input type="number"/></td>
+            <td> Amount: <input type="number"/></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="button" name="submit" value="Add" class="btn btn-danger"/>
+</form>
+
+
+</body>
+
+<!--</html>-->

@@ -1,61 +1,47 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Good Thymes Virtual Grocery</title>
-    <script th:inline="javascript" type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-    <!--<script th:inline="javascript" type="text/javascript" th:src="@{/js/supply/form.js}"></script>-->
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
+<div th:replace="~{layouts/head :: head}">
+</div>
+
 <body>
+<script type="text/javascript" th:src="@{/js/knockout.js}"></script>
+<script type="text/javascript" th:src="@{/js/supply/form_old.js}"></script>
+
 <!--<h1>Add Supply</h1>-->
-<form method="post" action="#" th:action="@{/supplies/create}" th:object="${supply}">
-
-    <label>Data</label>
-    <input type="date" th:field="*{date}">
-
-    <label>Numri i Faturës</label>
-    <input type="number" th:field="*{invoiceNumber}">
-
-    <a href="#" onclick="addUnit()">Shto Njësi</a>
-
+<form name="supply-form" method="post">
     <table style="border: 1px solid #666; width: 100%;height: 100%">
         <thead>
         <tr>
             <th style="width:30%;border: 1px solid #666;">
-                Produkti
+                <label for="currentDate">Data</label>
+                <input type="date" id="currentDate" data-bind="value:date">
             </th>
             <th style="width:30%;border: 1px solid #666">
-                Çmimi
+                <label for="invoiceNumber">Nr:fature</label>
+                <input type="number" id="invoiceNumber" data-bind="value:invoiceNumber">
+
             </th>
             <th style="width:40%;border: 1px solid #666">
-                Sasia
-            </th>
-            <th style="width:40%;border: 1px solid #666">
-                Konfirmo
+                <button data-bind="click:addSupplyUnit">Shto</button>
             </th>
         </tr>
         </thead>
-        <tbody id="supplyUnitObject">
-        <tr th:each="ptu : *{productTransactionUnits}">
-            <td>
-                lala
-                <!--<label>Produkti:</label>-->
-                <!--<select th:field="*{ptu.product.id}">-->
-                <!--<option th:each="product : ${products}"-->
-                <!--th:value="${product.id}"-->
-                <!--th:utext="${product.name}"/>-->
-                <!--</select>-->
-            </td>
-            <td>hh</td>
-            <td>hhi</td>
-            <!--<td>Price: <input type="number" th:field="*{productTransactionUnits[__${stat.index}__].price}"/></td>-->
-            <!--<td> Amount: <input type="number" th:field="*{ptu.amount}"/></td>-->
+        <tbody id="supplyUnitObject" data-bind="foreach: ptus">
+        <tr>
+            <td>Price: <input data-bind="value:product" type="number"/></td>
+            <!--<select data-bind=>-->
+            <!--<option th:each="product : ${products}"-->
+            <!--th:value="${product.id}"-->
+            <!--th:text="${product.name}"/>-->
+            <!--</select>-->
+            <td>Price: <input data-bind="value:price" type="number"/></td>
+            <td> Amount: <input type="number" data-bind="value:amount"/></td>
         </tr>
-
         </tbody>
     </table>
-    <input type="submit" name="submit" value="Add" class="btn btn-danger"/>
+    <!--<input type="button" name="submit" value="Add" class="btn btn-danger"/>-->
+    <input type="button" name="save" value="Save" data-bind="click:save" class="btn btn-danger"/>
 </form>
 
 

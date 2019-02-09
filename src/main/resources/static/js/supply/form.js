@@ -1,15 +1,24 @@
 console.log("aaa");
 $(function ($) {
+
+    var ptus = [];
     var addUnitButton = $("#addUnits");
     console.log(addUnitButton);
-    var nr = 0;
     addUnitButton.on('click', function (e) {
-        nr++;
         e.preventDefault();
-        $('#supplyUnitObject')
-            .append('<tr th:object="${supplyUnit}"><td>Price: <input type="number" th:value="" th:field="*{prod.price}"/></td>\n'+'Amount: <input type="number" th:value="" th:field="*{product.amount}"/></td></tr>') + '</br>';
+        console.log("done");
+        // $('#supplyUnitObject')
+        //     .append('<tr ><td>' +
+        //         '        <label>Produkti:</label>\n' +
+        //         '                <select>\n' +
+        //         '                <option th:each="product : ${products}"\n' +
+        //         '                th:value="${product.id}"\n' +
+        //         '                th:text="${product.name}"/>\n' +
+        //         '                </select>\n' +
+        //         '            </td>Price: <input type="number"/></td>\n' +
+        //         '            <td> Amount: <input type="number"/></td></tr>') + '</br>';
+        //
 
-
-    })
+        // });
+    });
 });
-
