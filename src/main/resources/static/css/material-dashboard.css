@@ -18827,3 +18827,23 @@ Copyright (c) 2015 Daniel Eden
 .upppercase {
   text-transform: uppercase;
 }
+/* Login Page */
+.sidebar.login, .sidebar.login .sidebar-wrapper {
+  width: 280px;
+}
+.card-body.login {
+  height: 270px;
+}
+.form-control.login {
+  border: 1px solid #c4c4c4;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  height: 40px;
+  border-bottom: none;
+}
+.login-btn {
+  float: right;
+  margin: 20px 40px;
+  width: 140px;
+}
