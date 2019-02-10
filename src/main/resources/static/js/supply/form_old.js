@@ -25,9 +25,8 @@ $(function ($) {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
                 },
-                data: ko.toJSON(vm),
+                data: ko.toJSON(self).toString(),
                 contentType: "application/json; charset=utf-8",
-                async: false,
                 success: function (result) {
                     console.log("result");
                 }

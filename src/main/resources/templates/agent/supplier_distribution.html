@@ -1,0 +1,12 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<div th:replace="~{layouts/head :: head}">
+</div>
+<body>
+<div id="map" style="width: 500px;height: 200px;"></div>
+Harta e furnitoreve
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABp5fIvtpine_4YdA9YWHnM5VfjKl-HJo&sensor=false">
+
+</script>
+<script type="text/javascript" th:src="@{/js/agent/supplier_distribution.js}"></script>
+</body>
+</html>

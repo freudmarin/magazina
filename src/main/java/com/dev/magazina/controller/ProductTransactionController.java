@@ -6,16 +6,19 @@ import com.dev.magazina.model.ProductTransactionUnit;
 import com.dev.magazina.service.ProductService;
 import com.dev.magazina.service.ProductTransactionService;
 import com.dev.magazina.service.ProductTransactionUnitService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -52,10 +55,19 @@ public class ProductTransactionController {
         return "supply/form";
     }
 
+    //    mos e di si e ka konvertimin?proveka
+    @RequestMapping(value = "/supplies/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String test(@RequestBody Object request) throws IOException {
+        ProductTransaction pt = new ProductTransaction();
+//        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.convertValue(request,HashMap.class);
+//        Object myMap = objectMapper.readValue(request, HashMap.class);
 
-    @RequestMapping(value = "/supplies/add", method = RequestMethod.POST)
-    public String test() {
-        return "kk";
+
+//        JsonObject objectFromString = jsonParser.parse(request).getAsJsonObject();
+
+        return "" + request;
     }
 
 //    @RequestMapping(value = "/supplies/add")

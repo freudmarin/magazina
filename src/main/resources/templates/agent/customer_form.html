@@ -5,16 +5,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<h1>Shto furnitor</h1>
+<h1>Shto kliente</h1>
 
-<form th:action="@{/suppliers/create}" th:object="${supplier}" method="post">
+<form th:action="@{/customers/create}" th:object="${customer}" method="post">
     <p>Emer: <input type="text" th:field="*{firstName}"/></p>
     <p>Mbiemer: <input type="text" th:field="*{lastName}"/></p>
     <p>Emer tregtar: <input type="text" th:field="*{businessName}"/></p>
     <p>Email: <input type="text" th:field="*{email}"/></p>
     <p>Adresa: <input type="text" th:field="*{address}"/></p>
-    <p> Gjatesia: <input type="text" id="latitude" th:field="*{latitude}" /></p>
-    <p> Gjeresia: <input type="text" id="longitude" th:field="*{longitude}"/></p>
+    <p> Gjatesia: <input type="text" id="latitude" th:field="*{latitude}" disabled/></p>
+    <p> Gjeresia: <input type="text" id="longitude" th:field="*{longitude}" disabled/></p>
     <!--<div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
     <p><input type="submit" value="Submit"/>
         <input type="reset" value="Reset"/></p>
@@ -58,11 +58,59 @@
 
     function removeMarker(location, marker) {
         marker.setMap(null);
+
+        // var infowindow = new google.maps.InfoWindow({
+        //     content: "Latitude: " + location.lat() + "<br>Longitude: " + location.lng()
+        // });
+        // infowindow.open(map, marker);
     }
 
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
+</body>
+</html>
+
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
 
 </body>
 </html>
+
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCzyzPghQBf1QlWx9TAXFAerR8fgpVaUIQ&sensor=false">
+</script>
+
+<script>
+    var map;
+    var myCenter = new google.maps.LatLng(41.3275, 19.8187);
+
+    function initialize() {
+        var mapProp = {
+            center: myCenter,
+            zoom: 5,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+            getPosition(event.latLng['lat'](), event.latLng['lng']());
+        });
+    }
+
+
+    function getPosition(lat, lng) {
+                  return $("#id_location").val("Lat: "+ lat, " , Lng: "+ lng)
+
+                    }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+
+</script>
+-->

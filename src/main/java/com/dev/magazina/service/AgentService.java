@@ -8,6 +8,8 @@ import java.util.List;
 public interface AgentService {
     List<Agent> findAll();
 
+    List<Agent> findByType(String type);
+
     Agent findById(int id);
 
     void save(Agent agent);

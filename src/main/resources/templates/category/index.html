@@ -29,6 +29,14 @@
                             </button>
                         </a>
                     </div>
+                    <!--<div th:unless="${category.id}" class="col-md-12">-->
+                    <!--<a th:href="@{/categories/${category.id}/edit}">-->
+                    <!--<button class="btn btn-primary" style="float: right; margin-right: 15px;">-->
+                    <!--Shto nje kategori-->
+                    <!--</button>-->
+                    <!--</a>-->
+                    <!--</div>-->
+
 
                     <div class="col-md-12">
                         <div class="card">
@@ -40,22 +48,26 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class=" text-primary">
-                                        <th class="main"> Emer </th>
-                                        <th class="medium"> Veprime </th>
+                                        <th class="main"> Emer</th>
+                                        <th class="medium"> Veprime</th>
                                         </thead>
                                         <tbody>
                                         <tr th:each="category : ${categories}">
-                                            <td class="main" th:text="${category.name}"></td>
+                                            <td class="main" th:value="${category.name}"
+                                                th:text="${category.name}"></td>
                                             <td class="medium">
                                                 <ul class="">
                                                     <li>
-                                                        <form th:action="@{|/categories/${category.id}/edit|}" method="post">
-                                                            <button class="btn btn-warning" type="submit"> Edit </button>
+                                                        <form th:action="@{|/categories/${category.id}/edit|}"
+                                                              method="post">
+                                                            <button class="btn btn-warning" type="submit"> Edit</button>
                                                         </form>
                                                     </li>
                                                     <li>
-                                                        <form th:action="@{|/categories/${category.id}/delete|}" method="post">
-                                                            <button class="btn btn-danger" type="submit"> Delete </button>
+                                                        <form th:action="@{|/categories/${category.id}/delete|}"
+                                                              method="post">
+                                                            <button class="btn btn-danger" type="submit"> Delete
+                                                            </button>
                                                         </form>
                                                     </li>
                                                 </ul>

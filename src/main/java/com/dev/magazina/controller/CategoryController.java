@@ -66,6 +66,26 @@ public class CategoryController {
         redirectAttributes.addFlashAttribute("flash", "Kategoria u fshi!");
         return "redirect:/categories";
     }
+
+
+    @GetMapping("/categories/{categoryId}/edit")
+    public String editCategory(@PathVariable int categoryId, Model model) {
+        if (!model.containsAttribute("category")) {
+            model.addAttribute("category", new Category());
+        }
+//        model.addAttribute("category", categoryService.findById(categoryId));
+        return "category/form";
+    }
+
+
+//    @PostMapping("/categories/{categoryId}/edit")
+//    public String edit(@PathVariable int categoryId, RedirectAttributes redirectAttributes, Model model) {
+//        Category category = categoryService.findById(categoryId);
+//        model.addAttribute("categories", category);
+////        categoryService.save(category);
+////        redirectAttributes.addFlashAttribute("flash", "Kategoria u editua!");
+//        return "redirect:/categories";
+//    }
 }
 
 

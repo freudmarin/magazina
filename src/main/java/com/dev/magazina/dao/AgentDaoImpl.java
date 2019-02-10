@@ -1,8 +1,6 @@
 package com.dev.magazina.dao;
 
 import com.dev.magazina.model.Agent;
-import com.dev.magazina.model.Category;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,19 @@ public class AgentDaoImpl implements AgentDao {
     }
 
     @Override
+    public List<Agent> findByType(String type) {
+
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Agent> query = builder.createQuery(Agent.class);
+        Root<Agent> root = query.from(Agent.class);
+        query.select(root).where(builder.equal(root.get("type"), type));
+        List<Agent> agents = session.createQuery(query).getResultList();
+        session.close();
+        return agents;
+    }
+
+    @Override
     public Agent findById(int id) {
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -43,6 +54,7 @@ public class AgentDaoImpl implements AgentDao {
         return agent;
     }
 
+
     @Override
     public void save(Agent agent) {
         Session session = sessionFactory.openSession();
@@ -50,7 +62,6 @@ public class AgentDaoImpl implements AgentDao {
         session.saveOrUpdate(agent);
         session.getTransaction().commit();
         session.close();
-        session.flush();
     }
 
     @Override

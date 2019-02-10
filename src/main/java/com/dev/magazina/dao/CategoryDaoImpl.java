@@ -73,9 +73,7 @@ public class CategoryDaoImpl implements CategoryDao {
     public void delete(Category category) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-
         session.delete(category);
-
         session.getTransaction().commit();
         session.close();
     }
