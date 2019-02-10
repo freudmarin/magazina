@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 
 <div th:replace="~{layouts/head :: head}"></div>
 
@@ -22,21 +22,13 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-md-12">
+                    <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/categories/create}">
                             <button class="btn btn-primary" style="float: right; margin-right: 15px;">
                                 Shto nje kategori
                             </button>
                         </a>
                     </div>
-                    <!--<div th:unless="${category.id}" class="col-md-12">-->
-                    <!--<a th:href="@{/categories/${category.id}/edit}">-->
-                    <!--<button class="btn btn-primary" style="float: right; margin-right: 15px;">-->
-                    <!--Shto nje kategori-->
-                    <!--</button>-->
-                    <!--</a>-->
-                    <!--</div>-->
-
 
                     <div class="col-md-12">
                         <div class="card">
@@ -48,14 +40,13 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class=" text-primary">
-                                        <th class="main"> Emer</th>
-                                        <th class="medium"> Veprime</th>
+                                        <th class="main"> Emer </th>
+                                        <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime </th>
                                         </thead>
                                         <tbody>
                                         <tr th:each="category : ${categories}">
-                                            <td class="main" th:value="${category.name}"
-                                                th:text="${category.name}"></td>
-                                            <td class="medium">
+                                            <td class="main" th:text="${category.name}"></td>
+                                            <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
                                                     <li>
                                                         <form th:action="@{|/categories/${category.id}/edit|}"

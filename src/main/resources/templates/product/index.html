@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 
 <div th:replace="~{layouts/head :: head}"></div>
 
@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-md-12">
+                    <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/products/create}">
                             <button class="btn btn-primary" style="float: right; margin-right: 15px;">
                                 Shto nje Produkt
@@ -44,7 +44,7 @@
                                         <th class="medium"> Barkod</th>
                                         <th class="medium"> Cmim</th>
                                         <th class="medium"> Sasi</th>
-                                        <th class="medium"> Veprime</th>
+                                        <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>
                                         </thead>
                                         <tbody>
                                         <tr th:each="product : ${products}">
@@ -53,7 +53,7 @@
                                             <td class="medium" th:text="${product.price}"></td>
                                             <td class="medium"
                                                 th:text="|${product.amount} ${product.measuringUnit.symbol}|"></td>
-                                            <td class="medium">
+                                            <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
                                                     <li>
                                                         <form th:action="@{|/products/${product.id}/edit|}"
