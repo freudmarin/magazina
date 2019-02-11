@@ -70,10 +70,6 @@ public class AgentController {
         }
         redirectAttributes.addFlashAttribute("flash", "Furnitori u shtua me sukses");
         supplier.setType("S");
-//        String lat = (supplier.getLatitude().length() > 0) ? supplier.getLatitude() : "";
-//        String lng = (supplier.getLongitude().length() > 0) ? supplier.getLongitude() : "";
-//        supplier.setLongitude(lng);
-//        supplier.setLatitude(lat);
         agentService.save(supplier);
         return "redirect:/suppliers";
     }

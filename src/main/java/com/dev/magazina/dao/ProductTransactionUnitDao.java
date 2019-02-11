@@ -12,7 +12,7 @@ public interface ProductTransactionUnitDao {
 
     ProductTransactionUnit findById(int id);
 
-    void save(ProductTransactionUnit product);
+    void save(ProductTransactionUnit productTransactionUnit);
 
-    void delete(ProductTransactionUnit product);
+    void delete(ProductTransactionUnit productTransactionUnit);
 }

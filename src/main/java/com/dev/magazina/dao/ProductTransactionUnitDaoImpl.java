@@ -49,10 +49,10 @@ public class ProductTransactionUnitDaoImpl implements ProductTransactionUnitDao 
     }
 
     @Override
-    public void save(ProductTransactionUnit category) {
+    public void save(ProductTransactionUnit productTransactionUnit) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.saveOrUpdate(category);
+        session.saveOrUpdate(productTransactionUnit);
         session.getTransaction().commit();
         session.close();
     }

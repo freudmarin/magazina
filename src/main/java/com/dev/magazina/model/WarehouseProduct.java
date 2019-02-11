@@ -3,6 +3,7 @@ package com.dev.magazina.model;
 import javax.persistence.*;
 
 @Entity
+public
 class WarehouseProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

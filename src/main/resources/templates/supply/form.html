@@ -23,28 +23,44 @@
 
             </th>
             <th style="width:40%;border: 1px solid #666">
+                <label> Zgjidh furnitor</label>
+                <select data-bind="options: suppliers,
+                       optionsText: 'businessName',
+                       value: supplier
+                      "></select>
+            </th>
+            <th style="width:40%;border: 1px solid #666">
                 <button data-bind="click:addSupplyUnit">Shto</button>
             </th>
         </tr>
         </thead>
+        n
         <tbody id="supplyUnitObject" data-bind="foreach: ptus">
         <tr>
-            <td>Price: <input data-bind="value:product" type="number"/></td>
-            <!--<select data-bind=>-->
-            <!--<option th:each="product : ${products}"-->
-            <!--th:value="${product.id}"-->
-            <!--th:text="${product.name}"/>-->
-            <!--</select>-->
+            <td>
+                <select data-bind="options: products,
+                       optionsText: 'name',
+                       value: product
+                      "></select>
+            </td>
+            <td data-bind="text: measuringUnit">
+            </td>
             <td>Price: <input data-bind="value:price" type="number"/></td>
             <td> Amount: <input type="number" data-bind="value:amount"/></td>
+            <td> Total: <input type="number" data-bind="value:totalAmount"/></td>
         </tr>
         </tbody>
     </table>
     <!--<input type="button" name="submit" value="Add" class="btn btn-danger"/>-->
     <input type="button" name="save" value="Save" data-bind="click:save" class="btn btn-danger"/>
 </form>
+<div>
+        <p> Total</p>
+        <p data-bind="value: total"></p>
+</div>
 
 
 </body>
+
 
 </html>

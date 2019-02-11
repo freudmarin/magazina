@@ -49,10 +49,26 @@ public class ProductTransactionDaoImpl implements ProductTransactionDao {
     }
 
     @Override
-    public void save(ProductTransaction productTransaction, List<ProductTransactionUnit> ptus) {
+    public List<ProductTransaction> findByType(String type) {
+        Session session = sessionFactory.openSession();
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ProductTransaction> query = builder.createQuery(ProductTransaction.class);
+        Root<ProductTransaction> root = query.from(ProductTransaction.class);
+        query.select(root).where(builder.equal(root.get("type"), type));
+        List<ProductTransaction> productTransactions = session.createQuery(query).getResultList();
+//        Hibernate.initialize(productTransaction.getProductTransactionUnits());
+        session.close();
+        return productTransactions;
+    }
+
+    @Override
+    public void save(ProductTransaction productTransaction) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.saveOrUpdate(productTransaction);
+        session.getTransaction().commit();
+        session.close();
     }
 
 
