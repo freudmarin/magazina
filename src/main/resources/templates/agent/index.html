@@ -35,6 +35,7 @@
                             <div class="card-header card-header-warning">
                                 <h4 class="card-title "> Furnitore </h4>
                                 <p class="card-category"> Te gjithe furintoret per kete magazine </p>
+                                <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -53,15 +54,12 @@
                                             <td class="medium">
                                                 <ul class="">
                                                     <li>
-                                                        <form th:action="@{|/suppliers/${supplier.id}/edit|}"
-                                                              method="post">
-                                                            <button class="btn btn-warning" type="submit"> Edit</button>
-                                                        </form>
+                                                        <a th:href="@{|/suppliers/${supplier.id}/edit|}" class="btn btn-warning"> Modifiko</a>
                                                     </li>
                                                     <li>
                                                         <form th:action="@{|/suppliers/${supplier.id}/delete|}"
                                                               method="post">
-                                                            <button class="btn btn-danger" type="submit"> Delete
+                                                            <button class="btn btn-danger" type="submit"> Fshi
                                                             </button>
                                                         </form>
                                                     </li>
