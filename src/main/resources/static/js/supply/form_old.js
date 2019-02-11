@@ -80,10 +80,10 @@ $(function ($) {
         };
 
         self.save = function () {
-            if (self.invoiceNumber.length <= 0) {
+            if (self.invoiceNumber().length == 0) {
                 alert("Fusha fature eshte e nevojshme!")
 
-            } else if (self.date().length == 0) {
+            } else if (self.date() == null) {
                 alert("Data eshte nje fushe  nevojshme!")
             } else {
                 $.ajax({
