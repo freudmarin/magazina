@@ -35,6 +35,7 @@
                             <div class="card-header card-header-warning">
                                 <h4 class="card-title "> Kategori </h4>
                                 <p class="card-category"> Te gjitha kategorite per kete magazine </p>
+                                <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -49,16 +50,12 @@
                                             <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
                                                     <li>
-                                                        <form th:action="@{|/categories/${category.id}/edit|}"
-                                                              method="post">
-                                                            <button class="btn btn-warning" type="submit"> Edit</button>
-                                                        </form>
+                                                        <a th:href="@{|/categories/${category.id}/edit|}" class="btn btn-warning"> Modifiko</a>
                                                     </li>
                                                     <li>
                                                         <form th:action="@{|/categories/${category.id}/delete|}"
                                                               method="post">
-                                                            <button class="btn btn-danger" type="submit"> Delete
-                                                            </button>
+                                                            <button class="btn btn-danger" type="submit"> Fshi</button>
                                                         </form>
                                                     </li>
                                                 </ul>
