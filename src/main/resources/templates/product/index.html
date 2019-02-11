@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
+                    <div class="col-md-12">
                         <a th:href="@{/products/create}">
                             <button class="btn btn-primary" style="float: right; margin-right: 15px;">
                                 Shto nje Produkt
@@ -45,7 +45,7 @@
                                         <th class="medium"> Barkod</th>
                                         <th class="medium"> Cmim</th>
                                         <th class="medium"> Sasi</th>
-                                        <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>
+                                        <th class="medium"> Veprime</th>
                                         </thead>
                                         <tbody>
                                         <tr th:each="product : ${products}">
@@ -54,7 +54,7 @@
                                             <td class="medium" th:text="${product.price}"></td>
                                             <td class="medium"
                                                 th:text="|${product.amount} ${product.measuringUnit.symbol}|"></td>
-                                            <td class="medium" sec:authorize="hasRole('ADMIN')">
+                                            <td class="medium">
                                                 <ul class="">
                                                     <li>
                                                         <a th:href="@{|/products/${product.id}/edit|}" class="btn btn-warning"> Modifiko</a>

@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
+                    <div class="col-md-12">
                         <a th:href="@{/categories/create}">
                             <button class="btn btn-primary" style="float: right; margin-right: 15px;">
                                 Shto nje kategori
@@ -42,12 +42,12 @@
                                     <table class="table">
                                         <thead class=" text-primary">
                                         <th class="main"> Emer </th>
-                                        <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime </th>
+                                        <th class="medium"> Veprime </th>
                                         </thead>
                                         <tbody>
                                         <tr th:each="category : ${categories}">
                                             <td class="main" th:text="${category.name}"></td>
-                                            <td class="medium" sec:authorize="hasRole('ADMIN')">
+                                            <td class="medium">
                                                 <ul class="">
                                                     <li>
                                                         <a th:href="@{|/categories/${category.id}/edit|}" class="btn btn-warning"> Modifiko</a>

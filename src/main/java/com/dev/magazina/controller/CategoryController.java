@@ -16,13 +16,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@Secured("ROLE_ADMIN")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/categories")
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String index(Model model) {
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);

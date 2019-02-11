@@ -68,8 +68,7 @@ public class AgentController {
             redirectAttributes.addFlashAttribute("supplier", supplier);
             return "redirect:/suppliers/create";
         }
-        redirectAttributes.addFlashAttribute("flash", "Furnitori u shtua me sukses");
-        supplier.setType("S");
+        redirectAttributes.addFlashAttribute("flash", "Furnitori u shtua me sukses!");
         agentService.save(supplier);
         return "redirect:/suppliers";
     }

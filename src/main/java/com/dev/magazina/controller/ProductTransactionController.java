@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.*;
 /* import org.json.simple.JSONObject; */
 
 @Controller
+@Secured("ROLE_ADMIN")
 public class ProductTransactionController extends BaseController {
     @Autowired
     private ProductTransactionService supplyService;
@@ -35,6 +37,7 @@ public class ProductTransactionController extends BaseController {
     private ProductTransactionUnitService supplyUnitService;
 
     @GetMapping("/supplies")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String index(Model model) {
         List<ProductTransaction> supply = supplyService.findByType("F");
         model.addAttribute("supplies", supply);
@@ -42,6 +45,7 @@ public class ProductTransactionController extends BaseController {
     }
 
     @GetMapping("/supplies/create")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String create(Model model) {
         if (!model.containsAttribute("supply")) {
             ProductTransaction pt = new ProductTransaction();
@@ -56,6 +60,7 @@ public class ProductTransactionController extends BaseController {
 
 
     @RequestMapping(value = "/supplies/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String saveSupply(@RequestBody String requestobject) throws IOException, ParseException, java.text.ParseException {
         JSONObject result = new JSONObject();
         Product product = null;
@@ -115,6 +120,7 @@ public class ProductTransactionController extends BaseController {
 
     @RequestMapping(value = "/get/suppliers/products", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public HashMap<String, Object> getProducts() {
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         List<Object> productList = new ArrayList<>();
@@ -134,6 +140,7 @@ public class ProductTransactionController extends BaseController {
 
     @RequestMapping(value = "/get/all/suppliers", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public HashMap<String, Object> getSuppliers() {
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         List<Object> suppliersList = new ArrayList<>();
