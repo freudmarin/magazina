@@ -1,5 +1,7 @@
 package com.dev.magazina.model;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -36,10 +38,10 @@ public class Agent {
     @Size(min = 3, max = 100)
     private String address;
 
-    @Size(min = -90, max = 90)
+    @Range(min = -90, max = 90)
     private String latitude;
 
-    @Size(min = -180, max = 180)
+    @Range(min = -180, max = 180)
     private String longitude;
 
     public String getLatitude() {
