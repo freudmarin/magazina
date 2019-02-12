@@ -11,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -39,7 +40,7 @@ public class ProductTransactionController extends BaseController {
     @GetMapping("/supplies")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String index(Model model) {
-        List<ProductTransaction> supply = supplyService.findByType("F");
+        List<ProductTransaction> supply = supplyService.findByType("F", getWarehouse());
         model.addAttribute("supplies", supply);
         return "supply/index";
     }
@@ -67,6 +68,7 @@ public class ProductTransactionController extends BaseController {
         double amount = 0;
         ProductTransaction pt = new ProductTransaction();
         pt.setType("F");
+        pt.setWarehouse(getWarehouse());
         List<ProductTransactionUnit> productTransactionUnits = new ArrayList<ProductTransactionUnit>();
         JSONObject jsonObject = new JSONObject(requestobject);
         Set<String> keyList = jsonObject.keySet();
@@ -189,6 +191,7 @@ public class ProductTransactionController extends BaseController {
 //        model.addAttribute("products", productService.findAll());
 
         return "sale/form";
+
     }
 
 
@@ -215,44 +218,79 @@ public class ProductTransactionController extends BaseController {
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public JSONObject saveSale(@RequestBody String requestobject) throws IOException, ParseException, java.text.ParseException {
         JSONObject result = new JSONObject();
-//        Product product = null;
-//        double amount = 0;
-//        ProductTransaction pt = new ProductTransaction();
-//        pt.setType("F");
-//        List<ProductTransactionUnit> productTransactionUnits = new ArrayList<ProductTransactionUnit>();
-//        JSONObject jsonObject = new JSONObject(requestobject);
-//        Set<String> keyList = jsonObject.keySet();
-//        Map<String, Object> jsonMap = jsonObject.toMap();
-//        String date = (String) jsonMap.get("date");
-//        Object invoiceNumber = jsonMap.get("invoiceNumber");
-//        SimpleDateFormat dateFormaterr = new SimpleDateFormat("yyyy-MM-dd");
-//        Date dateValue = dateFormaterr.parse(date);
-//        pt.setDate(dateValue);
-//        pt.setInvoiceNumber((String) invoiceNumber);
-//        supplyService.save(pt);
-//        Object ptus = jsonObject.get("ptus");
-//        List<Object> jsonArray = new JSONArray(ptus.toString()).toList();
-//        for (int index = 0; index < jsonArray.size(); index++) {
-//            HashMap<String, Object> map = (HashMap<String, Object>) jsonArray.get(index);
-//            ProductTransactionUnit ptu = new ProductTransactionUnit();
-//            product = productService.findById(Integer.parseInt(map.get("productId").toString()));
-//            amount = Double.parseDouble(map.get("amount").toString());
-//            ptu.setProduct(product);
-//            ptu.setAmount(amount);
-//            ptu.setPrice(Double.parseDouble(map.get("price").toString()));
-//            ptu.setProductTransaction(pt);
-//            supplyUnitService.save(ptu);
-//            saveWareHouseProduct(product, amount);
-//            productTransactionUnits.add(ptu);
-//            pt.setProductTransactionUnits(productTransactionUnits);
-//
-//        }
-//        supplyService.save(pt);
+        ProductTransaction pt = new ProductTransaction();
+        pt.setType("Sh");
+        pt.setWarehouse(getWarehouse());
+        List<ProductTransactionUnit> productTransactionUnits = new ArrayList<ProductTransactionUnit>();
+        JSONObject jsonObject = new JSONObject(requestobject);
+        Product product = null;
+        double amount = 0;
+        double availableAmount = 0;
+        Set<String> keyList = jsonObject.keySet();
+        Map<String, Object> jsonMap = jsonObject.toMap();
+        String date = (String) jsonMap.get("date");
+        Object invoiceNumber = jsonMap.get("invoiceNumber");
+        SimpleDateFormat dateFormaterr = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateValue = dateFormaterr.parse(date);
+        pt.setDate(dateValue);
+        pt.setInvoiceNumber((String) invoiceNumber);
+        supplyService.save(pt);
+        Object ptus = jsonObject.get("ptus");
+        List<Object> jsonArray = new JSONArray(ptus.toString()).toList();
+        for (int index = 0; index < jsonArray.size(); index++) {
+            HashMap<String, Object> map = (HashMap<String, Object>) jsonArray.get(index);
+            ProductTransactionUnit ptu = new ProductTransactionUnit();
+            product = productService.findById(Integer.parseInt(map.get("productId").toString()));
+            amount = Double.parseDouble(map.get("amount").toString());
+            availableAmount = Double.parseDouble(map.get("availableAmount").toString());
+            ptu.setProduct(product);
+            ptu.setAmount(amount);
+            ptu.setPrice(Double.parseDouble(map.get("price").toString()));
+            ptu.setProductTransaction(pt);
+            supplyUnitService.save(ptu);
+            updateWareHouseProduct(product, amount, availableAmount);
+            productTransactionUnits.add(ptu);
+            pt.setProductTransactionUnits(productTransactionUnits);
+
+        }
 
         result.put("success", true);
 
         return result;
     }
+
+    private void updateWareHouseProduct(Product product, double amount, double avilableAmount) {
+        Warehouse warehouse = getWarehouse();
+        WarehouseProduct wp = new WarehouseProduct(warehouse, product, amount);
+        if (warehouseProductService.compare(wp)) {
+            WarehouseProduct warehouseProduct = warehouseProductService.getWarehouse(wp);
+            double totalAmount = warehouseProduct.getAmount() - amount;
+            if (totalAmount < 0) {
+                //raise exception
+            }
+            warehouseProduct.setAmount(totalAmount);
+            warehouseProductService.save(warehouseProduct);
+        } else {
+            warehouseProductService.save(wp);
+        }
+
+
+    }
+
+
+//    @PostMapping("/supplies/{supplyId}/delete")
+//    public JSONObject delete(@PathVariable int categoryId, RedirectAttributes redirectAttributes) {
+//        Category category = categoryService.findById(categoryId);
+//
+//        if (category.getProducts().size() > 1) {
+//            redirectAttributes.addFlashAttribute("flash", "Vetem kategorite pa produkte mund te fshihen!");
+//            return "redirect:/categories"; //nqs ka nje produkt ose me shume nuk mund te fshihet dhe kthehet forma sic ishte
+//        }
+//
+//        categoryService.delete(category); //ka 0 produkte
+//        redirectAttributes.addFlashAttribute("flash", "Kategoria u fshi!");
+//        return "redirect:/categories";
+//    }
 
 
 }

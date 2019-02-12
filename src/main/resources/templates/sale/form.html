@@ -49,19 +49,22 @@
             <td> Disponueshem: <input type="number" data-bind="value:availableAmount"/></td>
             <td> Sasia: <input type="number" data-bind="value:amount"/></td>
             <td> Total: <input type="number" data-bind="value:totalAmount"/></td>
+            <td><input value="remove" type="button" data-bind="click: $parent.remove"/></td>
         </tr>
         </tbody>
+        <tfoot>
+        <tr>
+            <td data-bind="text: saleTotal">
+            </td>
+        </tr>
+
+        </tfoot>
     </table>
     <!--<input type="button" name="submit" value="Add" class="btn btn-danger"/>-->
     <input type="button" name="save" value="Save" data-bind="click:save" class="btn btn-danger"/>
 </form>
-<div>
-    <p> Total</p>
-    <p data-bind="value: total"></p>
-</div>
 
 
 </body>
-
 
 </html>

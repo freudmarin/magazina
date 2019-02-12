@@ -24,6 +24,25 @@ public class ProductTransaction {
     @OneToMany(mappedBy = "productTransaction")
     private List<ProductTransactionUnit> productTransactionUnits = new ArrayList<>();
 
+    @ManyToOne
+    Warehouse warehouse;
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
     //#TODO add agent
     public ProductTransaction(Date date, String invoiceNumber, String type) {
         this.date = date;

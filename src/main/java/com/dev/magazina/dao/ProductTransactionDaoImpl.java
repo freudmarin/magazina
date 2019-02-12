@@ -2,6 +2,7 @@ package com.dev.magazina.dao;
 
 import com.dev.magazina.model.ProductTransaction;
 import com.dev.magazina.model.ProductTransactionUnit;
+import com.dev.magazina.model.Warehouse;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -49,13 +50,13 @@ public class ProductTransactionDaoImpl implements ProductTransactionDao {
     }
 
     @Override
-    public List<ProductTransaction> findByType(String type) {
+    public List<ProductTransaction> findByType(String type, Warehouse warehouse) {
         Session session = sessionFactory.openSession();
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<ProductTransaction> query = builder.createQuery(ProductTransaction.class);
         Root<ProductTransaction> root = query.from(ProductTransaction.class);
-        query.select(root).where(builder.equal(root.get("type"), type));
+        query.select(root).where(builder.and(builder.equal(root.get("type"), type), builder.equal(root.get("warehouse"), warehouse.getId())));
         List<ProductTransaction> productTransactions = session.createQuery(query).getResultList();
 //        Hibernate.initialize(productTransaction.getProductTransactionUnits());
         session.close();

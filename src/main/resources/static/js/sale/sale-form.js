@@ -61,14 +61,23 @@ $(function ($) {
         self.ptus.push(new SaleUnit());
         self.customers = ko.observableArray([]);
         self.customer = ko.observable();
-        self.total = ko.computed(function () {
+        self.saleTotal = ko.pureComputed(function () {
+            var sum = 0;
             self.ptus().forEach(function (ptu) {
-                var sum = 0;
+                console.log(ptu);
                 sum += ptu.amount() * ptu.price();
-                console.log(sum);
-                return sum;
-            })
+            }, self);
+            return sum + " Lek";
         });
+
+        self.remove = function (obj, e) {
+            if (self.ptus().length > 1) {
+                self.ptus.remove(this)
+            } else {
+                alert("Ju duhet te pakten nje produkt per te shitur!");
+            }
+
+        };
         self.addSaleUnit = function () {
             self.ptus.push(new SaleUnit());
             getProducts();
@@ -77,7 +86,7 @@ $(function ($) {
         };
 
         self.save = function () {
-            if (self.invoiceNumber().length == 0) {
+            if (self.invoiceNumber() == null) {
                 alert("Fusha fature eshte e nevojshme!")
 
             } else if (self.date() == null) {
@@ -94,7 +103,7 @@ $(function ($) {
                     data: ko.toJSON(self).toString(),
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
-                        window.location = "http://localhost:8080/sales";
+                        window.location.replace("http://localhost:8080/sales");
                     }
                 });
 
@@ -102,12 +111,12 @@ $(function ($) {
 
         }
 
-
+        // ko.toJSON(self).toString()
     };
 
     var SaleUnit = function () {
         var self = this;
-        self.amount = ko.observable(0);
+        self.amount = ko.observable(1);
         self.availableAmount = ko.observable(0);
         self.price = ko.observable(1);
         self.product = ko.observable();
@@ -148,7 +157,7 @@ $(function ($) {
         sale.ptus().forEach(function (ptu) {
             ptu.amount.subscribe(function (obj) {
                 console.log("here");
-                if(obj>ptu.availableAmount()){
+                if (obj > ptu.availableAmount()) {
                     alert("Sasia e vendosur e tejkalon sasine ne magazine!")
                 }
             })

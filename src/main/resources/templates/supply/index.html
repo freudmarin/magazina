@@ -35,7 +35,8 @@
                             <div class="card-header card-header-warning">
                                 <h4 class="card-title "> Furnizime </h4>
                                 <p class="card-category"> Te gjitha furnizimet per kete magazine </p>
-                                <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
+                                <div class="error card-category-social" th:if="${flash != null}"
+                                     th:text="${flash}"></div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -43,20 +44,16 @@
                                         <thead class=" text-primary">
                                         <th class="main"> Nr fature</th>
                                         <th class="main"> Data</th>
+                                        <th class="main"> Furnitori</th>
                                         <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>
                                         </thead>
                                         <tbody>
                                         <tr th:each="supply : ${supplies}">
                                             <td class="main" th:text="${supply.invoiceNumber}"></td>
-                                            <td class="main" th:text="${supply.date}"></td>
+                                            <td class="main" th:text="${#dates.format(supply.date, 'dd-MM-yyyy')}"></td>
+                                            <td class="main" th:text="${supply.agent.businessName}"></td>
                                             <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
-                                                    <!--<li>-->
-                                                    <!--<form th:action="@{|/categories/${category.id}/edit|}"-->
-                                                    <!--method="post">-->
-                                                    <!--<button class="btn btn-warning" type="submit"> Edit</button>-->
-                                                    <!--</form>-->
-                                                    <!--</li>-->
                                                     <li>
                                                         <form th:action="@{|/supplies/${supply.id}/delete|}"
                                                               method="post">

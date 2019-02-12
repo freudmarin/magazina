@@ -48,16 +48,20 @@
             <td>Price: <input data-bind="value:price" type="number"/></td>
             <td> Amount: <input type="number" data-bind="value:amount"/></td>
             <td> Total: <input type="number" data-bind="value:totalAmount"/></td>
+            <td> : <input type="button" value="remove" data-bind="click: $parent.remove"/></td>
         </tr>
         </tbody>
+        <tfoot>
+        <tr>
+            <td  data-bind="text: supplyTotal">
+            </td>
+        </tr>
+
+        </tfoot>
     </table>
     <!--<input type="button" name="submit" value="Add" class="btn btn-danger"/>-->
     <input type="button" name="save" value="Save" data-bind="click:save" class="btn btn-danger"/>
 </form>
-<div>
-        <p> Total</p>
-        <p data-bind="value: total"></p>
-</div>
 
 
 </body>

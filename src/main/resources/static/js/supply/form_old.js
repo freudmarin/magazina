@@ -54,31 +54,33 @@ $(function ($) {
 
     var SupplyModel = function () {
         var self = this;
-        self.date = ko.observable().extend({
-                required: {message: 'Zgjidhni nje date'}
-            }
-        );
-        ;
-        self.invoiceNumber = ko.observable().extend(
-            {maxLength: 12},
-            {required: {message: 'Gjatesia e barkodit eshte 12'}}
-        );
+        self.date = ko.observable();
+        self.invoiceNumber = ko.observable();
         self.ptus = ko.observableArray([]);
         self.ptus.push(new SupplyUnit());
         self.suppliers = ko.observableArray([]);
         self.supplier = ko.observable();
-        self.total = ko.computed(function () {
+        self.supplyTotal = ko.pureComputed(function () {
+            var sum = 0;
             self.ptus().forEach(function (ptu) {
-                var sum = 0;
+                console.log(ptu);
                 sum += ptu.amount() * ptu.price();
-                console.log(sum);
-                return sum;
-            })
+            }, self);
+            return sum + " Lek";
         });
+        self.remove = function (obj, e) {
+            if (self.ptus().length > 1) {
+                self.ptus.remove(this)
+            } else {
+                alert("Ju duhet te pakten nje produkt per furnizimin!");
+            }
+
+        };
         self.addSupplyUnit = function () {
             self.ptus.push(new SupplyUnit());
             getProducts();
             changeValues();
+
 
         };
 
@@ -103,7 +105,7 @@ $(function ($) {
                     data: ko.toJSON(self).toString(),
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
-                        window.location = "http://localhost:8080/supplies";
+                        window.location.replace("http://localhost:8080/supplies");
                     }
                 });
 
@@ -116,8 +118,8 @@ $(function ($) {
 
     var SupplyUnit = function () {
         var self = this;
-        self.amount = ko.observable(0);
-        self.price = ko.observable(1);
+        self.amount = ko.observable(1);
+        self.price = ko.observable(0);
         self.product = ko.observable();
         self.measuringUnit = ko.observable("---");
         self.products = ko.observableArray([]);
