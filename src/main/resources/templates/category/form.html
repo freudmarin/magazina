@@ -16,8 +16,6 @@
         <div th:replace="~{layouts/bars :: navbar}"></div>
         <!-- End Navbar -->
 
-        <div th:replace="~{layouts/bars :: flash}"></div>
-
         <div class="content">
             <div class="container-fluid">
                 <form name='f' th:action="@{/categories/create}" th:object="${category}" method='POST'>
@@ -26,6 +24,8 @@
                             <div class="card">
                                 <div class="card-header-warning">
                                     <h4 class="card-title">Shto nje kategori</h4>
+                                    <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
+                                    <div class="error card-category-social" th:if="${#fields.hasAnyErrors()}" th:errors="*"></div>
                                 </div>
                                 <div class="card-body">
                                     <form>
