@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Repository
 public class WarehouseProductDaoImpl implements WarehouseProductDao {
@@ -30,19 +31,29 @@ public class WarehouseProductDaoImpl implements WarehouseProductDao {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<WarehouseProduct> query = builder.createQuery(WarehouseProduct.class);
         Root<WarehouseProduct> root = query.from(WarehouseProduct.class);
-        query.select(root).where(
-                builder.and(
-                        builder.equal(root.get("warehouse_id"), wp.getWarehouse().getId()),
-                        builder.equal(root.get("product_id"), wp.getProduct().getId()),
-                        builder.equal(root.get("amount"), wp.getAmount())
-                )
-        );
-        WarehouseProduct wprod = session.createQuery(query).getSingleResult();
-        if (wprod.equals(wp)) {
+        query.select(root);
+        query.where(builder.and(
+                builder.equal(root.get("warehouse"), wp.getWarehouse().getId()),
+                builder.equal(root.get("product"), wp.getProduct().getId())));
+        List<WarehouseProduct> wprod = session.createQuery(query).getResultList();
+        if (wprod.size() >= 1) {
             return true;
         }
+
         return false;
     }
 
+    @Override
+    public WarehouseProduct getWarehouse(WarehouseProduct wp) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<WarehouseProduct> query = builder.createQuery(WarehouseProduct.class);
+        Root<WarehouseProduct> root = query.from(WarehouseProduct.class);
+        query.select(root);
+        query.where(builder.and(builder.equal(root.get("warehouse"), wp.getWarehouse().getId()), builder.equal(root.get("product"), wp.getProduct().getId())));
+        List<WarehouseProduct> wprod = session.createQuery(query).getResultList();
+        return wprod.get(0);
 
+
+    }
 }

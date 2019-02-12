@@ -41,7 +41,7 @@ public class ProductTransactionController extends BaseController {
     public String index(Model model) {
         List<ProductTransaction> supply = supplyService.findByType("F");
         model.addAttribute("supplies", supply);
-        return "supply/list";
+        return "supply/index";
     }
 
     @GetMapping("/supplies/create")
@@ -59,9 +59,9 @@ public class ProductTransactionController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/supplies/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/supplies/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public String saveSupply(@RequestBody String requestobject) throws IOException, ParseException, java.text.ParseException {
+    public JSONObject saveSupply(@RequestBody String requestobject) throws IOException, ParseException, java.text.ParseException {
         JSONObject result = new JSONObject();
         Product product = null;
         double amount = 0;
@@ -90,30 +90,29 @@ public class ProductTransactionController extends BaseController {
             ptu.setPrice(Double.parseDouble(map.get("price").toString()));
             ptu.setProductTransaction(pt);
             supplyUnitService.save(ptu);
+            saveWareHouseProduct(product, amount);
             productTransactionUnits.add(ptu);
             pt.setProductTransactionUnits(productTransactionUnits);
 
         }
         supplyService.save(pt);
-        saveWareHouseProduct(product, amount);
+
         result.put("success", true);
 
-        return "redirect:supplies";
+        return result;
     }
 
     private void saveWareHouseProduct(Product product, double amount) {
-        WarehouseProduct wp = new WarehouseProduct();
         Warehouse warehouse = getWarehouse();
-        wp.setAmount(amount);
-        wp.setProduct(product);
-        wp.setWarehouse(warehouse);
-        if(warehouseProductService.compare(wp)){
-
-        }
-        else{
+        WarehouseProduct wp = new WarehouseProduct(warehouse, product, amount);
+        if (warehouseProductService.compare(wp)) {
+            WarehouseProduct warehouseProduct = warehouseProductService.getWarehouse(wp);
+            double totalAmount = warehouseProduct.getAmount() + amount;
+            warehouseProduct.setAmount(totalAmount);
+            warehouseProductService.save(warehouseProduct);
+        } else {
             warehouseProductService.save(wp);
         }
-
 
 
     }

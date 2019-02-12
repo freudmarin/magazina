@@ -28,13 +28,7 @@ public class Product {
     @ManyToOne
     private Category category;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "warehouse_product",
-            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "warehouse_id", referencedColumnName = "id"))
-    List<Warehouse> warehouses;
-
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<WarehouseProduct> warehouseProduct;
 
     public Product() {

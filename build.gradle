@@ -34,7 +34,7 @@ dependencies {
     compile 'mysql:mysql-connector-java:8.0.13'
     compile 'org.json:json:20171018'
     compile 'com.googlecode.json-simple:json-simple:1.1'
-//    providedCompile 'org.apache.tomcat:tomcat-catalina:8.5.16'
+    providedCompile 'org.apache.tomcat:tomcat-catalina:8.5.16'
     implementation 'com.google.code.gson:gson:2.8.5'
 
 }

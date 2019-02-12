@@ -1,35 +1,31 @@
 package com.dev.magazina.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public
-class WarehouseProduct {
+public class WarehouseProduct implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     @ManyToOne
-    @MapsId("warehouse_id")
-    @JoinColumn(name = "warehouse_id")
-    Warehouse warehouse;
+    @JoinColumn
+    private Warehouse warehouse;
 
+    @Id
     @ManyToOne
-    @MapsId("product_id")
-    @JoinColumn(name = "product_id")
-    Product product;
+    @JoinColumn
+    private Product product;
 
-    double amount;
+    private double amount;
 
     public WarehouseProduct() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    // e leme keshtu per momentinpo
+    public WarehouseProduct(Warehouse warehouse, Product product, double amount) {
+        this.warehouse = warehouse;
+        this.product = product;
+        this.amount = amount;
     }
 
     public Warehouse getWarehouse() {
@@ -56,5 +52,13 @@ class WarehouseProduct {
         this.amount = amount;
     }
 
-    // stand
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }

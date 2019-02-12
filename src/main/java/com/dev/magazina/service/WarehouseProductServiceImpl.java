@@ -16,6 +16,11 @@ public class WarehouseProductServiceImpl implements WarehouseProductService {
     }
 
     @Override
+    public WarehouseProduct getWarehouse(WarehouseProduct wp) {
+        return wpDao.getWarehouse(wp);
+    }
+
+    @Override
     public boolean compare(WarehouseProduct wp) {
         return wpDao.compare(wp);
     }
