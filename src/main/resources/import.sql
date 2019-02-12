@@ -101,4 +101,4 @@ VALUES ('Tirane',
         'Drink',
         '48',
         '48',
-        'S')
+        'C')

@@ -137,6 +137,27 @@ public class ProductTransactionController extends BaseController {
 
     }
 
+
+    @RequestMapping(value = "/get/sale/products", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public HashMap<String, Object> getSaleProducts() {
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+        List<Object> productList = new ArrayList<>();
+        List<WarehouseProduct> warehouseProducts = warehouseProductService.findAll();
+        for (WarehouseProduct wp : warehouseProducts) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", wp.getProduct().getId());
+            map.put("name", wp.getProduct().getName());
+            map.put("measuringUnit", wp.getProduct().getMeasuringUnit().getSymbol());
+            map.put("amount", wp.getAmount());
+            productList.add(map);
+        }
+        resultMap.put("res", productList);
+        return resultMap;
+
+    }
+
     @RequestMapping(value = "/get/all/suppliers", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -144,6 +165,40 @@ public class ProductTransactionController extends BaseController {
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         List<Object> suppliersList = new ArrayList<>();
         List<Agent> agents = agentService.findByType("S");
+        for (Agent agent : agents) {
+            HashMap<String, Object> map;
+            map = new HashMap<String, Object>();
+            map.put("id", agent.getId());
+            map.put("businessName", agent.getBusinessName());
+            suppliersList.add(map);
+        }
+        resultMap.put("result", suppliersList);
+        return resultMap;
+
+    }
+
+    @GetMapping("/sales/create")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public String createSaleView(Model model) {
+//        if (!model.containsAttribute("supply")) {
+//            ProductTransaction pt = new ProductTransaction();
+//            ProductTransactionUnit ptu = new ProductTransactionUnit(new Product(), 1, 1, pt);
+//            pt.setProductTransactionUnits(Arrays.asList(ptu));
+//            model.addAttribute("supply", pt);
+//        }
+//        model.addAttribute("products", productService.findAll());
+
+        return "sale/form";
+    }
+
+
+    @RequestMapping(value = "/get/all/customers", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public HashMap<String, Object> getCstomers() {
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+        List<Object> suppliersList = new ArrayList<>();
+        List<Agent> agents = agentService.findByType("C");
         for (Agent agent : agents) {
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", agent.getId());
@@ -154,5 +209,50 @@ public class ProductTransactionController extends BaseController {
         return resultMap;
 
     }
+
+
+    @RequestMapping(value = "/sales/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public JSONObject saveSale(@RequestBody String requestobject) throws IOException, ParseException, java.text.ParseException {
+        JSONObject result = new JSONObject();
+//        Product product = null;
+//        double amount = 0;
+//        ProductTransaction pt = new ProductTransaction();
+//        pt.setType("F");
+//        List<ProductTransactionUnit> productTransactionUnits = new ArrayList<ProductTransactionUnit>();
+//        JSONObject jsonObject = new JSONObject(requestobject);
+//        Set<String> keyList = jsonObject.keySet();
+//        Map<String, Object> jsonMap = jsonObject.toMap();
+//        String date = (String) jsonMap.get("date");
+//        Object invoiceNumber = jsonMap.get("invoiceNumber");
+//        SimpleDateFormat dateFormaterr = new SimpleDateFormat("yyyy-MM-dd");
+//        Date dateValue = dateFormaterr.parse(date);
+//        pt.setDate(dateValue);
+//        pt.setInvoiceNumber((String) invoiceNumber);
+//        supplyService.save(pt);
+//        Object ptus = jsonObject.get("ptus");
+//        List<Object> jsonArray = new JSONArray(ptus.toString()).toList();
+//        for (int index = 0; index < jsonArray.size(); index++) {
+//            HashMap<String, Object> map = (HashMap<String, Object>) jsonArray.get(index);
+//            ProductTransactionUnit ptu = new ProductTransactionUnit();
+//            product = productService.findById(Integer.parseInt(map.get("productId").toString()));
+//            amount = Double.parseDouble(map.get("amount").toString());
+//            ptu.setProduct(product);
+//            ptu.setAmount(amount);
+//            ptu.setPrice(Double.parseDouble(map.get("price").toString()));
+//            ptu.setProductTransaction(pt);
+//            supplyUnitService.save(ptu);
+//            saveWareHouseProduct(product, amount);
+//            productTransactionUnits.add(ptu);
+//            pt.setProductTransactionUnits(productTransactionUnits);
+//
+//        }
+//        supplyService.save(pt);
+
+        result.put("success", true);
+
+        return result;
+    }
+
 
 }

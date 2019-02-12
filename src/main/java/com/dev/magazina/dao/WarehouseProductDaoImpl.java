@@ -1,5 +1,6 @@
 package com.dev.magazina.dao;
 
+import com.dev.magazina.model.Category;
 import com.dev.magazina.model.WarehouseProduct;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -55,5 +56,18 @@ public class WarehouseProductDaoImpl implements WarehouseProductDao {
         return wprod.get(0);
 
 
+    }
+
+
+    @Override
+    public List<WarehouseProduct> findAll() {
+        Session session = sessionFactory.openSession();
+        CriteriaQuery<WarehouseProduct> query = session.getCriteriaBuilder().createQuery(WarehouseProduct.class); //dao implementim i databazes
+        query.select(query.from(WarehouseProduct.class));
+        List<WarehouseProduct> categories = session.createQuery(query).getResultList();
+
+        session.close();
+
+        return categories;
     }
 }

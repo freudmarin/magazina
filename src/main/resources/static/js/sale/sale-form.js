@@ -1,10 +1,10 @@
 $(function ($) {
     getProducts();
-    getSuppliers();
+    getCustomers();
 
     function getProducts() {
         $.ajax({
-            url: "/get/suppliers/products",
+            url: "/get/sale/products",
             type: "GET",
             headers: {
                 'Accept': 'application/json',
@@ -16,12 +16,13 @@ $(function ($) {
                 var results = result['res'];
                 console.log(result);
                 results.forEach(function (product) {
-                    console.log(product);
-                    vm.ptus().forEach(function (ptu) {
-                        ptu.products.push({id: product.id, name: product.name, mu: product['measurinUnit']});
-                        // ptu.measuringUnit(product['measurinUnit']);
-                        // ptu.productId(product.id +"");
-                        // console.log("ptu " + ptu);
+                    sale.ptus().forEach(function (ptu) {
+                        ptu.products.push({
+                            id: product.id,
+                            name: product.name,
+                            amount: product.amount,
+                            mu: product.measuringUnit
+                        });
 
                     });
                     changeValues();
@@ -31,7 +32,7 @@ $(function ($) {
         });
     }
 
-    function getSuppliers() {
+    function getCustomers() {
         $.ajax({
             url: "/get/all/customers",
             type: "GET",
@@ -44,29 +45,22 @@ $(function ($) {
             success: function (result) {
                 var result = result['result'];
                 console.log(result);
-                result.forEach(function (supplier) {
-                    console.log(supplier);
-                    vm.suppliers.push(supplier);
+                result.forEach(function (customer) {
+                    console.log(customer);
+                    sale.customers.push(customer);
                 });
             }
         });
     }
 
-    var SupplyModel = function () {
+    var SaleModel = function () {
         var self = this;
-        self.date = ko.observable().extend({
-                required: {message: 'Zgjidhni nje date'}
-            }
-        );
-        ;
-        self.invoiceNumber = ko.observable().extend(
-            {maxLength: 12},
-            {required: {message: 'Gjatesia e barkodit eshte 12'}}
-        );
+        self.date = ko.observable();
+        self.invoiceNumber = ko.observable();
         self.ptus = ko.observableArray([]);
-        self.ptus.push(new SupplyUnit());
-        self.suppliers = ko.observableArray([]);
-        self.supplier = ko.observable();
+        self.ptus.push(new SaleUnit());
+        self.customers = ko.observableArray([]);
+        self.customer = ko.observable();
         self.total = ko.computed(function () {
             self.ptus().forEach(function (ptu) {
                 var sum = 0;
@@ -75,13 +69,12 @@ $(function ($) {
                 return sum;
             })
         });
-        self.addSupplyUnit = function () {
-            self.ptus.push(new SupplyUnit());
+        self.addSaleUnit = function () {
+            self.ptus.push(new SaleUnit());
             getProducts();
             changeValues();
 
         };
-
 
         self.save = function () {
             if (self.invoiceNumber().length == 0) {
@@ -90,10 +83,8 @@ $(function ($) {
             } else if (self.date() == null) {
                 alert("Data eshte nje fushe  nevojshme!")
             } else {
-                console.log(self);
-                console.log("ptus " + self.ptus());
                 $.ajax({
-                    url: "/supplies/create",
+                    url: "/sales/create",
                     type: "POST",
                     headers: {
                         'Accept': 'application/json',
@@ -103,7 +94,7 @@ $(function ($) {
                     data: ko.toJSON(self).toString(),
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
-                        window.location = "http://localhost:8080/supplies";
+                        window.location = "http://localhost:8080/sales";
                     }
                 });
 
@@ -114,9 +105,10 @@ $(function ($) {
 
     };
 
-    var SupplyUnit = function () {
+    var SaleUnit = function () {
         var self = this;
         self.amount = ko.observable(0);
+        self.availableAmount = ko.observable(0);
         self.price = ko.observable(1);
         self.product = ko.observable();
         self.measuringUnit = ko.observable("---");
@@ -128,10 +120,10 @@ $(function ($) {
 
 
     };
-    vm = new SupplyModel();
+    sale = new SaleModel();
 
     function changeValues() {
-        vm.ptus().forEach(function (ptu) {
+        sale.ptus().forEach(function (ptu) {
             ptu.product.subscribe(function (obj, e) {
                 console.log(obj);
                 console.log(e);
@@ -139,16 +131,32 @@ $(function ($) {
                     ptu.measuringUnit(obj["mu"]);
                     var id = obj['id'] + "";
                     ptu.productId(id);
+                    ptu.availableAmount(obj['amount'])
                 } else {
                     ptu.measuringUnit("---");
                     ptu.productId("");
+                    ptu.availableAmount(0);
                 }
 
             })
         });
     }
 
-    ko.applyBindings(vm);
+    validateForm();
+
+    function validateForm() {
+        sale.ptus().forEach(function (ptu) {
+            ptu.amount.subscribe(function (obj) {
+                console.log("here");
+                if(obj>ptu.availableAmount()){
+                    alert("Sasia e vendosur e tejkalon sasine ne magazine!")
+                }
+            })
+
+        })
+    }
+
+    ko.applyBindings(sale);
 
 
 });

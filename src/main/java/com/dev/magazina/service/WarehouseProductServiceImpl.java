@@ -5,6 +5,8 @@ import com.dev.magazina.model.WarehouseProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WarehouseProductServiceImpl implements WarehouseProductService {
     @Autowired
@@ -23,5 +25,10 @@ public class WarehouseProductServiceImpl implements WarehouseProductService {
     @Override
     public boolean compare(WarehouseProduct wp) {
         return wpDao.compare(wp);
+    }
+
+    @Override
+    public List<WarehouseProduct> findAll() {
+        return wpDao.findAll();
     }
 }
