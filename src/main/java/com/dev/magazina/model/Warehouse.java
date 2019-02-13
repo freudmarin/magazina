@@ -29,9 +29,7 @@ public class Warehouse {
     @Size(min = 3, max = 100)
     private String image;
 
-    @ManyToMany(mappedBy = "warehouses")
-    private List<Product> products = new ArrayList<Product>();
-    @OneToMany(mappedBy = "warehouse")
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     List<WarehouseProduct> warehouseProduct;
 
     public Warehouse() {

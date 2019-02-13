@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:replace="~{layouts/head :: head}"></div>
+<body>
+<script type="text/javascript" th:src="@{/js/warehouse_product.js}"></script>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<p> Top Produkte</p>
+<canvas id="myChart" width="400" height="400"></canvas>
+</body>
+</html>

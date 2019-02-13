@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 
 <div th:replace="~{layouts/head :: head}"></div>
 
@@ -22,10 +22,10 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-md-12">
-                        <a th:href="@{/suppliers/create}">
+                    <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/sales/create}">
                             <button class="btn btn-primary" style="float: right; margin-right: 15px;">
-                                Shto nje furnitor
+                                Shto nje shitje
                             </button>
                         </a>
                     </div>
@@ -33,33 +33,31 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-warning">
-                                <h4 class="card-title "> Furnitore </h4>
-                                <p class="card-category"> Te gjithe furintoret per kete magazine </p>
-                                <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
+                                <h4 class="card-title "> Shitje </h4>
+                                <p class="card-category"> Te gjitha shitjet per kete magazine </p>
+                                <div class="error card-category-social" th:if="${flash != null}"
+                                     th:text="${flash}"></div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class=" text-primary">
-                                        <th class="main"> Emer Tregtar</th>
-                                        <th class="main"> Adresa</th>
-                                        <th class="main"> Email</th>
-                                        <th class="medium"> Veprime</th>
+                                        <th class="main"> Nr fature</th>
+                                        <th class="main"> Data</th>
+                                        <th class="main"> Klienti</th>
+                                        <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="supplier : ${suppliers}">
-                                            <td class="main" th:text="${supplier.businessName}"></td>
-                                            <td class="main" th:text="${supplier.address}"></td>
-                                            <td class="main" th:text="${supplier.email}"></td>
-                                            <td class="medium">
+                                        <tr th:each="sale : ${sales}">
+                                            <td class="main" th:text="${sale.invoiceNumber}"></td>
+                                            <td class="main" th:text="${#dates.format(sale.date, 'dd-MM-yyyy')}"></td>
+                                            <td class="main" th:text="${sale.agentName}"></td>
+                                            <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
                                                     <li>
-                                                        <a th:href="@{|/suppliers/${supplier.id}/edit|}" class="btn btn-warning"> Modifiko</a>
-                                                    </li>
-                                                    <li>
-                                                        <form th:action="@{|/suppliers/${supplier.id}/delete|}"
+                                                        <form th:action="@{|/supplies/${sale.id}/delete|}"
                                                               method="post">
-                                                            <button class="btn btn-danger" type="submit"> Fshi
+                                                            <button class="btn btn-danger" type="submit"> Delete
                                                             </button>
                                                         </form>
                                                     </li>

@@ -32,7 +32,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.2.RELEASE'
     compile 'org.apache.tomcat:tomcat-dbcp:9.0.14'
     compile 'mysql:mysql-connector-java:8.0.13'
-//    providedCompile 'org.apache.tomcat:tomcat-catalina:8.5.16'
+    compile 'org.json:json:20171018'
+    compile 'com.googlecode.json-simple:json-simple:1.1'
+    providedCompile 'org.apache.tomcat:tomcat-catalina:8.5.16'
     implementation 'com.google.code.gson:gson:2.8.5'
 
 }

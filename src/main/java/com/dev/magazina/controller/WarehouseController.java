@@ -4,6 +4,7 @@ import com.dev.magazina.model.Warehouse;
 import com.dev.magazina.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +20,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@Secured("ROLE_ADMIN")
 public class WarehouseController extends BaseController {
     @Autowired
     private WarehouseService warehouseService;
 
     @GetMapping("/warehouses")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ModelAndView index(ModelAndView modelAndView) {
        Warehouse currentWarehouse = getWarehouse();
 
@@ -79,6 +82,7 @@ public class WarehouseController extends BaseController {
     }
 
     @GetMapping("/warehouses/checkout/{warehouseId}")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String checkout(HttpServletRequest request, @PathVariable int warehouseId) {
         setWarehouse(warehouseService.findById(warehouseId));
         return "redirect:" + request.getHeader("referer");

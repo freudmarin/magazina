@@ -1,68 +1,104 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Good Thymes Virtual Grocery</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:replace="~{layouts/head :: head}"></div>
+
 <body>
-<h1>Shto furnitor</h1>
+<div class="wrapper">
 
-<form th:action="@{/suppliers/create}" th:object="${supplier}" method="post">
-    <p>Emer: <input type="text" th:field="*{firstName}"/></p>
-    <p>Mbiemer: <input type="text" th:field="*{lastName}"/></p>
-    <p>Emer tregtar: <input type="text" th:field="*{businessName}"/></p>
-    <p>Email: <input type="text" th:field="*{email}"/></p>
-    <p>Adresa: <input type="text" th:field="*{address}"/></p>
-    <p> Gjatesia: <input type="text" id="latitude" th:field="*{latitude}" /></p>
-    <p> Gjeresia: <input type="text" id="longitude" th:field="*{longitude}"/></p>
-    <!--<div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
-    <p><input type="submit" value="Submit"/>
-        <input type="reset" value="Reset"/></p>
-</form>
-<div id="googleMap" style="width: 500px;height: 200px;"></div>
-<!--scripts-->
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABp5fIvtpine_4YdA9YWHnM5VfjKl-HJo&sensor=false">
-</script>
+    <!-- Sidebar -->
+    <div th:insert="~{layouts/bars :: sidebar}"></div>
+    <!-- End Sidebar -->
 
-<script type="text/javascript">
-    var map;
-    var myCenter = new google.maps.LatLng(41.3275, 19.8187);
+    <div class="main-panel">
+        <!-- Navbar -->
+        <div th:replace="~{layouts/bars :: navbar}"></div>
+        <!-- End Navbar -->
 
-    function initialize() {
-        var mapProp = {
-            center: myCenter,
-            zoom: 5,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map
-        });
-        map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-        google.maps.event.addListener(map, 'click', function (event) {
-            removeMarker(event.latLng, marker);
-            getPosition(event.latLng['lat'](), event.latLng['lng'](), marker, map);
-        });
-    }
+        <div th:replace="~{layouts/bars :: flash}"></div>
 
-    function getPosition(lat, lng, marker, map) {
-        document.getElementById("latitude").value = lat.toFixed(6);
-        document.getElementById("longitude").value = lng.toFixed(6);
+        <div class="content">
+            <div class="container-fluid">
+                <form name='f' th:action="@{/suppliers/create}" th:object="${supplier}" method='POST'>
+                    <div class="row align-content-center">
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-header-warning">
+                                    <h4 class="card-title">Shto nje Furnitor</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form>
 
-        var location = {lat: lat, lng: lng};
-        marker.setPosition(location);
-        marker.setMap(map)
+                                        <input type="hidden" th:value="S" th:field="*{type}">
 
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplier_firstName" class="bmd-label-floating">Emer</label>
+                                                    <input id="supplier_firstName" type="text" class="form-control" th:field="*{firstName}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplier_lastName" class="bmd-label-floating">Mbiemer</label>
+                                                    <input id="supplier_lastName" type="text" class="form-control" th:field="*{lastName}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplier_businessName" class="bmd-label-floating">Emer Tregtar</label>
+                                                    <input id="supplier_businessName" type="text" class="form-control" th:field="*{businessName}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplier_email" class="bmd-label-floating">Email</label>
+                                                    <input id="supplier_email" type="text" class="form-control" th:field="*{email}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Adresa</label>
+                                                    <input type="text" th:field="*{address}" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Gjeresi</label>
+                                                    <input type="text" id="latitude" th:field="*{latitude}" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Gjatesi</label>
+                                                    <input type="text" id="longitude" th:field="*{longitude}" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
 
-    }
+                                        <div id="googleMap" style="height: 200px;"></div>
 
-    function removeMarker(location, marker) {
-        marker.setMap(null);
-    }
+                                        <button type="submit" class="btn btn-primary pull-right">Shto Furnitorin</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    google.maps.event.addDomListener(window, 'load', initialize);
-</script>
+</div>
 
+<script th:inline="javascript" type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABp5fIvtpine_4YdA9YWHnM5VfjKl-HJo&sensor=false"></script>
+<script th:inline="javascript" type="text/javascript" th:src="@{/js/agent/supplier_form.js}"></script>
 
 </body>
 </html>

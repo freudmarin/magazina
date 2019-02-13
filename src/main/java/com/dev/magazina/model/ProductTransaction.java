@@ -15,15 +15,45 @@ public class ProductTransaction {
     private int id;
     @DateTimeFormat(pattern = "YYYY-MM-dd")
     private Date date;
-    private int invoiceNumber;
+    private String invoiceNumber;
     private String type;
+    private String agentName;
+    @OneToOne
+    private Agent agent;
 
 
     @OneToMany(mappedBy = "productTransaction")
     private List<ProductTransactionUnit> productTransactionUnits = new ArrayList<>();
 
+    @ManyToOne
+    Warehouse warehouse;
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public String getAgentName() {
+        return this.agentName;
+    }
+
+    public void setAgentName() {
+        this.agentName = this.agent.getBusinessName();
+    }
+
     //#TODO add agent
-    public ProductTransaction(Date date, int invoiceNumber, String type) {
+    public ProductTransaction(Date date, String invoiceNumber, String type) {
         this.date = date;
         this.invoiceNumber = invoiceNumber;
         this.type = type;
@@ -62,11 +92,11 @@ public class ProductTransaction {
         this.date = new Date(date);
     }
 
-    public int getInvoiceNumber() {
+    public String getInvoiceNumber() {
         return invoiceNumber;
     }
 
-    public void setInvoiceNumber(int invoiceNumber) {
+    public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
     }
 

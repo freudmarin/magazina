@@ -19,7 +19,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@Secured("ROLE_ADMIN")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -29,7 +28,6 @@ public class ProductController {
     private MeasuringUnitService measuringUnitService;
 
     @GetMapping("/products")
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String index(Model model) {
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);//kalon listen e produkteve tek view-ja products

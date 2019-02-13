@@ -29,13 +29,13 @@ $(function ($) {
             contentType: "application/json; charset=utf-8",
             success: function (result) {
                 JSON.parse(result['res']).forEach(function (supplier) {
-
+                    //TODO Marker with bussiness name
                     // if (supplier['latitude'].length > 0 && supplier['longitude'].length > 0) {
-                        var latlng = new google.maps.LatLng(supplier['latitude'],supplier['longitude']);
-                        var marker = new google.maps.Marker({
-                            position: latlng ,
-                            map: map
-                        });
+                    var latlng = new google.maps.LatLng(supplier['latitude'], supplier['longitude']);
+                    var marker = new google.maps.Marker({
+                        position: latlng,
+                        map: map
+                    });
                     // }
 
                 });

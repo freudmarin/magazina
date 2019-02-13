@@ -16,7 +16,7 @@ public class ProductTransactionUnitServiceImpl implements ProductTransactionUnit
 
     @Override
     public List<ProductTransactionUnit> findAll() {
-        return null;
+        return productTransactionUnitDao.findAll();
     }
 
     @Override
@@ -26,14 +26,14 @@ public class ProductTransactionUnitServiceImpl implements ProductTransactionUnit
 
     @Override
     public void save(ProductTransactionUnit productTransactionUnit) {
-
+        productTransactionUnitDao.save(productTransactionUnit);
     }
 
     @Override
     public void delete(ProductTransactionUnit productTransactinUnit) {
+        productTransactionUnitDao.delete(productTransactinUnit);
 
     }
-
 
 
 }

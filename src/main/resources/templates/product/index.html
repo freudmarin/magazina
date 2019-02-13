@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
+                    <div class="col-md-12">
                         <a th:href="@{/products/create}">
                             <button class="btn btn-outline-primary" style="float: right; margin-right: 15px;">
                                 Shto nje Produkt
@@ -35,6 +35,7 @@
                             <div class="card-header card-header-warning">
                                 <h4 class="card-title "> Produkt </h4>
                                 <p class="card-category"> Liste e te gjitha produkteve </p>
+                                <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -44,7 +45,7 @@
                                         <th class="small"> Barkod</th>
                                         <th class="small"> Cmim</th>
                                         <th class="small"> Sasi</th>
-                                        <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>
+                                        <th class="medium"> Veprime</th>
                                         </thead>
                                         <tbody>
                                         <tr th:each="product : ${products}">
@@ -53,14 +54,10 @@
                                             <td class="small" th:text="${product.price}"></td>
                                             <td class="small"
                                                 th:text="|${product.amount} ${product.measuringUnit.symbol}|"></td>
-                                            <td class="medium" sec:authorize="hasRole('ADMIN')">
+                                            <td class="medium">
                                                 <ul class="">
                                                     <li>
-                                                        <form th:action="@{|/products/${product.id}/edit|}"
-                                                              method="post">
-                                                            <button class="btn btn-warning" type="submit"> Modifiko
-                                                            </button>
-                                                        </form>
+                                                        <a th:href="@{|/products/${product.id}/edit|}" class="btn btn-warning"> Modifiko</a>
                                                     </li>
                                                     <li>
                                                         <form th:action="@{|/products/${product.id}/delete|}"
@@ -73,9 +70,6 @@
                                         </tr>
                                         </tbody>
                                     </table>
-
-                                    <div class="error" th:if="${flash != null}" th:text="${flash}"></div>
-
                                 </div>
                             </div>
                         </div>

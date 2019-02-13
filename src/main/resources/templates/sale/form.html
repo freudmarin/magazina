@@ -6,7 +6,7 @@
 
 <body>
 <script type="text/javascript" th:src="@{/js/knockout.js}"></script>
-<script type="text/javascript" th:src="@{/js/supply/form_old.js}"></script>
+<script type="text/javascript" th:src="@{/js/sale/sale-form.js}"></script>
 
 <!--<h1>Add Supply</h1>-->
 <form name="supply-form" method="post">
@@ -23,14 +23,14 @@
 
             </th>
             <th style="width:40%;border: 1px solid #666">
-                <label> Zgjidh furnitor</label>
-                <select data-bind="options: suppliers,
+                <label> Zgjidh kliente</label>
+                <select data-bind="options: customers,
                        optionsText: 'businessName',
-                       value: supplier
+                       value: customer
                       "></select>
             </th>
             <th style="width:40%;border: 1px solid #666">
-                <button data-bind="click:addSupplyUnit">Shto</button>
+                <button data-bind="click:addSaleUnit">Shto</button>
             </th>
         </tr>
         </thead>
@@ -46,14 +46,15 @@
             <td data-bind="text: measuringUnit">
             </td>
             <td>Price: <input data-bind="value:price" type="number"/></td>
-            <td> Amount: <input type="number" data-bind="value:amount"/></td>
+            <td> Disponueshem: <input type="number" data-bind="value:availableAmount"/></td>
+            <td> Sasia: <input type="number" data-bind="value:amount"/></td>
             <td> Total: <input type="number" data-bind="value:totalAmount"/></td>
-            <td> : <input type="button" value="remove" data-bind="click: $parent.remove"/></td>
+            <td><input value="remove" type="button" data-bind="click: $parent.remove"/></td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
-            <td  data-bind="text: supplyTotal">
+            <td data-bind="text: saleTotal">
             </td>
         </tr>
 
@@ -65,6 +66,5 @@
 
 
 </body>
-
 
 </html>

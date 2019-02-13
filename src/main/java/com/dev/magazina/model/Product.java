@@ -1,5 +1,7 @@
 package com.dev.magazina.model;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,14 +14,17 @@ public class Product {
     private int id;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Emri duhet te jete 3 - 100 karaktere!")
     @Column(unique = true)
     private String name;
 
-    @Size(min = 12, max = 12)
+    @Size(min = 12, max = 12, message = "Barkodi duhet te jete numer me 12 shifra!")
     private String barcode;
 
     private double price;
+
+    @NotNull(message = "Sasia nuk mund te jete bosh!")
+    @Range(min = 1, message = "Sasia nuk mund te jete bosh!")
     private double amount;
 
     @ManyToOne
@@ -28,13 +33,7 @@ public class Product {
     @ManyToOne
     private Category category;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "warehouse_product",
-            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "warehouse_id", referencedColumnName = "id"))
-    List<Warehouse> warehouses;
-
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<WarehouseProduct> warehouseProduct;
 
     public Product() {

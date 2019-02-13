@@ -18,4 +18,9 @@ public class MeasuringUnitServiceImpl implements MeasuringUnitService {
     public List<MeasuringUnit> findAll() {
         return measuringUnitDao.findAll();
     }
+
+    @Override
+    public MeasuringUnit findById(int id) {
+        return measuringUnitDao.findById(id);
+    }
 }
