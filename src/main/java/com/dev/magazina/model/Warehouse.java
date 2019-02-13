@@ -25,6 +25,10 @@ public class Warehouse {
     @Size(min = 3, max = 100)
     private String address;
 
+    @NotNull
+    @Size(min = 3, max = 100)
+    private String image;
+
     @ManyToMany(mappedBy = "warehouses")
     private List<Product> products = new ArrayList<Product>();
     @OneToMany(mappedBy = "warehouse")
@@ -35,10 +39,12 @@ public class Warehouse {
 
     public Warehouse(@NotNull @Size(min = 3, max = 50) String name,
                      @NotNull @Size(min = 3, max = 100) String city,
-                     @NotNull @Size(min = 3, max = 100) String address) {
+                     @NotNull @Size(min = 3, max = 100) String address,
+                     @NotNull @Size(min = 3, max = 100) String image) {
         this.name = name;
         this.city = city;
         this.address = address;
+        this.image = image;
     }
 
     public int getId() {
@@ -67,5 +73,13 @@ public class Warehouse {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

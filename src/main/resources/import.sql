@@ -5,9 +5,9 @@ insert into user (username, enabled, password, role_id) values ('user', true, '$
 insert into user (username, enabled, password, role_id) values ('user2', true, '$2a$10$L4ghC4bWiMG69Pt0dYrjfOPlHBVw46L0daaY7lrJ8pAdgwOvMsPd2', 1)
 insert into user (username, enabled, password, role_id) values ('admin', true, '$2a$10$L4ghC4bWiMG69Pt0dYrjfOPlHBVw46L0daaY7lrJ8pAdgwOvMsPd2', 2)
 
-insert into warehouse (name, city, address) values ('Tirane', 'Tirane', 'Home')
-insert into warehouse (name, city, address) values ('Vlore', 'Vlore', 'Home')
-insert into warehouse (name, city, address) values ('Shkoder', 'Shkoder', 'Home')
+insert into warehouse (name, city, address, image) values ('Tirane', 'Tirane', 'Home', 'warehouse-1.jpg')
+insert into warehouse (name, city, address, image) values ('Vlore', 'Vlore', 'Home', 'warehouse-2.jpg')
+insert into warehouse (name, city, address, image) values ('Shkoder', 'Shkoder', 'Home', 'warehouse-3.jpg')
 
 insert into category (name) values ('Fruta')
 insert into category (name) values ('Perime')

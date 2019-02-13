@@ -24,7 +24,7 @@
 
                     <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/products/create}">
-                            <button class="btn btn-primary" style="float: right; margin-right: 15px;">
+                            <button class="btn btn-outline-primary" style="float: right; margin-right: 15px;">
                                 Shto nje Produkt
                             </button>
                         </a>
@@ -41,17 +41,17 @@
                                     <table class="table">
                                         <thead class=" text-primary">
                                         <th class="medium"> Emer</th>
-                                        <th class="medium"> Barkod</th>
-                                        <th class="medium"> Cmim</th>
-                                        <th class="medium"> Sasi</th>
+                                        <th class="small"> Barkod</th>
+                                        <th class="small"> Cmim</th>
+                                        <th class="small"> Sasi</th>
                                         <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>
                                         </thead>
                                         <tbody>
                                         <tr th:each="product : ${products}">
                                             <td class="medium" th:text="${product.name}"></td>
-                                            <td class="medium" th:text="${product.barcode}"></td>
-                                            <td class="medium" th:text="${product.price}"></td>
-                                            <td class="medium"
+                                            <td class="small" th:text="${product.barcode}"></td>
+                                            <td class="small" th:text="${product.price}"></td>
+                                            <td class="small"
                                                 th:text="|${product.amount} ${product.measuringUnit.symbol}|"></td>
                                             <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
