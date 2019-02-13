@@ -17,6 +17,7 @@ public class ProductTransaction {
     private Date date;
     private String invoiceNumber;
     private String type;
+    private String agentName;
     @OneToOne
     private Agent agent;
 
@@ -41,6 +42,14 @@ public class ProductTransaction {
 
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
+    }
+
+    public String getAgentName() {
+        return this.agentName;
+    }
+
+    public void setAgentName() {
+        this.agentName = this.agent.getBusinessName();
     }
 
     //#TODO add agent

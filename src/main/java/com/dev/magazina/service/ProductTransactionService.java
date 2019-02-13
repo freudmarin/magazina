@@ -10,7 +10,7 @@ import java.util.List;
 public interface ProductTransactionService {
     List<ProductTransaction> findAll();
 
-    Category findById(int id);
+    ProductTransaction findById(int id);
 
     List<ProductTransaction> findByType(String type, Warehouse warehouse);
 

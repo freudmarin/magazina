@@ -1,8 +1,8 @@
 package com.dev.magazina.dao;
 
-import com.dev.magazina.model.ProductTransaction;
-import com.dev.magazina.model.ProductTransactionUnit;
-import com.dev.magazina.model.Warehouse;
+import com.dev.magazina.model.*;
+import com.dev.magazina.service.ProductTransactionUnitService;
+import com.dev.magazina.service.WarehouseProductService;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,6 +18,10 @@ import java.util.List;
 public class ProductTransactionDaoImpl implements ProductTransactionDao {
     @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private WarehouseProductService warehouseProductService;
+    @Autowired
+    private ProductTransactionUnitService productTransactionUnitService;
 
     @Override
     public List<ProductTransaction> findAll() {
@@ -33,23 +37,22 @@ public class ProductTransactionDaoImpl implements ProductTransactionDao {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public ProductTransaction findById(int id) {
         Session session = sessionFactory.openSession();
-
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<ProductTransaction> query = builder.createQuery(ProductTransaction.class);
         Root<ProductTransaction> root = query.from(ProductTransaction.class);
         query.select(root).where(builder.equal(root.get("id"), id));
         ProductTransaction productTransaction = session.createQuery(query).getSingleResult();
         Hibernate.initialize(productTransaction.getProductTransactionUnits());
-
-
         session.close();
 
         return productTransaction;
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public List<ProductTransaction> findByType(String type, Warehouse warehouse) {
         Session session = sessionFactory.openSession();
 
@@ -77,6 +80,28 @@ public class ProductTransactionDaoImpl implements ProductTransactionDao {
     public void delete(ProductTransaction productTransaction) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        double currentAmount = 0;
+        if (productTransaction.getProductTransactionUnits().size() >= 1) {
+            for (ProductTransactionUnit ptu : productTransaction.getProductTransactionUnits()) {
+                Warehouse warehouse = ptu.getProductTransaction().getWarehouse();
+                Product product = ptu.getProduct();
+                double amount = ptu.getAmount();
+                WarehouseProduct wp = new WarehouseProduct(warehouse, product, amount);
+                if (warehouseProductService.compare(wp)) {
+                    WarehouseProduct currentwp = warehouseProductService.getWarehouse(wp);
+                    if (ptu.getProductTransaction().getType().equalsIgnoreCase("F")) {
+                        currentAmount = currentwp.getAmount() - ptu.getAmount();
+                    } else {
+                        currentAmount = ptu.getAmount() + currentwp.getAmount();
+
+                    }
+
+                    currentwp.setAmount(currentAmount);
+                    warehouseProductService.save(currentwp);
+                }
+                productTransactionUnitService.delete(ptu);
+            }
+        }
         session.delete(productTransaction);
         session.getTransaction().commit();
         session.close();
@@ -88,13 +113,25 @@ public class ProductTransactionDaoImpl implements ProductTransactionDao {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<ProductTransactionUnit> query = builder.createQuery(ProductTransactionUnit.class);
         Root<ProductTransaction> root = query.from(ProductTransaction.class);
-
-//        ProductTransaction productTransaction = session.createQuery(query).getSingleResult();
-
         session.close();
 
 
     }
 
+
+//    @Override
+//    @SuppressWarnings("Duplicates")
+//    public ProductTransaction findById(int id) {
+//        Session session = sessionFactory.openSession();
+//        CriteriaBuilder builder = session.getCriteriaBuilder();
+//        CriteriaQuery<ProductTransaction> query = builder.createQuery(ProductTransaction.class);
+//        Root<ProductTransaction> root = query.from(ProductTransaction.class);
+//        query.select(root).where(builder.equal(root.get("id"), id));
+//        List<ProductTransaction> products = session.createQuery(query).getResultList();
 //
+//        session.close();
+//
+//        return products.isEmpty() ? null : products.get(0);
+//    }
+
 }

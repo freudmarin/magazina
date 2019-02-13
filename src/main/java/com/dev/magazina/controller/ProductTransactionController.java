@@ -45,6 +45,14 @@ public class ProductTransactionController extends BaseController {
         return "supply/index";
     }
 
+    @GetMapping("/sales")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public String saleIndex(Model model) {
+        List<ProductTransaction> sales = supplyService.findByType("Sh", getWarehouse());
+        model.addAttribute("sales", sales);
+        return "sale/index";
+    }
+
     @GetMapping("/supplies/create")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String create(Model model) {
@@ -182,14 +190,6 @@ public class ProductTransactionController extends BaseController {
     @GetMapping("/sales/create")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String createSaleView(Model model) {
-//        if (!model.containsAttribute("supply")) {
-//            ProductTransaction pt = new ProductTransaction();
-//            ProductTransactionUnit ptu = new ProductTransactionUnit(new Product(), 1, 1, pt);
-//            pt.setProductTransactionUnits(Arrays.asList(ptu));
-//            model.addAttribute("supply", pt);
-//        }
-//        model.addAttribute("products", productService.findAll());
-
         return "sale/form";
 
     }
@@ -278,18 +278,34 @@ public class ProductTransactionController extends BaseController {
     }
 
 
-//    @PostMapping("/supplies/{supplyId}/delete")
-//    public JSONObject delete(@PathVariable int categoryId, RedirectAttributes redirectAttributes) {
-//        Category category = categoryService.findById(categoryId);
-//
-//        if (category.getProducts().size() > 1) {
+    @PostMapping("/supplies/{supplyId}/delete")
+    public String delete(@PathVariable int supplyId, RedirectAttributes redirectAttributes) {
+        ProductTransaction pt = supplyService.findById(supplyId);
+//        if (pt.getProductTransactionUnits().size() > 1) {
 //            redirectAttributes.addFlashAttribute("flash", "Vetem kategorite pa produkte mund te fshihen!");
-//            return "redirect:/categories"; //nqs ka nje produkt ose me shume nuk mund te fshihet dhe kthehet forma sic ishte
+//            return "redirect:/supplies";
 //        }
-//
-//        categoryService.delete(category); //ka 0 produkte
-//        redirectAttributes.addFlashAttribute("flash", "Kategoria u fshi!");
-//        return "redirect:/categories";
+        supplyService.delete(pt); //ka 0 produkte
+        redirectAttributes.addFlashAttribute("flash", "Furnizimi u fshi! Sasia u shtua ne magazine");
+        if (pt.getType().equalsIgnoreCase("F")) {
+            return "redirect:/supplies";
+        } else {
+            return "redirect:/sales";
+        }
+
+    }
+
+
+//    @PostMapping("/sales/{saleId}/delete")
+//    public String deleteSale(@PathVariable int saleId, RedirectAttributes redirectAttributes) {
+//        ProductTransaction pt = supplyService.findById(saleId);
+////        if (pt.getProductTransactionUnits().size() > 1) {
+////            redirectAttributes.addFlashAttribute("flash", "Vetem kategorite pa produkte mund te fshihen!");
+////            return "redirect:/supplies";
+////        }
+//        supplyService.delete(pt); //ka 0 produkte
+//        redirectAttributes.addFlashAttribute("flash", "Shitja u fshi! Sasia u shtua ne magazine");
+//        return "redirect:/sales";
 //    }
 
 

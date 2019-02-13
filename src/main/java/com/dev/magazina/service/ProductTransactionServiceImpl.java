@@ -1,9 +1,7 @@
 package com.dev.magazina.service;
 
 import com.dev.magazina.dao.ProductTransactionDao;
-import com.dev.magazina.model.Category;
 import com.dev.magazina.model.ProductTransaction;
-import com.dev.magazina.model.ProductTransactionUnit;
 import com.dev.magazina.model.Warehouse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +19,8 @@ public class ProductTransactionServiceImpl implements ProductTransactionService 
     }
 
     @Override
-    public Category findById(int id) {
-        return null;
+    public ProductTransaction findById(int id) {
+        return productTransactionDao.findById(id);
     }
 
     @Override
@@ -37,6 +35,6 @@ public class ProductTransactionServiceImpl implements ProductTransactionService 
 
     @Override
     public void delete(ProductTransaction productTransaction) {
-
+        productTransactionDao.delete(productTransaction);
     }
 }

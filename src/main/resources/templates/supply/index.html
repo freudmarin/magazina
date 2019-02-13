@@ -51,7 +51,7 @@
                                         <tr th:each="supply : ${supplies}">
                                             <td class="main" th:text="${supply.invoiceNumber}"></td>
                                             <td class="main" th:text="${#dates.format(supply.date, 'dd-MM-yyyy')}"></td>
-                                            <td class="main" th:text="${supply.agent.businessName}"></td>
+                                            <td class="main" th:text="${supply.agent}"></td>
                                             <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
                                                     <li>
