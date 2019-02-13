@@ -26,8 +26,12 @@
     <!--JS file-->
     <script th:inline="javascript" type="text/javascript" th:src="@{/js/core/jquery.min.js}"></script>
     <script th:inline="javascript" type="text/javascript" th:src="@{/js/knockout.js}"></script>
+    <script th:inline="javascript" type="text/javascript" th:src="@{/js/Chart.bundle.min.js}"></script>
+    <script th:inline="javascript" type="text/javascript" th:src="@{/js/Chart.min.js}"></script>
+    <script  th:inline="javascript" th:src="@{/js/chart.js}"></script>
+    <title>Title</title>
+
     <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 
 </html>

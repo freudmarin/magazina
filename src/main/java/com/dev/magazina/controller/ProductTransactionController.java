@@ -295,18 +295,17 @@ public class ProductTransactionController extends BaseController {
 
     }
 
+    @GetMapping("/top/products")
+    public String getTopProducts(Model model) {
+        return "warehouse_product/graphics";
+    }
 
-//    @PostMapping("/sales/{saleId}/delete")
-//    public String deleteSale(@PathVariable int saleId, RedirectAttributes redirectAttributes) {
-//        ProductTransaction pt = supplyService.findById(saleId);
-////        if (pt.getProductTransactionUnits().size() > 1) {
-////            redirectAttributes.addFlashAttribute("flash", "Vetem kategorite pa produkte mund te fshihen!");
-////            return "redirect:/supplies";
-////        }
-//        supplyService.delete(pt); //ka 0 produkte
-//        redirectAttributes.addFlashAttribute("flash", "Shitja u fshi! Sasia u shtua ne magazine");
-//        return "redirect:/sales";
-//    }
 
+    @GetMapping("/get/top/products")
+    public String getTopProductsView(Model model) {
+        List<Product> products = productService.findAll();
+        model.addAttribute("products", products);
+        return "product/index";
+    }
 
 }
