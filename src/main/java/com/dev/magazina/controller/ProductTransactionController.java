@@ -277,11 +277,13 @@ public class ProductTransactionController extends BaseController {
                 if (counter < ptList.size()) {
                     String name = (ptu.getProduct().getName().length() > 0) ? ptu.getProduct().getName() : "";
                     ptusList.add(name);
-                    String amount = (ptu.getProduct().getAmount() > 0) ? ptu.getProduct().getAmount() + "" : "0";
+                    double amount = (ptu.getProduct().getAmount() > 0) ? ptu.getProduct().getAmount() : 0;
                     ptusList.add(amount);
-                    counter++;
-                } else {
-                    ptusList.add(0);
+                    if (ptusList.size() < ptList.size()) {
+                        for (int index = 0; index < ptList.size() - ptusList.size(); index++) {
+                            ptusList.add(0);
+                        }
+                    }
                 }
                 result.add(ptusList);
             }
