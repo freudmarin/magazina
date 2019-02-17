@@ -34,8 +34,6 @@ public class ProductTransactionController extends BaseController {
     private WarehouseProductService warehouseProductService;
 
     @Autowired
-    private ProductTransactionService productTransactionService;
-    @Autowired
     private ProductTransactionUnitService supplyUnitService;
 
     @GetMapping("/supplies")
@@ -265,7 +263,7 @@ public class ProductTransactionController extends BaseController {
         HashMap resMap = new HashMap();
         List<Object> invoiceNumbers = new ArrayList<>();
         ptList.add("Produkt");
-        List<ProductTransaction> ptus = productTransactionService.findByType("F", getWarehouse());
+        List<ProductTransaction> ptus = supplyService.findByType("F",getWarehouse());
         for (ProductTransaction pt : ptus) {
             ptList.add(pt.getInvoiceNumber());
         }
