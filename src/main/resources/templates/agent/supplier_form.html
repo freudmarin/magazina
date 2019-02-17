@@ -21,17 +21,19 @@
         <div class="content">
             <div class="container-fluid">
                 <form name='f' th:action="@{/suppliers/create}" th:object="${supplier}" method='POST'>
+
+                    <input type="hidden" th:value="S" th:name="type" />
+
                     <div class="row align-content-center">
                         <div class="col-md-9">
                             <div class="card">
                                 <div class="card-header-warning">
                                     <h4 class="card-title">Shto nje Furnitor</h4>
+                                    <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
+                                    <div class="error card-category-social"  th:errors="*"></div>
                                 </div>
                                 <div class="card-body">
                                     <form>
-
-                                        <input type="hidden" th:value="S" th:field="*{type}">
-
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">

@@ -64,15 +64,15 @@ public class AgentController {
     public String store(@Valid Agent supplier, BindingResult result,
                         RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.agent", result);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.supplier", result);
             redirectAttributes.addFlashAttribute("supplier", supplier);
             return "redirect:/suppliers/create";
         }
-        redirectAttributes.addFlashAttribute("flash", "Furnitori u shtua me sukses!");
+
         agentService.save(supplier);
+        redirectAttributes.addFlashAttribute("flash", "Furnitori u shtua me sukses!");
         return "redirect:/suppliers";
     }
-
 
     @PostMapping("/suppliers/{supplierId}/delete")
     public String deleteCustomer(@PathVariable int supplierId, RedirectAttributes redirectAttributes) {
