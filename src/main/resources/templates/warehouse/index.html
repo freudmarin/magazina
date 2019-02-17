@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <div th:replace="~{layouts/head :: head}"></div>
 
 <body>
@@ -51,14 +51,14 @@
                                 <div style="width: 100%">
                                     <ul>
                                         <li>
-                                            <form th:action="@{|/warehouse/${warehouse.id}/edit|}"
+                                            <form th:action="@{|/warehouses/${warehouse.id}/edit|}"
                                                   method="post">
                                                 <button class="btn btn-warning" type="submit"> Modifiko
                                                 </button>
                                             </form>
                                         </li>
                                         <li>
-                                            <form th:action="@{|/warehouse/${warehouse.id}/delete|}"
+                                            <form th:action="@{|/warehouses/${warehouse.id}/delete|}"
                                                   method="post">
                                                 <button class="btn btn-danger" type="submit"> Fshi</button>
                                             </form>

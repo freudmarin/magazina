@@ -13,20 +13,20 @@ public class Warehouse {
     private int id;
 
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 3, max = 50, message = "Emri duhet te jete 3 - 50 karaktere!")
     @Column(unique = true)
     private String name;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Qyteti duhet te jete 3 - 100 karaktere!")
     private String city;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Adresa duhet te jete 3 - 100 karaktere!")
     private String address;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Imazhi duhet te jete 3 - 100 karaktere!")
     private String image;
 
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)

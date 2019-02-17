@@ -23,6 +23,8 @@
                             <div class="card">
                                 <div class="card-header-warning">
                                     <h4 class="card-title">Shto nje magazine</h4>
+                                    <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
+                                    <div class="error card-category-social" th:if="${#fields.hasAnyErrors()}" th:errors="*"></div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -63,10 +65,6 @@
                                     <button type="submit" class="btn btn-outline-success pull-right">Shto Magazinen</button>
 
                                     <div class="clearfix"></div>
-                                    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                                    <div class="error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
-                                    <div class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-                                    <div class="error" th:if="${flash != null}" th:text="${flash}"></div>
                                 </div>
                             </div>
                         </div>
