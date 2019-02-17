@@ -257,8 +257,9 @@ public class ProductTransactionController extends BaseController {
     @RequestMapping(value = "/get/supplies/", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public List<List<String>> getSupplies() {
+    public HashMap<String, Object> getSupplies() {
         List<Object> ptList = new ArrayList<>();
+        HashMap resMap = new HashMap = ();
         List<Object> result = new ArrayList<>();
         List<Object> invoiceNumbers = new ArrayList<>();
         ptList.add("Produkt");
@@ -269,14 +270,14 @@ public class ProductTransactionController extends BaseController {
         result.add(ptList)
         for (ProductTransaction pt : ptus) {
             List<Object> ptusList = new ArrayList<>();
-            for (ptu:
-                 pt.productTransactionUnits()) {
+            for (ptu:pt.productTransactionUnits()) {
                 ptusList.add(ptu.product.getName());
                 ptusList.add(ptu.product.amount);
 
             }
             result.add(ptusList);
-            return result;
+            resMap.put["result", result];
+            return resMap;
 
         }
 
