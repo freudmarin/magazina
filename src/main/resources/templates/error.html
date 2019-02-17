@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{layouts/head :: head}"></div>
 <body>
-<div class="wrapper">
-    <div class="container">
-        <div class="row" style="text-align: center;">
-            <div class="col-sm-3 sidebar-background">
+<div class="wrapper" style="background-color: #f9fafb;">
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center" style="text-align: center;">
+            <div class="col-sm-3 sidebar" style="position:relative; width: auto; box-shadow: none;">
+                <div class="sidebar-background" style="background-image: url('/images/sidebar-1.jpg')"></div>
                 <img th:src="@{images/sidebar-1.jpg}">
             </div>
-            <div class="col-sm-9" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            <div class="col-sm-9" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #eee">
                 <div style="float:left; border-right: 2px solid #e6e6e6;">
                     <span style="color: orangered; font-size: 20rem; font-weight: 700; padding: 50px;">404</span>
                 </div>
