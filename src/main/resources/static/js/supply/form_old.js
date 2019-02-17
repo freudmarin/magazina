@@ -16,16 +16,14 @@ $(function ($) {
                 var results = result['res'];
                 console.log(result);
                 results.forEach(function (product) {
-                    console.log(product);
+
                     vm.ptus().forEach(function (ptu) {
                         ptu.products.push({id: product.id, name: product.name, mu: product['measurinUnit']});
                         // ptu.measuringUnit(product['measurinUnit']);
                         // ptu.productId(product.id +"");
                         // console.log("ptu " + ptu);
-
                     });
                     changeValues();
-
                 });
             }
         });
@@ -77,13 +75,11 @@ $(function ($) {
 
         };
         self.addSupplyUnit = function () {
-            self.ptus.push(new SupplyUnit());
-            getProducts();
+            var su = new SupplyUnit();
+            self.ptus.push(su);
+            su.products.getProducts();
             changeValues();
-
-
         };
-
 
         self.save = function () {
             if (self.invoiceNumber().length == 0) {
@@ -108,12 +104,8 @@ $(function ($) {
                         window.location.replace("http://localhost:8080/supplies");
                     }
                 });
-
             }
-
         }
-
-
     };
 
     var SupplyUnit = function () {
@@ -127,8 +119,6 @@ $(function ($) {
         self.totalAmount = ko.computed(function () {
             return self.amount() * self.price();
         });
-
-
     };
     vm = new SupplyModel();
 
@@ -151,6 +141,4 @@ $(function ($) {
     }
 
     ko.applyBindings(vm);
-
-
 });

@@ -49,9 +49,12 @@
                                         </thead>
                                         <tbody>
                                         <tr th:each="sale : ${sales}">
-                                            <td class="main" th:text="${sale.invoiceNumber}"></td>
+                                            <td class="main">
+                                                <a th:href="@{|/sales/${sale.id}/details|}"
+                                                   th:text="${sale.invoiceNumber}"/>
+                                            </td>
                                             <td class="main" th:text="${#dates.format(sale.date, 'dd-MM-yyyy')}"></td>
-                                            <td class="main" th:text="${sale.agentName}"></td>
+                                            <td class="main" th:text="${sale.agent.businessName}"></td>
                                             <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
                                                     <li>

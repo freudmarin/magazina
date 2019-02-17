@@ -8,63 +8,106 @@
 <script type="text/javascript" th:src="@{/js/knockout.js}"></script>
 <script type="text/javascript" th:src="@{/js/supply/form_old.js}"></script>
 
-<!--<h1>Add Supply</h1>-->
-<form name="supply-form" method="post">
-    <table style="border: 1px solid #666; width: 100%;height: 100%">
-        <thead>
-        <tr>
-            <th style="width:30%;border: 1px solid #666;">
-                <label for="currentDate">Data</label>
-                <input type="date" id="currentDate" data-bind="value:date">
-            </th>
-            <th style="width:30%;border: 1px solid #666">
-                <label for="invoiceNumber">Nr:fature</label>
-                <input type="number" id="invoiceNumber" data-bind="value:invoiceNumber">
+<div class="wrapper">
 
-            </th>
-            <th style="width:40%;border: 1px solid #666">
-                <label> Zgjidh furnitor</label>
-                <select data-bind="options: suppliers,
-                       optionsText: 'businessName',
-                       value: supplier
-                      "></select>
-            </th>
-            <th style="width:40%;border: 1px solid #666">
-                <button data-bind="click:addSupplyUnit">Shto</button>
-            </th>
-        </tr>
-        </thead>
+    <!-- Sidebar -->
+    <div th:insert="~{layouts/bars :: sidebar}"></div>
+    <!-- End Sidebar -->
 
-        <tbody id="supplyUnitObject" data-bind="foreach: ptus">
-        <tr>
-            <td>
-                <select data-bind="options: products,
-                       optionsText: 'name',
-                       value: product, optionsCaption: '---'
-                      "></select>
-            </td>
-            <td data-bind="text: measuringUnit">
-            </td>
-            <td>Price: <input data-bind="value:price" type="number"/></td>
-            <td> Amount: <input type="number" data-bind="value:amount"/></td>
-            <td> Total: <input type="number" data-bind="value:totalAmount"/></td>
-            <td> : <input type="button" value="remove" data-bind="click: $parent.remove"/></td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <td  data-bind="text: supplyTotal">
-            </td>
-        </tr>
+    <div class="main-panel">
+        <!-- Navbar -->
+        <div th:replace="~{layouts/bars :: navbar}"></div>
+        <!-- End Navbar -->
 
-        </tfoot>
-    </table>
-    <!--<input type="button" name="submit" value="Add" class="btn btn-danger"/>-->
-    <input type="button" name="save" value="Save" data-bind="click:save" class="btn btn-danger"/>
-</form>
+        <div th:replace="~{layouts/bars :: flash}"></div>
 
-
+        <div class="content">
+            <div class="container-fluid">
+                <form name='f' th:action="@{/supplies/create}" th:object="${supply}" method='POST'>
+                    <div class="row align-content-center">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header-warning">
+                                    <h4 class="card-title">Krijo nje fature</h4>
+                                    <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
+                                    <div class="error card-category-social" th:if="${#fields.hasAnyErrors()}" th:errors="*"></div>
+                                </div>
+                                <div class="card-body create-supply-form">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="currentDate">Data</label>
+                                                    <input class="form-control" type="date" id="currentDate" name="currentDate" data-bind="value:date">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="invoiceNumber">Nr. Fature</label>
+                                                    <input class="form-control" type="number" id="invoiceNumber" data-bind="value:invoiceNumber">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label> Zgjidhni furnitorin </label>
+                                                    <select class="form-control" data-bind="options: suppliers, optionsText: 'businessName', value: supplier"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <button class="btn btn-outline-success pull-right" data-bind="click:addSupplyUnit">Shto produkt</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="row" id="supplyUnitObject" data-bind="foreach: ptus">
+                                                        <div class="col-2">
+                                                            <label> Produkti </label>
+                                                            <select class="form-control" data-bind="options: products, optionsText: 'name', value: product, optionsCaption: 'Zgjidhni produktin'"></select>
+                                                        </div>
+                                                        <div class="col-1" data-bind="text: measuringUnit" style="position: relative; top: 35px;"></div>
+                                                        <div class="col-2">
+                                                            <label> Cmim </label>
+                                                            <input class="form-control" data-bind="value:price" type="number" min="1"/>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label> Sasi </label>
+                                                            <input class="form-control" data-bind="value:amount" type="number"/>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label> Total </label>
+                                                            <input class="form-control" data-bind="value:totalAmount" type="number"/>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <button class="btn btn-danger" type="button" data-bind="click: $parent.remove"> Hiq </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <div data-bind="text: supplyTotal" style="position: absolute; bottom: 0; right: 0; font-weight: 400;"></div>
+                                            </div>
+                                            <div class="col-3">
+                                                <button type="submit" class="btn btn-outline-success pull-right">Krijo Faturen</button>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-
 
 </html>

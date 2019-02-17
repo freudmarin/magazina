@@ -1,25 +1,98 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Good Thymes Virtual Grocery</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
+<div th:replace="~{layouts/head :: head}"></div>
 <body>
-<h1>Shto kliente</h1>
+<div class="wrapper">
 
-<form th:action="@{/customers/create}" th:object="${customer}" method="post">
-    <p>Emer: <input type="text" th:field="*{firstName}"/></p>
-    <p>Mbiemer: <input type="text" th:field="*{lastName}"/></p>
-    <p>Emer tregtar: <input type="text" th:field="*{businessName}"/></p>
-    <p>Email: <input type="text" th:field="*{email}"/></p>
-    <p>Adresa: <input type="text" th:field="*{address}"/></p>
-    <p> Gjatesia: <input type="text" id="latitude" th:field="*{latitude}"/></p>
-    <p> Gjeresia: <input type="text" id="longitude" th:field="*{longitude}"/></p>
-    <!--<div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
-    <p><input type="submit" value="Submit"/>
-        <input type="reset" value="Reset"/></p>
-</form>
-<div id="googleMap" style="width: 500px;height: 200px;"></div>
+    <!-- Sidebar -->
+    <div th:insert="~{layouts/bars :: sidebar}"></div>
+    <!-- End Sidebar -->
+
+    <div class="main-panel">
+        <!-- Navbar -->
+        <div th:replace="~{layouts/bars :: navbar}"></div>
+        <!-- End Navbar -->
+
+        <div th:replace="~{layouts/bars :: flash}"></div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <form name='f' th:action="@{/customers/create}" th:object="${customer}" method='POST'>
+                    <div class="row align-content-center">
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-header-warning">
+                                    <h4 class="card-title">Shto nje klient</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <input type="hidden" th:value="S" th:field="*{type}">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplier_firstName" class="bmd-label-floating">Emer</label>
+                                                    <input id="supplier_firstName" type="text" class="form-control" th:field="*{firstName}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplier_lastName" class="bmd-label-floating">Mbiemer</label>
+                                                    <input id="supplier_lastName" type="text" class="form-control" th:field="*{lastName}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplier_businessName" class="bmd-label-floating">Emer Tregtar</label>
+                                                    <input id="supplier_businessName" type="text" class="form-control" th:field="*{businessName}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplier_email" class="bmd-label-floating">Email</label>
+                                                    <input id="supplier_email" type="text" class="form-control" th:field="*{email}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Adresa</label>
+                                                    <input type="text" th:field="*{address}" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Gjeresi</label>
+                                                    <input type="text" id="latitude" th:field="*{latitude}" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Gjatesi</label>
+                                                    <input type="text" id="longitude" th:field="*{longitude}" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="googleMap" style="height: 200px;"></div>
+
+                                        <div class="mt-4">
+                                            <button type="submit" class="btn btn-outline-success" style="float: right;">Shto Klientin</button>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--scripts-->
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABp5fIvtpine_4YdA9YWHnM5VfjKl-HJo&sensor=false">
 </script>
