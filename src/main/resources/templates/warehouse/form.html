@@ -1,24 +1,80 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Good Thymes Virtual Grocery</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<div th:replace="~{layouts/head :: head}"></div>
 <body>
-<h1>Add Warehouse</h1>
+<div class="wrapper">
 
-<div th:replace="~{layouts/bars :: flash}"></div>
+    <!-- Sidebar -->
+    <div th:insert="~{layouts/bars :: sidebar}"></div>
+    <!-- End Sidebar -->
 
-<form th:action="@{/warehouses/create}" th:object="${warehouse}" method="post">
-    <p>Name: <input type="text" th:field="*{name}" /></p>
-    <p>City: <input type="text" th:field="*{city}" /></p>
-    <p>Address: <input type="text" th:field="*{address}" /></p>
-    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    <div class="error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
-    <div class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-    <div class="error" th:if="${flash != null}" th:text="${flash}"></div>
-    <p><input type="submit" value="Submit" />
-        <input type="reset" value="Reset" /></p>
-</form>
+    <div class="main-panel">
+        <!-- Navbar -->
+        <div th:replace="~{layouts/bars :: navbar}"></div>
+        <!-- End Navbar -->
+
+        <div th:replace="~{layouts/bars :: flash}"></div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <form name='f' th:action="@{/warehouses/create}" th:object="${warehouse}" method='POST'>
+                    <div class="row align-content-center">
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-header-warning">
+                                    <h4 class="card-title">Shto nje magazine</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="warehouse_name" class="bmd-label-floating">Emer</label>
+                                                <input id="warehouse_name" type="text" class="form-control" th:field="*{name}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="warehouse_city" class="bmd-label-floating">Qytet</label>
+                                                <select id="warehouse_city" class="form-control" th:field="*{city}" required>
+                                                    <option value="" selected>Zgjidhni Qytetin</option>
+                                                    <option value="Durres">Durres</option>
+                                                    <option value="Elbasan">Elbasan</option>
+                                                    <option value="Lezhe">Lezhe</option>
+                                                    <option value="Sarande">Sarande</option>
+                                                    <option value="Shkoder">Shkoder</option>
+                                                    <option value="Tirane">Tirane</option>
+                                                    <option value="Vlore">Vlore</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label for="warehouse_address" class="bmd-label-floating">Adresa</label>
+                                                <input id="warehouse_address" type="text" class="form-control" th:field="*{address}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label for="warehouse_image" class="bmd-label-floating">Imazh [URL]</label>
+                                                <input id="warehouse_image" type="text" class="form-control" th:field="*{image}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-success pull-right">Shto Magazinen</button>
+
+                                    <div class="clearfix"></div>
+                                    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                                    <div class="error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+                                    <div class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+                                    <div class="error" th:if="${flash != null}" th:text="${flash}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

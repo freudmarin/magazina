@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{layouts/head :: head}"></div>
 <body>
-
+<div class="wrapper">
+    <div class="container">
+        <div class="row" style="text-align: center;">
+            <div class="col-sm-3 sidebar-background">
+                <img th:src="@{images/sidebar-1.jpg}">
+            </div>
+            <div class="col-sm-9" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                <div style="float:left; border-right: 2px solid #e6e6e6;">
+                    <span style="color: orangered; font-size: 20rem; font-weight: 700; padding: 50px;">404</span>
+                </div>
+                <div style="float:right; padding: 80px;">
+                    <h1> Faqja qe kerkuat nuk ekziston! </h1>
+                    <p> Ju lutem kontrolloni dhe njehere URL, ose kthehuni ne fillim</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
