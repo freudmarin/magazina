@@ -45,6 +45,36 @@ public class ProductTransactionController extends BaseController {
         return "supply/index";
     }
 
+    @GetMapping("/supplies/{supplyId}/details")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public String supplyDetails(@PathVariable int supplyId, RedirectAttributes redirectAttributes, Model model) {
+        {
+            double total = 0;
+            ProductTransaction supply = supplyService.findById(supplyId);
+            for (ProductTransactionUnit ptu : supply.getProductTransactionUnits()) {
+                total += ptu.getAmount() * ptu.getPrice();
+            }
+            model.addAttribute("supply", supply);
+            model.addAttribute("total", total);
+            return "supply/details";
+        }
+    }
+
+    @GetMapping("/sales/{saleId}/details")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public String saleDetails(@PathVariable int saleId, RedirectAttributes redirectAttributes, Model model) {
+        {
+            double total = 0;
+            ProductTransaction sale = supplyService.findById(saleId);
+            for (ProductTransactionUnit ptu : sale.getProductTransactionUnits()) {
+                total += ptu.getAmount() * ptu.getPrice();
+            }
+            model.addAttribute("sale", sale);
+            model.addAttribute("total", total);
+            return "sale/details";
+        }
+    }
+
     @GetMapping("/sales")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String saleIndex(Model model) {
@@ -70,7 +100,8 @@ public class ProductTransactionController extends BaseController {
 
     @RequestMapping(value = "/supplies/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public JSONObject saveSupply(@RequestBody String requestobject) throws IOException, ParseException, java.text.ParseException {
+    public JSONObject saveSupply(@RequestBody String requestobject) throws
+            IOException, ParseException, java.text.ParseException {
         JSONObject result = new JSONObject();
         Product product = null;
         double amount = 0;
@@ -215,8 +246,10 @@ public class ProductTransactionController extends BaseController {
 
 
     @RequestMapping(value = "/sales/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public JSONObject saveSale(@RequestBody String requestobject) throws IOException, ParseException, java.text.ParseException {
+    @Secured({"ROLE_USER", "ROLE_ADMIN"}
+    )
+    public JSONObject saveSale(@RequestBody String requestobject) throws
+            IOException, ParseException, java.text.ParseException {
         JSONObject result = new JSONObject();
         ProductTransaction pt = new ProductTransaction();
         pt.setType("Sh");

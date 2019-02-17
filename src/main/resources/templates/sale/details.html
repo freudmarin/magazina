@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+
+<div th:replace="~{layouts/head :: head}"></div>
+
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div th:insert="~{layouts/bars :: sidebar}"></div>
+    <!-- End Sidebar -->
+
+    <div class="main-panel">
+        <!-- Navbar -->
+        <div th:replace="~{layouts/bars :: navbar}"></div>
+        <!-- End Navbar -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                    <th class="main"> Nr fature</th>
+                                    <th class="main"> Data</th>
+                                    <th class="main"> Furnitori</th>
+                                    <!--<th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>-->
+                                    </thead>
+                                    <tbody>
+                                    <!--<tr th:each="supply : ${supply}">-->
+                                    <tr>
+                                        <td class="main" th:text="${sale.invoiceNumber}"></td>
+                                        <td class="main" th:text="${#dates.format(sale.date, 'dd-MM-yyyy')}"></td>
+                                        <td class="main" th:text="${sale.agent.businessName}"></td>
+                                        <!--<td class="medium" sec:authorize="hasRole('ADMIN')"></td>-->
+
+                                    </tr>
+                                    <tr th:each="saleunit : ${sale.productTransactionUnits}">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>Produkti</th>
+                                                <th>Sasia</th>
+                                                <th>Cmimi</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td th:text="${saleunit.product.getName()}"></td>
+                                                <td th:text="${saleunit.amount}"></td>
+                                                <td th:text="${saleunit.price}"></td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            </tfoot>
+                                        </table>
+                                    </tr>
+                                    <tr>
+                                        <td> Total</td>
+                                        <td th:text="${total}"></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
