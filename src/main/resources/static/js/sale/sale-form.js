@@ -15,18 +15,17 @@ $(function ($) {
             success: function (result) {
                 var results = result['res'];
                 console.log(result);
+
                 results.forEach(function (product) {
+                    var last = sale.ptus()[sale.ptus().length - 1];
+                    last.products.push({id: product.id, name: product.name, mu: product['measuringUnit'], amount: product['amount']});
                     sale.ptus().forEach(function (ptu) {
-                        ptu.products.push({
-                            id: product.id,
-                            name: product.name,
-                            amount: product.amount,
-                            mu: product.measuringUnit
-                        });
-
+                        last.measuringUnit(product['measuringUnit']);
+                        last.availableAmount(product['amount']);
+                        last.productId(product.id +"");
                     });
-                    changeValues();
 
+                    changeValues();
                 });
             }
         });
@@ -82,7 +81,6 @@ $(function ($) {
             self.ptus.push(new SaleUnit());
             getProducts();
             changeValues();
-
         };
 
         self.save = function () {
@@ -126,8 +124,6 @@ $(function ($) {
         self.totalAmount = ko.computed(function () {
             return self.amount() * self.price();
         });
-
-
     };
     sale = new SaleModel();
 
@@ -136,18 +132,17 @@ $(function ($) {
             ptu.product.subscribe(function (obj, e) {
                 console.log(obj);
                 console.log(e);
-                if (obj != null) {
-                    ptu.measuringUnit(obj["mu"]);
-                    var id = obj['id'] + "";
-                    ptu.productId(id);
-                    ptu.availableAmount(obj['amount'])
-                } else {
+                if (typeof obj === "undefined") {
                     ptu.measuringUnit("---");
                     ptu.productId("");
                     ptu.availableAmount(0);
+                } else {
+                    ptu.measuringUnit(obj["mu"]);
+                    var id = obj['id'] + "";
+                    ptu.productId(id);
+                    ptu.availableAmount(obj['amount']);
                 }
-
-            })
+            });
         });
     }
 
