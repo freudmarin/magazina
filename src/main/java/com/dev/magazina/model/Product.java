@@ -52,6 +52,10 @@ public class Product {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Product(String name, Category category) {
         this.name = name;
         this.category = category;
