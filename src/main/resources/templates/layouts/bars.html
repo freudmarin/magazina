@@ -23,7 +23,7 @@
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li class="nav-item"
-                    th:classappend="${#httpServletRequest.requestURI.length() == 1} or ${#httpServletRequest.requestURI.contains('warehouses')} ? 'active' : ''">
+                    th:classappend="${#httpServletRequest.requestURI.contains('warehouses')} ? 'active' : ''">
                     <a class="nav-link" th:href="@{/warehouses}">
                         <i class="material-icons">dashboard</i>
                         <p>Magazinat</p>
