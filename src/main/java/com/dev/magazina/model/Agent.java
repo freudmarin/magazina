@@ -19,46 +19,30 @@ public class Agent {
     private String type;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Emri duhet te jete 3 - 100 karaktere!")
     private String firstName;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Mbiemri duhet te jete 3 - 100 karaktere!")
     private String lastName;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Emri tregtar duhet te jete 3 - 100 karaktere!")
     private String businessName;
 
-    @Email
+    @Email(message = "Emaili nuk eshte i sakte!")
     @Column(unique = true)
     private String email;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Adresa duhet te jete 3 - 100 karaktere!")
     private String address;
 
-    @Range(min = -90, max = 90)
+    @Range(min = -90, max = 90, message = "Vlera te gabuara per gjeresine gjeografike!")
     private String latitude;
 
-    @Range(min = -180, max = 180)
+    @Range(min = -180, max = 180, message = "Vlera te gabuara per gjatesine gjeografike!")
     private String longitude;
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
 
     public Agent() {
     }
@@ -117,5 +101,21 @@ public class Agent {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

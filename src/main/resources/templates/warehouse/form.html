@@ -17,12 +17,16 @@
 
         <div class="content">
             <div class="container-fluid">
-                <form name='f' th:action="@{/warehouses/create}" th:object="${warehouse}" method='POST'>
+                <form name='f' th:action="@{${action}}" th:object="${warehouse}" method='POST'>
+                    <input type="hidden" th:field="*{id}"/>
+
                     <div class="row align-content-center">
                         <div class="col-md-9">
                             <div class="card">
                                 <div class="card-header-warning">
-                                    <h4 class="card-title">Shto nje magazine</h4>
+                                    <h4 class="card-title" th:text="${heading}">Shto nje Magazine</h4>
+                                    <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
+                                    <div class="error card-category-social" th:if="${#fields.hasAnyErrors()}" th:errors="*"></div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -60,13 +64,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-outline-success pull-right">Shto Magazinen</button>
+                                    <button type="submit" th:text="${submit}" class="btn btn-outline-success pull-right">Shto Magazinen</button>
 
                                     <div class="clearfix"></div>
-                                    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                                    <div class="error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
-                                    <div class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-                                    <div class="error" th:if="${flash != null}" th:text="${flash}"></div>
                                 </div>
                             </div>
                         </div>

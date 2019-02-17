@@ -41,6 +41,9 @@ public class ProductController {
         }
         model.addAttribute("categories", categoryService.findAll()); //i kalojme variablit produkt vlerat nga databaza
         model.addAttribute("measuringUnits", measuringUnitService.findAll());
+        model.addAttribute("heading","Shto Produktin");
+        model.addAttribute("submit","Shto");
+        model.addAttribute("action", "/products/create");
         return "product/form";
     }
 
@@ -70,5 +73,35 @@ public class ProductController {
         redirectAttributes.addFlashAttribute("flash", "Produkti u fshi me sukses!");
         return "redirect:/products";
     }
-//si tek category controller
+
+    @GetMapping("/products/{productId}/edit")
+    public String editProduct(@PathVariable int productId, Model model) {
+        if (!model.containsAttribute("product")) {
+            model.addAttribute("product", productService.findById(productId));
+        }
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("measuringUnits", measuringUnitService.findAll());
+        model.addAttribute("action", "/products/edit");
+        model.addAttribute("heading","Modifiko Produktin");
+        model.addAttribute("submit","Modifiko");
+        return "product/form";
+    }
+
+    @PostMapping("/products/edit")
+    public String updateProduct(@Valid Product product, BindingResult result, RedirectAttributes redirectAttributes) {
+        Product existingProduct = productService.findByName(product.getName());
+        if (result.hasErrors() ||
+                existingProduct != null && product.getId() != existingProduct.getId()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.product", result);
+            redirectAttributes.addFlashAttribute("product", product);
+            if (existingProduct != null && product.getId() != existingProduct.getId()) {
+                redirectAttributes.addFlashAttribute("flash", "Produkti ekziston!");
+            }
+            return String.format("redirect:/products/%s/edit", product.getId());
+        }
+
+        productService.save(product);
+        redirectAttributes.addFlashAttribute("flash", "Produkti u modifikua me sukses!");
+        return "redirect:/products";
+    }
 }

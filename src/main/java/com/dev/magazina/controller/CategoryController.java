@@ -7,9 +7,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -32,6 +30,9 @@ public class CategoryController {
         if (!model.containsAttribute("category")) {
             model.addAttribute("category", new Category());
         }
+        model.addAttribute("heading","Shto Kategorine");
+        model.addAttribute("submit","Shto");
+        model.addAttribute("action", "/categories/create");
         return "category/form";
     }
 
@@ -45,7 +46,7 @@ public class CategoryController {
             redirectAttributes.addFlashAttribute("category", category);
             if (existingCategory != null) {
                 redirectAttributes.addFlashAttribute("flash", "Kategoria ekziston!");
-            }
+            }  //flash ndodhet ne faqen html
             return "redirect:/categories/create";
         }
 
@@ -68,25 +69,34 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-
     @GetMapping("/categories/{categoryId}/edit")
     public String editCategory(@PathVariable int categoryId, Model model) {
         if (!model.containsAttribute("category")) {
-            model.addAttribute("category", new Category());
+            model.addAttribute("category", categoryService.findById(categoryId));
         }
-//        model.addAttribute("category", categoryService.findById(categoryId));
+        model.addAttribute("action", "/categories/edit");
+        model.addAttribute("heading","Modifiko Kategorine");
+        model.addAttribute("submit","Modifiko");
         return "category/form";
     }
 
+    @PostMapping("/categories/edit")
+    public String updateCategory(@Valid Category category, BindingResult result, RedirectAttributes redirectAttributes) {
+        Category existingCategory = categoryService.findByName(category.getName());
+        if (result.hasErrors() ||
+                existingCategory != null && category.getId() != existingCategory.getId()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.category", result);
+            redirectAttributes.addFlashAttribute("category", category);
+            if (existingCategory != null && category.getId() != existingCategory.getId()) {
+                redirectAttributes.addFlashAttribute("flash", "Kategoria ekziston!");
+            }
+            return String.format("redirect:/categories/%s/edit", category.getId());
+        }
 
-//    @PostMapping("/categories/{categoryId}/edit")
-//    public String edit(@PathVariable int categoryId, RedirectAttributes redirectAttributes, Model model) {
-//        Category category = categoryService.findById(categoryId);
-//        model.addAttribute("categories", category);
-////        categoryService.save(category);
-////        redirectAttributes.addFlashAttribute("flash", "Kategoria u editua!");
-//        return "redirect:/categories";
-//    }
+        categoryService.save(category);
+        redirectAttributes.addFlashAttribute("flash", "Kategoria u modifikua me sukses!");
+        return "redirect:/categories";
+    }
 }
 
 
