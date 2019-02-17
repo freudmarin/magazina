@@ -70,4 +70,19 @@ public class WarehouseProductDaoImpl implements WarehouseProductDao {
 
         return categories;
     }
+
+    @Override
+    public List<WarehouseProduct> findById(int id) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<WarehouseProduct> query = builder.createQuery(WarehouseProduct.class);
+        Root<WarehouseProduct> root = query.from(WarehouseProduct.class);
+        query.select(root).where(builder.equal(root.get("warehouse"), id));
+        List<WarehouseProduct> wp = session.createQuery(query).getResultList();
+//        Hibernate.initialize(agent.getProducts());
+
+        session.close();
+
+        return wp;
+    };
 }

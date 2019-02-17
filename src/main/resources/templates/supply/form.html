@@ -1,8 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<div th:replace="~{layouts/head :: head}">
-</div>
+<div th:replace="~{layouts/head :: head}"></div>
 
 <body>
 <script type="text/javascript" th:src="@{/js/knockout.js}"></script>
@@ -15,22 +14,22 @@
     <!-- End Sidebar -->
 
     <div class="main-panel">
-        <!-- Navbar -->
-        <div th:replace="~{layouts/bars :: navbar}"></div>
-        <!-- End Navbar -->
+        <!--&lt;!&ndash; Navbar &ndash;&gt;-->
+        <!--<div th:replace="~{layouts/bars :: navbar}"></div>-->
+        <!--&lt;!&ndash; End Navbar &ndash;&gt;-->
 
-        <div th:replace="~{layouts/bars :: flash}"></div>
+        <!--<div th:replace="~{layouts/bars :: flash}"></div>-->
 
         <div class="content">
             <div class="container-fluid">
-                <form name='f' th:action="@{/supplies/create}" th:object="${supply}" method='POST'>
+                <form name='f' method='POST'>
                     <div class="row align-content-center">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header-warning">
                                     <h4 class="card-title">Krijo nje fature</h4>
-                                    <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
-                                    <div class="error card-category-social" th:if="${#fields.hasAnyErrors()}" th:errors="*"></div>
+                                    <!--<div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>-->
+                                    <!--<div class="error card-category-social" th:if="${#fields.hasAnyErrors()}" th:errors="*"></div>-->
                                 </div>
                                 <div class="card-body create-supply-form">
                                     <form>
@@ -44,7 +43,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="invoiceNumber">Nr. Fature</label>
-                                                    <input class="form-control" type="number" id="invoiceNumber" data-bind="value:invoiceNumber">
+                                                    <input class="form-control" type="text" id="invoiceNumber" data-bind="value:invoiceNumber">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -70,7 +69,7 @@
                                                         <div class="col-1" data-bind="text: measuringUnit" style="position: relative; top: 35px;"></div>
                                                         <div class="col-2">
                                                             <label> Cmim </label>
-                                                            <input class="form-control" data-bind="value:price" type="number" min="1"/>
+                                                            <input class="form-control" data-bind="value:price" type="number"/>
                                                         </div>
                                                         <div class="col-2">
                                                             <label> Sasi </label>
@@ -94,9 +93,11 @@
                                                 <div data-bind="text: supplyTotal" style="position: absolute; bottom: 0; right: 0; font-weight: 400;"></div>
                                             </div>
                                             <div class="col-3">
-                                                <button type="submit" class="btn btn-outline-success pull-right">Krijo Faturen</button>
+                                                <input type="button" name="save" value="Krijo Faturen" data-bind="click:save" class="btn btn-outline-success pull-right"/>
                                             </div>
                                         </div>
+
+
                                         <div class="clearfix"></div>
                                     </form>
                                 </div>

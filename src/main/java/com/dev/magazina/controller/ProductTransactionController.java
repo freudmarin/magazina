@@ -27,12 +27,11 @@ public class ProductTransactionController extends BaseController {
     @Autowired
     private ProductService productService;
     @Autowired
+    private AgentService agentService;
+    @Autowired
     private MeasuringUnitService measuringUnitService;
     @Autowired
     private WarehouseProductService warehouseProductService;
-
-    @Autowired
-    private AgentService agentService;
 
     @Autowired
     private ProductTransactionUnitService supplyUnitService;
@@ -86,13 +85,13 @@ public class ProductTransactionController extends BaseController {
     @GetMapping("/supplies/create")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String create(Model model) {
-        if (!model.containsAttribute("supply")) {
-            ProductTransaction pt = new ProductTransaction();
-            ProductTransactionUnit ptu = new ProductTransactionUnit(new Product(), 1, 1, pt);
-            pt.setProductTransactionUnits(Arrays.asList(ptu));
-            model.addAttribute("supply", pt);
-        }
-        model.addAttribute("products", productService.findAll());
+//        if (!model.containsAttribute("supply")) {
+//            ProductTransaction pt = new ProductTransaction();
+//            ProductTransactionUnit ptu = new ProductTransactionUnit(new Product(), 1, 1, pt);
+//            pt.setProductTransactionUnits(Arrays.asList(ptu));
+//            model.addAttribute("supply", pt);
+//        }
+//        model.addAttribute("products", productService.findAll());
 
         return "supply/form";
     }
@@ -105,8 +104,10 @@ public class ProductTransactionController extends BaseController {
         JSONObject result = new JSONObject();
         Product product = null;
         double amount = 0;
+
         ProductTransaction pt = new ProductTransaction();
         pt.setType("F");
+        Warehouse w = getWarehouse();
         pt.setWarehouse(getWarehouse());
         List<ProductTransactionUnit> productTransactionUnits = new ArrayList<ProductTransactionUnit>();
         JSONObject jsonObject = new JSONObject(requestobject);
@@ -114,9 +115,18 @@ public class ProductTransactionController extends BaseController {
         Map<String, Object> jsonMap = jsonObject.toMap();
         String date = (String) jsonMap.get("date");
         Object invoiceNumber = jsonMap.get("invoiceNumber");
+        Object supplier = jsonMap.get("supplier");
+        HashMap mp = (HashMap) supplier;
+        String str = mp.get("id").toString();
+        int id = Integer.parseInt(str);
+        //        int supplierId = mp.get("id");
+//        String suppIdStr  = (String)supplierId;
+//        int suppId = Integer.parseInt(suppIdStr);
+        Agent agent = agentService.findById(id);
         SimpleDateFormat dateFormaterr = new SimpleDateFormat("yyyy-MM-dd");
         Date dateValue = dateFormaterr.parse(date);
         pt.setDate(dateValue);
+        pt.setAgent(agent);
         pt.setInvoiceNumber((String) invoiceNumber);
         supplyService.save(pt);
         Object ptus = jsonObject.get("ptus");
@@ -244,6 +254,32 @@ public class ProductTransactionController extends BaseController {
 
     }
 
+    @RequestMapping(value = "/get/supplies/", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public HashMap<String, Object> getSupplies() {
+        List<Object> ptList = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
+        HashMap resMap = new HashMap();
+        List<Object> invoiceNumbers = new ArrayList<>();
+        ptList.add("Produkt");
+        List<ProductTransaction> ptus = supplyService.findByType("F",getWarehouse());
+        for (ProductTransaction pt : ptus) {
+            ptList.add(pt.getInvoiceNumber());
+        }
+        result.add(ptList);
+        for (ProductTransaction pt : ptus) {
+            List<Object> ptusList = new ArrayList<>();
+            for (ProductTransactionUnit ptu : pt.getProductTransactionUnits()) {
+                ptusList.add(ptu.getProduct().getName());
+                ptusList.add(ptu.getProduct().getAmount());
+            }
+            result.add(ptusList);
+        }
+        resMap.put("result", result);
+        return resMap;
+    }
+
 
     @RequestMapping(value = "/sales/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Secured({"ROLE_USER", "ROLE_ADMIN"}
@@ -263,9 +299,15 @@ public class ProductTransactionController extends BaseController {
         Map<String, Object> jsonMap = jsonObject.toMap();
         String date = (String) jsonMap.get("date");
         Object invoiceNumber = jsonMap.get("invoiceNumber");
+        Object customer = jsonMap.get("customer");
+        HashMap mp = (HashMap) customer;
+        String str = mp.get("id").toString();
+        int id = Integer.parseInt(str);
+        Agent agent = agentService.findById(id);
         SimpleDateFormat dateFormaterr = new SimpleDateFormat("yyyy-MM-dd");
         Date dateValue = dateFormaterr.parse(date);
         pt.setDate(dateValue);
+        pt.setAgent(agent);
         pt.setInvoiceNumber((String) invoiceNumber);
         supplyService.save(pt);
         Object ptus = jsonObject.get("ptus");
