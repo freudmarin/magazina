@@ -45,6 +45,10 @@ public class WarehouseController extends BaseController {
         if (!model.containsAttribute("warehouse")) {
             model.addAttribute("warehouse", new Warehouse());
         }
+
+        model.addAttribute("heading","Shto nje Magazine");
+        model.addAttribute("submit","Shto");
+        model.addAttribute("action", "/warehouses/create");
         return "warehouse/form";
     }
 
@@ -86,6 +90,35 @@ public class WarehouseController extends BaseController {
     public String checkout(HttpServletRequest request, @PathVariable int warehouseId) {
         setWarehouse(warehouseService.findById(warehouseId));
         return "redirect:" + request.getHeader("referer");
+    }
+
+    @GetMapping("/warehouses/{warehouseId}/edit")
+    public String editWarehouse(@PathVariable int warehouseId, Model model) {
+        if (!model.containsAttribute("warehouse")) {
+            model.addAttribute("warehouse", warehouseService.findById(warehouseId));
+        }
+        model.addAttribute("action", "/warehouses/edit");
+        model.addAttribute("heading","Modifiko Magazinen");
+        model.addAttribute("submit","Modifiko");
+        return "warehouse/form";
+    }
+
+    @PostMapping("/warehouses/edit")
+    public String updateWarehouse(@Valid Warehouse warehouse, BindingResult result, RedirectAttributes redirectAttributes) {
+        Warehouse existingWarehouse = warehouseService.findByName(warehouse.getName());
+        if (result.hasErrors() ||
+                existingWarehouse != null && warehouse.getId() != existingWarehouse.getId()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.warehouse", result);
+            redirectAttributes.addFlashAttribute("warehouse", warehouse);
+            if (existingWarehouse != null && warehouse.getId() != existingWarehouse.getId()) {
+                redirectAttributes.addFlashAttribute("flash", "Magazina ekziston!");
+            }
+            return String.format("redirect:/warehouses/%s/edit", warehouse.getId());
+        }
+
+        warehouseService.save(warehouse);
+        redirectAttributes.addFlashAttribute("flash", "Magazina u modifikua me sukses!");
+        return "redirect:/warehouses";
     }
 }
 
