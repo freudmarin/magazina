@@ -20,15 +20,15 @@
 
         <div class="content">
             <div class="container-fluid">
-                <form name='f' th:action="@{/suppliers/create}" th:object="${supplier}" method='POST'>
-
+                <form name='f' th:action="@{${action}}"  th:object="${supplier}" method='POST'>
+                    <input type="hidden" th:field="*{id}"/>
                     <input type="hidden" th:value="S" th:name="type" />
 
                     <div class="row align-content-center">
                         <div class="col-md-9">
                             <div class="card">
                                 <div class="card-header-warning">
-                                    <h4 class="card-title">Shto nje Furnitor</h4>
+                                    <h4 class="card-title" th:text="${heading}">Shto nje Furnitor</h4>
                                     <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
                                     <div class="error card-category-social"  th:errors="*"></div>
                                 </div>
@@ -85,7 +85,7 @@
 
                                         <div id="googleMap" style="height: 200px;"></div>
 
-                                        <button type="submit" class="btn btn-primary pull-right">Shto Furnitorin</button>
+                                        <button type="submit" th:text="${submit}" class="btn btn-primary pull-right">Shto Furnitorin</button>
                                         <div class="clearfix"></div>
                                     </form>
                                 </div>

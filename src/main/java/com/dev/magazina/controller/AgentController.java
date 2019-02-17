@@ -57,6 +57,9 @@ public class AgentController {
         if (!model.containsAttribute("supplier")) {
             model.addAttribute("supplier", new Agent());
         }
+        model.addAttribute("heading","Modifiko Furnitorin");
+        model.addAttribute("submit","Modifiko");
+        model.addAttribute("action", "/suppliers/create");
         return "agent/supplier_form";
     }
 
@@ -96,6 +99,9 @@ public class AgentController {
         if (!model.containsAttribute("customer")) {
             model.addAttribute("customer", new Agent());
         }
+        model.addAttribute("action", "/customers/create");
+        model.addAttribute("heading","Shto Klientin");
+        model.addAttribute("submit","Shto");
         return "agent/customer_form";
     }
 
@@ -125,6 +131,57 @@ public class AgentController {
         redirectAttributes.addFlashAttribute("flash", "Klienti u fshi!");
         return "redirect:/customers";
     }
+    @GetMapping("/suppliers/{supplierId}/edit")
+    public String editSupplier(@PathVariable int supplierId, Model model) {
+        if (!model.containsAttribute("supplier")) {
+            model.addAttribute("supplier", agentService.findById(supplierId));
+        }
+        model.addAttribute("action", "/suppliers/edit");
+        model.addAttribute("heading","Modifiko Furnitorin");
+        model.addAttribute("submit","Modifiko");
+        return "agent/supplier_form";
+}
+
+    @PostMapping("/suppliers/edit")
+    public String updateSupplier(@Valid Agent supplier, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.supplier", result);
+            redirectAttributes.addFlashAttribute("supplier", supplier);
+            return String.format("redirect:/suppliers/%s/edit", supplier.getId());
+        }
+
+        agentService.save(supplier);
+        redirectAttributes.addFlashAttribute("flash", "Furnitori u modifikua me sukses!");
+        return "redirect:/suppliers";
+    }
+
+
+
+    @GetMapping("/customers/{customerId}/edit")
+    public String editCustomer(@PathVariable int customerId, Model model) {
+        if (!model.containsAttribute("customer")) {
+            model.addAttribute("customer", agentService.findById(customerId));
+        }
+        model.addAttribute("action", "/customers/edit");
+        model.addAttribute("heading","Modifiko Klientin");
+        model.addAttribute("submit","Modifiko");
+        return "agent/customer_form";
+    }
+
+    @PostMapping("/customers/edit")
+    public String updateCustomer(@Valid Agent customer, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.customer", result);
+            redirectAttributes.addFlashAttribute("customer", customer);
+            return String.format("redirect:/customers/%s/edit", customer.getId());
+        }
+
+        agentService.save(customer);
+        redirectAttributes.addFlashAttribute("flash", "Klienti u modifikua me sukses!");
+        return "redirect:/customers";
+    }
+
+
 
 
 }
