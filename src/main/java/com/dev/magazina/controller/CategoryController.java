@@ -32,6 +32,9 @@ public class CategoryController {
         if (!model.containsAttribute("category")) {
             model.addAttribute("category", new Category());
         }
+        model.addAttribute("heading"," Shto Kategorine");
+        model.addAttribute("submit","Shto");
+        model.addAttribute("action",String.format("/categories/create"));
         return "category/form";
     }
 
@@ -45,7 +48,7 @@ public class CategoryController {
             redirectAttributes.addFlashAttribute("category", category);
             if (existingCategory != null) {
                 redirectAttributes.addFlashAttribute("flash", "Kategoria ekziston!");
-            }
+            }  //flash ndodhet ne faqen html
             return "redirect:/categories/create";
         }
 
@@ -68,25 +71,36 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
+   @GetMapping("/categories/{categoryId}/edit")
+   public String edit(Model model,RedirectAttributes redirectAttributes,@PathVariable Integer categoryId) {
+       if (!model.containsAttribute("category")) {
+           model.addAttribute("category",categoryService.findById(categoryId));
+       }
+      //flash ndodhet ne faqen html
 
-    @GetMapping("/categories/{categoryId}/edit")
-    public String editCategory(@PathVariable int categoryId, Model model) {
-        if (!model.containsAttribute("category")) {
-            model.addAttribute("category", new Category());
+       model.addAttribute("action",String.format("/categories/%s",categoryId));
+       model.addAttribute("heading"," Modifiko Kategorine");
+       model.addAttribute("submit","Modifiko");
+       return "category/form";
+   }
+    @RequestMapping(value = "/categories/{categoryId}", method = RequestMethod.POST)
+    public String update(@Valid Category category ,RedirectAttributes redirectAttributes, BindingResult result) {
+
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.category", result);
+            redirectAttributes.addFlashAttribute("category", category);
+          //  redirectAttributes.addFlashAttribute("flash","Nuk eshte modifikuar gje");
+            return String.format("redirect:/categories/{%s}/edit",category.getId());
         }
-//        model.addAttribute("category", categoryService.findById(categoryId));
-        return "category/form";
-    }
 
-
-//    @PostMapping("/categories/{categoryId}/edit")
-//    public String edit(@PathVariable int categoryId, RedirectAttributes redirectAttributes, Model model) {
 //        Category category = categoryService.findById(categoryId);
 //        model.addAttribute("categories", category);
-////        categoryService.save(category);
+        categoryService.save(category);
 ////        redirectAttributes.addFlashAttribute("flash", "Kategoria u editua!");
 //        return "redirect:/categories";
-//    }
+        redirectAttributes.addFlashAttribute("flash", "Kategroia u modifikua");
+        return "redirect:/categories";
+   }
 }
 
 
