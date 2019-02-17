@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+
+<div th:replace="~{layouts/head :: head}"></div>
+
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div th:insert="~{layouts/bars :: sidebar}"></div>
+    <!-- End Sidebar -->
+
+    <div class="main-panel">
+        <!-- Navbar -->
+        <div th:replace="~{layouts/bars :: navbar}"></div>
+        <!-- End Navbar -->
+
+        <div th:fragment="flash" th:if="${session.flash != null}" th:text="${session.flash}"></div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-warning">
+                                <h4 class="card-title "> Gjendja ne magazine </h4>
+                                <p class="card-category"> Te gjitha produktet dhe gjendjet e tyre per kete magazine </p>
+                                <div class="error card-category-social" th:if="${flash != null}"
+                                     th:text="${flash}"></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                        <th class="main"> Produkt</th>
+                                        <th class="main"> Gjendje</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="wp : ${warehouseProducts}">
+                                            <td class="main" th:text="${wp.product.name}"></td>
+                                            <td class="main" th:text="${wp.amount}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

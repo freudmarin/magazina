@@ -13,8 +13,8 @@
 
     <div class="main-panel">
         <!-- Navbar -->
-        <div th:replace="~{layouts/bars :: navbar}"></div>
-        <!-- End Navbar -->
+        <!--<div th:replace="~{layouts/bars :: navbar}"></div>-->
+         End Navbar
 
         <div th:fragment="flash" th:if="${session.flash != null}" th:text="${session.flash}"></div>
 
@@ -54,7 +54,7 @@
                                                    th:text="${sale.invoiceNumber}"/>
                                             </td>
                                             <td class="main" th:text="${#dates.format(sale.date, 'dd-MM-yyyy')}"></td>
-                                            <td class="main" th:text="${sale.agent.businessName}"></td>
+                                            <td class="main" th:text="${sale.agent.getBusinessName()}"></td>
                                             <td class="medium" sec:authorize="hasRole('ADMIN')">
                                                 <ul class="">
                                                     <li>

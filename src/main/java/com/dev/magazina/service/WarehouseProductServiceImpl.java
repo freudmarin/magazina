@@ -31,4 +31,7 @@ public class WarehouseProductServiceImpl implements WarehouseProductService {
     public List<WarehouseProduct> findAll() {
         return wpDao.findAll();
     }
+
+    @Override
+    public List<WarehouseProduct> findById(int id) { return wpDao.findById(id); };
 }

@@ -16,12 +16,13 @@ $(function ($) {
                 var results = result['res'];
                 console.log(result);
                 results.forEach(function (product) {
-
+                    // supplyUnit.products.push({id: product.id, name: product.name, mu: product['measurinUnit']});
+                    var last = vm.ptus()[vm.ptus().length - 1];
+                    last.products.push({id: product.id, name: product.name, mu: product['measurinUnit']});
                     vm.ptus().forEach(function (ptu) {
-                        ptu.products.push({id: product.id, name: product.name, mu: product['measurinUnit']});
-                        // ptu.measuringUnit(product['measurinUnit']);
-                        // ptu.productId(product.id +"");
-                        // console.log("ptu " + ptu);
+                        last.measuringUnit(product['measurinUnit']);
+                        last.productId(product.id +"");
+                            console.log("ptu " + ptu);
                     });
                     changeValues();
                 });
@@ -77,12 +78,12 @@ $(function ($) {
         self.addSupplyUnit = function () {
             var su = new SupplyUnit();
             self.ptus.push(su);
-            su.products.getProducts();
+            getProducts();
             changeValues();
         };
 
         self.save = function () {
-            if (self.invoiceNumber().length == 0) {
+            if (self.invoiceNumber() == null) {
                 alert("Fusha fature eshte e nevojshme!")
 
             } else if (self.date() == null) {
@@ -120,7 +121,7 @@ $(function ($) {
             return self.amount() * self.price();
         });
     };
-    vm = new SupplyModel();
+    var vm = new SupplyModel();
 
     function changeValues() {
         vm.ptus().forEach(function (ptu) {

@@ -27,12 +27,11 @@ public class ProductTransactionController extends BaseController {
     @Autowired
     private ProductService productService;
     @Autowired
+    private AgentService agentService;
+    @Autowired
     private MeasuringUnitService measuringUnitService;
     @Autowired
     private WarehouseProductService warehouseProductService;
-
-    @Autowired
-    private AgentService agentService;
 
     @Autowired
     private ProductTransactionUnitService supplyUnitService;
@@ -86,13 +85,13 @@ public class ProductTransactionController extends BaseController {
     @GetMapping("/supplies/create")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String create(Model model) {
-        if (!model.containsAttribute("supply")) {
-            ProductTransaction pt = new ProductTransaction();
-            ProductTransactionUnit ptu = new ProductTransactionUnit(new Product(), 1, 1, pt);
-            pt.setProductTransactionUnits(Arrays.asList(ptu));
-            model.addAttribute("supply", pt);
-        }
-        model.addAttribute("products", productService.findAll());
+//        if (!model.containsAttribute("supply")) {
+//            ProductTransaction pt = new ProductTransaction();
+//            ProductTransactionUnit ptu = new ProductTransactionUnit(new Product(), 1, 1, pt);
+//            pt.setProductTransactionUnits(Arrays.asList(ptu));
+//            model.addAttribute("supply", pt);
+//        }
+//        model.addAttribute("products", productService.findAll());
 
         return "supply/form";
     }
@@ -105,8 +104,10 @@ public class ProductTransactionController extends BaseController {
         JSONObject result = new JSONObject();
         Product product = null;
         double amount = 0;
+
         ProductTransaction pt = new ProductTransaction();
         pt.setType("F");
+        Warehouse w = getWarehouse();
         pt.setWarehouse(getWarehouse());
         List<ProductTransactionUnit> productTransactionUnits = new ArrayList<ProductTransactionUnit>();
         JSONObject jsonObject = new JSONObject(requestobject);
@@ -114,9 +115,18 @@ public class ProductTransactionController extends BaseController {
         Map<String, Object> jsonMap = jsonObject.toMap();
         String date = (String) jsonMap.get("date");
         Object invoiceNumber = jsonMap.get("invoiceNumber");
+        Object supplier = jsonMap.get("supplier");
+        HashMap mp = (HashMap) supplier;
+        String str = mp.get("id").toString();
+        int id = Integer.parseInt(str);
+        //        int supplierId = mp.get("id");
+//        String suppIdStr  = (String)supplierId;
+//        int suppId = Integer.parseInt(suppIdStr);
+        Agent agent = agentService.findById(id);
         SimpleDateFormat dateFormaterr = new SimpleDateFormat("yyyy-MM-dd");
         Date dateValue = dateFormaterr.parse(date);
         pt.setDate(dateValue);
+        pt.setAgent(agent);
         pt.setInvoiceNumber((String) invoiceNumber);
         supplyService.save(pt);
         Object ptus = jsonObject.get("ptus");
@@ -244,101 +254,133 @@ public class ProductTransactionController extends BaseController {
 
     }
 
-
-    @RequestMapping(value = "/sales/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Secured({"ROLE_USER", "ROLE_ADMIN"}
-    )
-    public JSONObject saveSale(@RequestBody String requestobject) throws
-            IOException, ParseException, java.text.ParseException {
-        JSONObject result = new JSONObject();
-        ProductTransaction pt = new ProductTransaction();
-        pt.setType("Sh");
-        pt.setWarehouse(getWarehouse());
-        List<ProductTransactionUnit> productTransactionUnits = new ArrayList<ProductTransactionUnit>();
-        JSONObject jsonObject = new JSONObject(requestobject);
-        Product product = null;
-        double amount = 0;
-        double availableAmount = 0;
-        Set<String> keyList = jsonObject.keySet();
-        Map<String, Object> jsonMap = jsonObject.toMap();
-        String date = (String) jsonMap.get("date");
-        Object invoiceNumber = jsonMap.get("invoiceNumber");
-        SimpleDateFormat dateFormaterr = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateValue = dateFormaterr.parse(date);
-        pt.setDate(dateValue);
-        pt.setInvoiceNumber((String) invoiceNumber);
-        supplyService.save(pt);
-        Object ptus = jsonObject.get("ptus");
-        List<Object> jsonArray = new JSONArray(ptus.toString()).toList();
-        for (int index = 0; index < jsonArray.size(); index++) {
-            HashMap<String, Object> map = (HashMap<String, Object>) jsonArray.get(index);
-            ProductTransactionUnit ptu = new ProductTransactionUnit();
-            product = productService.findById(Integer.parseInt(map.get("productId").toString()));
-            amount = Double.parseDouble(map.get("amount").toString());
-            availableAmount = Double.parseDouble(map.get("availableAmount").toString());
-            ptu.setProduct(product);
-            ptu.setAmount(amount);
-            ptu.setPrice(Double.parseDouble(map.get("price").toString()));
-            ptu.setProductTransaction(pt);
-            supplyUnitService.save(ptu);
-            updateWareHouseProduct(product, amount, availableAmount);
-            productTransactionUnits.add(ptu);
-            pt.setProductTransactionUnits(productTransactionUnits);
-
+    @RequestMapping(value = "/get/supplies/", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public List<List<String>> getSupplies() {
+        List<Object> ptList = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
+        List<Object> invoiceNumbers = new ArrayList<>();
+        ptList.add("Produkt");
+        List<ProductTransaction> ptus = productTransactionService.findByType("F");
+        for (ProductTransaction pt : ptus) {
+            ptList.add(pt.invoiceNumber());
         }
+        result.add(ptList)
+        for (ProductTransaction pt : ptus) {
+            List<Object> ptusList = new ArrayList<>();
+            for (ptu:
+                 pt.productTransactionUnits()) {
+                ptusList.add(ptu.product.getName());
+                ptusList.add(ptu.product.amount);
 
-        result.put("success", true);
-
-        return result;
-    }
-
-    private void updateWareHouseProduct(Product product, double amount, double avilableAmount) {
-        Warehouse warehouse = getWarehouse();
-        WarehouseProduct wp = new WarehouseProduct(warehouse, product, amount);
-        if (warehouseProductService.compare(wp)) {
-            WarehouseProduct warehouseProduct = warehouseProductService.getWarehouse(wp);
-            double totalAmount = warehouseProduct.getAmount() - amount;
-            if (totalAmount < 0) {
-                //raise exception
             }
-            warehouseProduct.setAmount(totalAmount);
-            warehouseProductService.save(warehouseProduct);
-        } else {
-            warehouseProductService.save(wp);
+            result.add(ptusList);
+            return result;
+
         }
 
 
-    }
+        @RequestMapping(value = "/sales/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+        @Secured({"ROLE_USER", "ROLE_ADMIN"}
+        )
+        public JSONObject saveSale (@RequestBody String requestobject) throws
+        IOException, ParseException, java.text.ParseException {
+            JSONObject result = new JSONObject();
+            ProductTransaction pt = new ProductTransaction();
+            pt.setType("Sh");
+            pt.setWarehouse(getWarehouse());
+            List<ProductTransactionUnit> productTransactionUnits = new ArrayList<ProductTransactionUnit>();
+            JSONObject jsonObject = new JSONObject(requestobject);
+            Product product = null;
+            double amount = 0;
+            double availableAmount = 0;
+            Set<String> keyList = jsonObject.keySet();
+            Map<String, Object> jsonMap = jsonObject.toMap();
+            String date = (String) jsonMap.get("date");
+            Object invoiceNumber = jsonMap.get("invoiceNumber");
+            Object customer = jsonMap.get("customer");
+            HashMap mp = (HashMap) customer;
+            String str = mp.get("id").toString();
+            int id = Integer.parseInt(str);
+            Agent agent = agentService.findById(id);
+            SimpleDateFormat dateFormaterr = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateValue = dateFormaterr.parse(date);
+            pt.setDate(dateValue);
+            pt.setAgent(agent);
+            pt.setInvoiceNumber((String) invoiceNumber);
+            supplyService.save(pt);
+            Object ptus = jsonObject.get("ptus");
+            List<Object> jsonArray = new JSONArray(ptus.toString()).toList();
+            for (int index = 0; index < jsonArray.size(); index++) {
+                HashMap<String, Object> map = (HashMap<String, Object>) jsonArray.get(index);
+                ProductTransactionUnit ptu = new ProductTransactionUnit();
+                product = productService.findById(Integer.parseInt(map.get("productId").toString()));
+                amount = Double.parseDouble(map.get("amount").toString());
+                availableAmount = Double.parseDouble(map.get("availableAmount").toString());
+                ptu.setProduct(product);
+                ptu.setAmount(amount);
+                ptu.setPrice(Double.parseDouble(map.get("price").toString()));
+                ptu.setProductTransaction(pt);
+                supplyUnitService.save(ptu);
+                updateWareHouseProduct(product, amount, availableAmount);
+                productTransactionUnits.add(ptu);
+                pt.setProductTransactionUnits(productTransactionUnits);
+
+            }
+
+            result.put("success", true);
+
+            return result;
+        }
+
+        private void updateWareHouseProduct (Product product,double amount, double avilableAmount){
+            Warehouse warehouse = getWarehouse();
+            WarehouseProduct wp = new WarehouseProduct(warehouse, product, amount);
+            if (warehouseProductService.compare(wp)) {
+                WarehouseProduct warehouseProduct = warehouseProductService.getWarehouse(wp);
+                double totalAmount = warehouseProduct.getAmount() - amount;
+                if (totalAmount < 0) {
+                    //raise exception
+                }
+                warehouseProduct.setAmount(totalAmount);
+                warehouseProductService.save(warehouseProduct);
+            } else {
+                warehouseProductService.save(wp);
+            }
 
 
-    @PostMapping("/supplies/{supplyId}/delete")
-    public String delete(@PathVariable int supplyId, RedirectAttributes redirectAttributes) {
-        ProductTransaction pt = supplyService.findById(supplyId);
+        }
+
+
+        @PostMapping("/supplies/{supplyId}/delete")
+        public String delete ( @PathVariable int supplyId, RedirectAttributes redirectAttributes){
+            ProductTransaction pt = supplyService.findById(supplyId);
 //        if (pt.getProductTransactionUnits().size() > 1) {
 //            redirectAttributes.addFlashAttribute("flash", "Vetem kategorite pa produkte mund te fshihen!");
 //            return "redirect:/supplies";
 //        }
-        supplyService.delete(pt); //ka 0 produkte
-        redirectAttributes.addFlashAttribute("flash", "Furnizimi u fshi! Sasia u shtua ne magazine");
-        if (pt.getType().equalsIgnoreCase("F")) {
-            return "redirect:/supplies";
-        } else {
-            return "redirect:/sales";
+            supplyService.delete(pt); //ka 0 produkte
+            redirectAttributes.addFlashAttribute("flash", "Furnizimi u fshi! Sasia u shtua ne magazine");
+            if (pt.getType().equalsIgnoreCase("F")) {
+                return "redirect:/supplies";
+            } else {
+                return "redirect:/sales";
+            }
+
+        }
+
+        @GetMapping("/top/products")
+        public String getTopProducts (Model model){
+            return "warehouse_product/graphics";
+        }
+
+
+        @GetMapping("/get/top/products")
+        public String getTopProductsView (Model model){
+            List<Product> products = productService.findAll();
+            model.addAttribute("products", products);
+            return "product/index";
         }
 
     }
-
-    @GetMapping("/top/products")
-    public String getTopProducts(Model model) {
-        return "warehouse_product/graphics";
-    }
-
-
-    @GetMapping("/get/top/products")
-    public String getTopProductsView(Model model) {
-        List<Product> products = productService.findAll();
-        model.addAttribute("products", products);
-        return "product/index";
-    }
-
-}
