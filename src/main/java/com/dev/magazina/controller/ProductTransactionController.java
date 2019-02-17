@@ -254,7 +254,17 @@ public class ProductTransactionController extends BaseController {
 
     }
 
-    @RequestMapping(value = "/get/supplies/", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/get/supplies", method = RequestMethod.GET, produces = "application/json")
+//    @ResponseBody
+//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+//    public String getSuppliesView() {
+//
+//
+//    }
+//
+
+
+    @RequestMapping(value = "/get/supplies", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public HashMap<String, Object> getSupplies() {
