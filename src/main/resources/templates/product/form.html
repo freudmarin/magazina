@@ -27,7 +27,7 @@
                     <div class="col-md-9">
                             <div class="card">
                             <div class="card-header-warning">
-                                <h4 class="card-title" th:text="${heading}">Shto nje produkt</h4>
+                                <h4 class="card-title" th:text="${heading}">Shto një produkt</h4>
                                 <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
                                 <div class="error card-category-social" th:if="${#fields.hasAnyErrors()}" th:errors="*"></div>
                             </div>
@@ -36,7 +36,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="product_name" class="bmd-label-floating">Emer</label>
+                                                <label for="product_name" class="bmd-label-floating">Em&#235r</label>
                                                 <input id="product_name" type="text" class="form-control" th:field="*{name}">
                                             </div>
                                         </div>
@@ -67,7 +67,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label class="bmd-label-floating">Njesi</label>
+                                                <label class="bmd-label-floating">Nj&#235si mat&#235se</label>
                                                 <select class="form-control" th:field="*{measuringUnit.id}">
                                                     <option th:each="mu : ${measuringUnits}"
                                                             th:value="${mu.id}"
@@ -78,7 +78,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label class="bmd-label-floating">Cmim</label>
+                                                <label class="bmd-label-floating"> &#199mim</label>
                                                 <input type="text" th:field="*{price}" pattern="[\d\.]*" class="form-control"  value="1" min="1" max="999">
                                             </div>
                                         </div>

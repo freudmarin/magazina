@@ -24,7 +24,7 @@
                         <div class="col-md-9">
                             <div class="card">
                                 <div class="card-header-warning">
-                                    <h4 class="card-title" th:text="${heading}">Shto nje Magazine</h4>
+                                    <h4 class="card-title" th:text="${heading}">Shto nj&#235 Magazin&#235</h4>
                                     <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
                                     <div class="error card-category-social" th:if="${#fields.hasAnyErrors()}" th:errors="*"></div>
                                 </div>
@@ -32,7 +32,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="warehouse_name" class="bmd-label-floating">Emer</label>
+                                                <label for="warehouse_name" class="bmd-label-floating">Em&#235r</label>
                                                 <input id="warehouse_name" type="text" class="form-control" th:field="*{name}" required>
                                             </div>
                                         </div>
@@ -41,13 +41,13 @@
                                                 <label for="warehouse_city" class="bmd-label-floating">Qytet</label>
                                                 <select id="warehouse_city" class="form-control" th:field="*{city}" required>
                                                     <option value="" selected>Zgjidhni Qytetin</option>
-                                                    <option value="Durres">Durres</option>
+                                                    <option value="Durres">Durr&#235s</option>
                                                     <option value="Elbasan">Elbasan</option>
-                                                    <option value="Lezhe">Lezhe</option>
-                                                    <option value="Sarande">Sarande</option>
-                                                    <option value="Shkoder">Shkoder</option>
-                                                    <option value="Tirane">Tirane</option>
-                                                    <option value="Vlore">Vlore</option>
+                                                    <option value="Lezhe">Lezh&#235</option>
+                                                    <option value="Sarande">Sarand&#235</option>
+                                                    <option value="Shkoder">Shkod&#235r</option>
+                                                    <option value="Tirane">Tiran&#235</option>
+                                                    <option value="Vlore">Vlor&#235</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -64,7 +64,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit" th:text="${submit}" class="btn btn-outline-success pull-right">Shto Magazinen</button>
+                                    <button type="submit" th:text="${submit}" class="btn btn-outline-success pull-right">Shto Magazin&#235n</button>
 
                                     <div class="clearfix"></div>
                                 </div>
