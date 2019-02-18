@@ -50,7 +50,11 @@
                                 <div style="width: 100%">
                                     <ul>
                                         <li>
-                                            <a th:href="@{|/warehouses/checkout/${warehouse.id}|}" class="btn btn-info">Zgjidh</a>
+                                            <a
+                                               th:href="@{|/warehouses/checkout/${warehouse.id}|}" class="btn btn-info"
+                                               th:class="${warehouse.name == currentWarehouse.name} ? 'btn btn-outline-info' : 'btn btn-info'"
+                                               th:text="${warehouse.name == currentWarehouse.name} ? 'Zgjedhur' : 'Zgjidh'">
+                                            </a>
                                         </li>
                                         <li>
                                             <a th:href="@{|/warehouses/${warehouse.id}/edit|}" class="btn btn-warning">Modifiko</a>
@@ -63,10 +67,6 @@
                                         </li>
                                     </ul>
                                 </div>
-
-                                <!--<div class="stats">-->
-                                    <!--<i class="material-icons">access_time</i> updated 4 minutes ago-->
-                                <!--</div>-->
                             </div>
                         </div>
                     </div>
