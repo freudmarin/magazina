@@ -20,6 +20,49 @@
                     <div class="col-8">
                         <h2 th:text="'Mir&#235sevini, ' + ${#authentication.principal.username}"></h2>
                         <h4> Paneli i menaxhimit t&#235 Globis Sh.p.k</h4>
+                        <p>Magazina aktuale &#235sht&#235: <span th:text="${currentWarehouse.name}" style="font-weight: 400;"></span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-4" th:each="warehouse : ${warehouses}">
+                        <div class="card card-chart">
+                            <div class="card-header card-header-success warehouse-header">
+                                <img class="crop-and-center" th:src="@{${'images/' + warehouse.image}}"/>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title" th:text="${warehouse.name}"></h4>
+                                <p class="card-category">
+                                    <span class="text-success" th:text="${warehouse.city}">
+                                        <i class="fa fa-long-arrow-up"></i>
+                                    </span>
+                                </p>
+                                <p>
+                                    <span class="text-dark" th:text="${warehouse.address}"></span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div style="width: 100%">
+                                    <ul>
+                                        <li>
+                                            <a
+                                                    th:href="@{|/warehouses/checkout/${warehouse.id}|}" class="btn btn-info"
+                                                    th:class="${warehouse.name == currentWarehouse.name} ? 'btn btn-outline-info' : 'btn btn-info'"
+                                                    th:text="${warehouse.name == currentWarehouse.name} ? 'Zgjedhur' : 'Zgjidh'">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{|/warehouses/${warehouse.id}/edit|}" class="btn btn-warning">Modifiko</a>
+                                        </li>
+                                        <li>
+                                            <form th:action="@{|/warehouses/${warehouse.id}/delete|}"
+                                                  method="post">
+                                                <button class="btn btn-danger" type="submit"> Fshi</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--<div class="row">-->
