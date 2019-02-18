@@ -32,7 +32,7 @@ $(function ($) {
 
     function getSuppliers() {
         $.ajax({
-            url: "/get/all/customers",
+            url: "/get/all/suppliers",
             type: "GET",
             headers: {
                 'Accept': 'application/json',

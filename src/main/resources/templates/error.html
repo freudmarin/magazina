@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{layouts/head :: head}"></div>
-<body>
+<body style="overflow-y: hidden">
 <div class="wrapper" style="background-color: #f9fafb;">
     <div class="container h-100">
         <div class="row h-100 justify-content-center" style="text-align: center;">
             <div class="col-sm-3 sidebar" style="position:relative; width: auto; box-shadow: none;">
-                <div class="sidebar-background" style="background-image: url('/images/sidebar-1.jpg')"></div>
-                <img th:src="@{images/sidebar-1.jpg}">
+                <div class="sidebar-background" style="background-image: url('/images/sidebar-1.jpg')">
+                    <div style="height: 100%; width: 207%; background-color: #f443369e; position: relative; right: 107%;"></div>
+                </div>
             </div>
-            <div class="col-sm-9" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #eee">
-                <div style="float:left; border-right: 2px solid #e6e6e6;">
-                    <span style="color: orangered; font-size: 20rem; font-weight: 700; padding: 50px;">404</span>
-                </div>
-                <div style="float:right; padding: 80px;">
-                    <h1> Faqja që kërkuat nuk ekziston! </h1>
-                    <p> Ju lutem kontrolloni dhe njëherë URL, ose kthehuni në fillim</p>
-                </div>
+            <div class="col-sm-9" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+               <div style="position:absolute; top: 50%; transform: translateY(-28%);">
+                   <div>
+                       <span style="color: orangered; font-size: 20rem; font-weight: 700; padding: 50px;">404</span>
+                   </div>
+                   <div style="float:right; padding: 80px;">
+                       <h1> Faqja q&#235 k&#235rkuat nuk ekziston! </h1>
+                       <p> Ju lutem kontrolloni dhe nj&#235her&#235 URL, ose kthehuni n&#235 <a href="/">fillim</a> </p>
+                   </div>
+               </div>
             </div>
         </div>
     </div>

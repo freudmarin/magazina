@@ -5,7 +5,7 @@ $(function ($) {
     function initialize() {
         var mapProp = {
             center: myCenter,
-            zoom: 5,
+            zoom: 8,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var marker = new google.maps.Marker({
@@ -36,6 +36,10 @@ $(function ($) {
                         position: latlng,
                         map: map
                     });
+                    var iw = new google.maps.InfoWindow({
+                        content: supplier['businessName'] + '<br/>' + supplier['address'],
+                    });
+                    iw.open(map, marker);
                     // }
 
                 });

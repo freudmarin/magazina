@@ -15,9 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.HashMap;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Controller
 @Secured("ROLE_ADMIN")
@@ -35,6 +40,19 @@ public class WarehouseController extends BaseController {
         modelAndView.getModel().put("warehouses", warehouses);
         modelAndView.getModel().put("currentWarehouse", currentWarehouse);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/get/warehouses", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public HashMap<String, String> getWarehouses() {
+        HashMap<String, String> resultMap = new HashMap<String, String>();
+        List<Warehouse> warehouses = warehouseService.findAll();
+        Gson gson = new Gson();
+        String jsonList = gson.toJson(warehouses);
+
+        resultMap.put("res", jsonList);
+
+        return resultMap;
     }
 
     @GetMapping("/warehouses/create")
