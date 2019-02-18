@@ -151,7 +151,6 @@ $(function ($) {
     function validateForm() {
         sale.ptus().forEach(function (ptu) {
             ptu.amount.subscribe(function (obj) {
-                console.log("here");
                 if (obj > ptu.availableAmount()) {
                     alert("Sasia e vendosur e tejkalon sasine ne magazine!")
                 }

@@ -172,6 +172,7 @@ public class ProductTransactionController extends BaseController {
     @ResponseBody
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public HashMap<String, Object> getProducts() {
+        getSuppliers();
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         List<Object> productList = new ArrayList<>();
         List<Product> products = productService.findAll();
@@ -254,7 +255,7 @@ public class ProductTransactionController extends BaseController {
 
     }
 
-    @RequestMapping(value = "/get/supplies/", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/get/supplies", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public HashMap<String, Object> getSupplies() {
@@ -263,19 +264,31 @@ public class ProductTransactionController extends BaseController {
         HashMap resMap = new HashMap();
         List<Object> invoiceNumbers = new ArrayList<>();
         ptList.add("Produkt");
-        List<ProductTransaction> ptus = supplyService.findByType("F",getWarehouse());
+        List<ProductTransaction> ptus = supplyService.findByType("F", getWarehouse());
         for (ProductTransaction pt : ptus) {
             ptList.add(pt.getInvoiceNumber());
         }
         result.add(ptList);
+        int counter = 1;
         for (ProductTransaction pt : ptus) {
-            List<Object> ptusList = new ArrayList<>();
-            for (ProductTransactionUnit ptu : pt.getProductTransactionUnits()) {
-                ptusList.add(ptu.getProduct().getName());
-                ptusList.add(ptu.getProduct().getAmount());
+            ProductTransaction su = supplyService.findById(pt.getId());
+            for (ProductTransactionUnit ptu : su.getProductTransactionUnits()) {
+                List<Object> ptusList = new ArrayList<>();
+                if (counter < ptList.size()) {
+                    String name = (ptu.getProduct().getName().length() > 0) ? ptu.getProduct().getName() : "";
+                    ptusList.add(name);
+                    double amount = (ptu.getProduct().getAmount() > 0) ? ptu.getProduct().getAmount() : 0;
+                    ptusList.add(amount);
+                    if (ptusList.size() < ptList.size()) {
+                        for (int index = 0; index < ptList.size() - ptusList.size(); index++) {
+                            ptusList.add(0);
+                        }
+                    }
+                }
+                result.add(ptusList);
             }
-            result.add(ptusList);
         }
+
         resMap.put("result", result);
         return resMap;
     }

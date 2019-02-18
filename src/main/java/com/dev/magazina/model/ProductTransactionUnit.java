@@ -10,7 +10,6 @@ public class ProductTransactionUnit {
 
     @OneToOne
     private Product product;
-
     private double amount;
     private double price;
 
