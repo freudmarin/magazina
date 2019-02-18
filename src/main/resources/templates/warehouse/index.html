@@ -23,7 +23,7 @@
 
                     <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/warehouses/create}">
-                            <button class="btn btn-outline-primary" style="float: right; margin-right: 15px;">
+                            <button class="btn btn-outline-success" style="float: right; margin-right: 15px;">
                                 Shto nje Magazine
                             </button>
                         </a>
@@ -33,9 +33,7 @@
                     <div class="col-sm-12 col-md-4" th:each="warehouse : ${warehouses}">
                         <div class="card card-chart">
                             <div class="card-header card-header-success warehouse-header">
-                                <!--<img class="crop-and-center" th:src="@{${warehouse.image}}"/>-->
                                 <img class="crop-and-center" th:src="@{${'images/' + warehouse.image}}"/>
-                                <!--<img class="crop-and-center" th:attr="src=@{${warehouse.image}}"/>-->
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title" th:text="${warehouse.name}"></h4>

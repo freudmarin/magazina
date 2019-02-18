@@ -57,8 +57,8 @@ public class AgentController {
         if (!model.containsAttribute("supplier")) {
             model.addAttribute("supplier", new Agent());
         }
-        model.addAttribute("heading","Modifiko Furnitorin");
-        model.addAttribute("submit","Modifiko");
+        model.addAttribute("heading","Shto Furnitor");
+        model.addAttribute("submit","Shto");
         model.addAttribute("action", "/suppliers/create");
         return "agent/supplier_form";
     }

@@ -20,52 +20,43 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead class=" text-primary">
-                                    <th class="main"> Nr fature</th>
-                                    <th class="main"> Data</th>
-                                    <th class="main"> Furnitori</th>
-                                    <!--<th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>-->
-                                    </thead>
-                                    <tbody>
-                                    <!--<tr th:each="supply : ${supply}">-->
-                                    <tr>
-                                        <td class="main" th:text="${supply.invoiceNumber}"></td>
-                                        <td class="main" th:text="${#dates.format(supply.date, 'dd-MM-yyyy')}"></td>
-                                        <td class="main" th:text="${supply.agent.businessName}"></td>
-                                        <!--<td class="medium" sec:authorize="hasRole('ADMIN')"></td>-->
-
-                                    </tr>
-                                    <tr th:each="supplyunit : ${supply.productTransactionUnits}">
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th>Produkti</th>
-                                                <th>Sasia</th>
-                                                <th>Cmimi</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td th:text="${supplyunit.product.getName()}"></td>
-                                                <td th:text="${supplyunit.amount}"></td>
-                                                <td th:text="${supplyunit.price}"></td>
-                                            </tr>
-                                            </tbody>
-                                            <tfoot>
-                                            </tfoot>
-                                        </table>
-                                    </tr>
-                                    <tr>
-                                        <td> Total</td>
-                                        <td th:text="${total}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-
+                        <div class="card">
+                            <div class="card-header card-header-warning">
+                                <h4 class="card-title" th:text="'Furnizimi ' + ${supply.invoiceNumber}"> </h4>
+                                <p class="card-category"> Lista e te gjitha produkteve per kete furnizim</p>
+                                <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                            <th class="main"> Nr. i Fatures</th>
+                                            <th class="main"> Data</th>
+                                            <th class="main"> Furnitori</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr style="font-weight: 400; font-size: 1rem;">
+                                            <td class="main" th:text="${supply.invoiceNumber}"></td>
+                                            <td class="main" th:text="${#dates.format(supply.date, 'dd-MM-yyyy')}"></td>
+                                            <td class="main" th:text="${supply.agent.businessName}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                            <th class="main"> Produkti </th>
+                                            <th class="main"> Sasia </th>
+                                            <th class="main"> Cmimi / Njesi</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="supplyunit : ${supply.productTransactionUnits}">
+                                            <td class="main" th:text="${supplyunit.product.getName()}"></td>
+                                            <td class="main" th:text="${supplyunit.amount}"></td>
+                                            <td class="main" th:text="${supplyunit.price}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

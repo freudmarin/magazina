@@ -1,9 +1,32 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<div th:replace="~{layouts/head :: head}">
-</div>
+
+<div th:replace="~{layouts/head :: head}"></div>
 <body>
-<div id="map" style="width: 500px;height: 200px;"></div>
-Harta e furnitoreve
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div th:insert="~{layouts/bars :: sidebar}"></div>
+    <!-- End Sidebar -->
+
+    <div class="main-panel">
+        <!-- Navbar -->
+        <div th:replace="~{layouts/bars :: navbar}"></div>
+        <!-- End Navbar -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-md-11">
+                        <h1>Harta e furnitoreve</h1>
+                        <div id="map" style="height: 600px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABp5fIvtpine_4YdA9YWHnM5VfjKl-HJo&sensor=false">
 
 </script>

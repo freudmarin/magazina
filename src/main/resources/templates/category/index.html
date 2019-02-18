@@ -24,7 +24,7 @@
 
                     <div class="col-md-12">
                         <a th:href="@{/categories/create}">
-                            <button class="btn btn-primary" style="float: right; margin-right: 15px;">
+                            <button class="btn btn-outline-success" style="float: right; margin-right: 15px;">
                                 Shto nje kategori
                             </button>
                         </a>
@@ -32,7 +32,7 @@
 
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header card-header-warning">
+                            <div class="card-header card-header-danger">
                                 <h4 class="card-title "> Kategori </h4>
                                 <p class="card-category"> Te gjitha kategorite per kete magazine </p>
                                 <div class="error card-category-social" th:if="${flash != null}" th:text="${flash}"></div>

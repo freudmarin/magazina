@@ -24,7 +24,7 @@
 
                     <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/supplies/create}">
-                            <button class="btn btn-primary" style="float: right; margin-right: 15px;">
+                            <button class="btn btn-outline-success" style="float: right; margin-right: 15px;">
                                 Shto nje furnizim
                             </button>
                         </a>
@@ -32,7 +32,7 @@
 
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header card-header-warning">
+                            <div class="card-header card-header-info">
                                 <h4 class="card-title "> Furnizime </h4>
                                 <p class="card-category"> Te gjitha furnizimet per kete magazine </p>
                                 <div class="error card-category-social" th:if="${flash != null}"
@@ -42,7 +42,7 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class=" text-primary">
-                                        <th class="main"> Nr fature</th>
+                                        <th class="main"> Nr. i Fatures</th>
                                         <th class="main"> Data</th>
                                         <th class="main"> Furnitori</th>
                                         <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>

@@ -13,8 +13,8 @@
 
     <div class="main-panel">
         <!-- Navbar -->
-        <!--<div th:replace="~{layouts/bars :: navbar}"></div>-->
-         End Navbar
+        <div th:replace="~{layouts/bars :: navbar}"></div>
+        <!--End Navbar-->
 
         <div th:fragment="flash" th:if="${session.flash != null}" th:text="${session.flash}"></div>
 
@@ -24,7 +24,7 @@
 
                     <div class="col-md-12" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/sales/create}">
-                            <button class="btn btn-primary" style="float: right; margin-right: 15px;">
+                            <button class="btn btn-outline-success" style="float: right; margin-right: 15px;">
                                 Shto nje shitje
                             </button>
                         </a>
@@ -32,7 +32,7 @@
 
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header card-header-warning">
+                            <div class="card-header card-header-success">
                                 <h4 class="card-title "> Shitje </h4>
                                 <p class="card-category"> Te gjitha shitjet per kete magazine </p>
                                 <div class="error card-category-social" th:if="${flash != null}"
@@ -42,7 +42,7 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class=" text-primary">
-                                        <th class="main"> Nr fature</th>
+                                        <th class="main"> Nr. i Fatures</th>
                                         <th class="main"> Data</th>
                                         <th class="main"> Klienti</th>
                                         <th class="medium" sec:authorize="hasRole('ADMIN')"> Veprime</th>
